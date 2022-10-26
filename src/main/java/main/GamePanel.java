@@ -1,5 +1,6 @@
 package main;
 
+import entities.Hitbox;
 import entities.Player;
 import inputs.Input;
 import inputs.MouseInput;
@@ -10,7 +11,7 @@ import java.awt.*;
 public class GamePanel extends JPanel {
 
     // Screen settings
-//    public final int TILESIZE = 48;
+    public final int TILESIZE = 32;
 //    public final int ROW = 12;
 //    public final int COL = 16;
     public final int WIDTH = 768; //768
@@ -23,12 +24,16 @@ public class GamePanel extends JPanel {
 //    public final int WORLD_HEIGHT = WORLD_ROW * TILESIZE;
 
     // Player
+    private int x = 300, y = 300;
+    private int width = 100, height = 100;
     private Player player;
 
+    public Hitbox enemy = new Hitbox(400, 100, 100, 100, Color.BLUE);
 
     private Game game;
 
     private JFrame jframe;
+
 
     public GamePanel(Game game) {
 
@@ -53,14 +58,25 @@ public class GamePanel extends JPanel {
         this.addMouseListener(new MouseInput(this));
         this.addMouseMotionListener(new MouseInput(this));
 
+
+
     }
 
+    public void checkCollision() {
+        if(enemy.intersects(player.hitbox)) {
+            System.out.println("Tocou");
+        }
+    }
 
 
 
     public void paint(Graphics g) {
         super.paint(g);
         game.render(g);
+        enemy.draw(g);
+
+
+
 
     }
 

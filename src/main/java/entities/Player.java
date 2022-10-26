@@ -28,11 +28,18 @@ public class Player extends Entity {
 
     private boolean up, down, left, right, action;
 
-    public Player(float x, float y, Input input) {
-        super(x, y);
+    public Hitbox hitbox;
+
+//    public float x = 100,y = 100;
+
+
+
+    public Player(float x, float y, int width, int height, Input input) {
+        super(x, y, width, height);
         this.input = input;
         this.direction = "down";
         this.isIdle = true;
+        initHitbox();
         load();
     }
 
@@ -87,7 +94,9 @@ public class Player extends Entity {
         }
     }
 
+
     public void update() {
+        updateHitbox();
         if (up && !down) {
             y -= 2;
             direction = "up";
@@ -121,9 +130,14 @@ public class Player extends Entity {
         else
             playerAction = RUNNING;
 
+
+
     }
 
     public void render(Graphics g) {
+//        hitbox = new Hitbox((int)x + 35, (int)y, 64, 128, Color.red);
+        drawHitbox(g);
+//        hitbox.draw(g);
         if(isIdle) {
             if(Objects.equals(direction, "up")) {
                 g.drawImage(upIdleAni[spriteIndex], (int)x, (int)y, null);

@@ -10,10 +10,13 @@ public class Game extends JPanel implements Runnable{
     GamePanel gamePanel;
 
     private Input key = new Input(gamePanel);
-    private Player player = new Player(200, 200, key);
+    private Player player = new Player(200, 200, 128, 128,  key);
+    private GamePanel gp = new GamePanel(this);
+
 
     private Thread fps;
     final int ticks = 120;
+
 
 
     public Game() {
@@ -37,6 +40,9 @@ public class Game extends JPanel implements Runnable{
 
     public void update() {
         player.update();
+//        if(gp.enemy.intersects(player.hitbox)) {
+//            System.out.println("Tocou");
+//        }
     }
 
     public void render(Graphics g) {
