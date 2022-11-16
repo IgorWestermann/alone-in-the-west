@@ -11,11 +11,11 @@ public abstract class Entity {
     private Color color;
     protected Rectangle hitbox;
 
-    public Entity(float x, float y, int width, int height) {
+    public Entity(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+//        this.width = width;
+//        this.height = height;
 
     }
     protected void initHitbox() {

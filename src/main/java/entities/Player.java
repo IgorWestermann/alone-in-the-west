@@ -7,173 +7,195 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
+import static utils.Constants.Directions.*;
 import static utils.Constants.PlayerConstants.*;
 
 public class Player extends Entity {
 
     Input input;
+    public Hitbox hitbox;
 
     // Images
-    public int spriteTick = 0, spriteIndex, spriteSpeed = 50;
+    public int spriteTick = 0, spriteIndex, spriteSpeed = 360;
     private BufferedImage[] downIdleAni, leftIdleAni, rightIdleAni, upIdleAni,
             downMoveAni, upMoveAni, rightMoveAni, leftMoveAni;
 //                            attackLeft, attackRight, attackUp, attackDown;
+    private BufferedImage[][] sideAnimations;
+    private BufferedImage[][] backAnimations;
+    private BufferedImage[][] frontAnimations;
+    private BufferedImage[][] angleDownAnimations;
+    private BufferedImage[][] angleUpAnimations;
 
-    //  Player
-//    public boolean isIdle = true;
-//    public String direction;
-    public int playerAction = isIdle ? IDLE : RUNNING;
+    // Actions
+    private int playerAction = IDLE;
+    private int playerDir = -1;
+    private final float playerSpeed = 0.13f;
+    private final float diagonalSpeed = 0.00000001f;
+    private boolean moving = false;
+    private boolean up;
+    private boolean right;
+    private boolean down;
+    private boolean left;
+    private boolean attacking;
+    public String direction = "down";
 
-    private boolean up, down, left, right, action;
-
-    public Hitbox hitbox;
-
-//    public float x = 100,y = 100;
-
-
-
-    public Player(float x, float y, int width, int height, Input input) {
-        super(x, y, width, height);
-        this.input = input;
-        this.direction = "down";
-        this.isIdle = true;
+    public Player(float x, float y) {
+        super(x, y);
+//        this.direction = "down";
+//        this.isIdle = true;
+        importImg();
         initHitbox();
-        load();
     }
 
-
-
-    private void load() {
-
-        downIdleAni = new BufferedImage[8];
-        upIdleAni = new BufferedImage[8];
-        rightIdleAni = new BufferedImage[8];
-        leftIdleAni = new BufferedImage[8];
-
-        downMoveAni = new BufferedImage[8];
-        upMoveAni = new BufferedImage[8];
-        rightMoveAni = new BufferedImage[8];
-        leftMoveAni = new BufferedImage[8];
+    private void importImg() {
+        InputStream isSide = getClass().getResourceAsStream("/PlayerSideSheet.png");
+        InputStream isBack = getClass().getResourceAsStream("/PlayerBackSheet.png");
+        InputStream isFront = getClass().getResourceAsStream("/PlayerFrontSheet.png");
+        InputStream isAngleUp = getClass().getResourceAsStream("/PlayerAngleUpSheet.png");
+        InputStream isAngleDown = getClass().getResourceAsStream("/PlayerAngleDownSheet.png");
 
         try {
-            downIdleAni[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/0.png")));
-            downIdleAni[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/1.png")));
-            downIdleAni[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/2.png")));
-            downIdleAni[3] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/3.png")));
-            downIdleAni[4] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/4.png")));
-            downIdleAni[5] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/5.png")));
-            downIdleAni[6] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/6.png")));
-            downIdleAni[7] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/7.png")));
+            BufferedImage imgSide = ImageIO.read(isSide);
+            BufferedImage imgBack = ImageIO.read(isBack);
+            BufferedImage imgFront = ImageIO.read(isFront);
+            BufferedImage imgAngleUp = ImageIO.read(isAngleUp);
+            BufferedImage imgAngleDown = ImageIO.read(isAngleDown);
+
+            sideAnimations = new BufferedImage[5][14];
+            backAnimations = new BufferedImage[5][14];
+            frontAnimations = new BufferedImage[5][14];
+            angleUpAnimations = new BufferedImage[5][14];
+            angleDownAnimations = new BufferedImage[5][14];
+            for (int j = 0; j < sideAnimations.length; j++) {
+                for (int i = 0; i < sideAnimations[j].length; i++) {
+                    sideAnimations[j][i] = imgSide.getSubimage(i*48, j*44, 48, 44);
+                    backAnimations[j][i] = imgBack.getSubimage(i*48, j*44, 48, 44);
+                    frontAnimations[j][i] = imgFront.getSubimage(i*48, j*44, 48, 44);
+                    angleDownAnimations[j][i] = imgAngleDown.getSubimage(i*48, j*44, 48, 44);
+                    angleUpAnimations[j][i] = imgAngleUp.getSubimage(i*48, j*44, 48, 44);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        for (int i = 0; i <= 5; i++) {
-            try {
-                leftIdleAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/left_idle/" + i + ".png")));
-                upIdleAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/up_idle/" + i + ".png")));
-                rightIdleAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/right_idle/" + i + ".png")));
-                downIdleAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down_idle/" + i + ".png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        for (int i = 0; i <= 7; i++) {
-            try {
-                leftMoveAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/left/" + i + ".png")));
-                upMoveAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/up/" + i + ".png")));
-                rightMoveAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/right/" + i + ".png")));
-                downMoveAni[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/down/" + i + ".png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
-
-    public void update() {
-        updateHitbox();
-        if (up && !down) {
-            y -= 2;
-            direction = "up";
-            isIdle = false;
-        } else if (down && !up) {
-            y += 2;
-            direction = "down";
-            isIdle = false;
-        } else if (left && !right) {
-            x -= 2;
-            direction = "left";
-            isIdle = false;
-        } else if (right && !left) {
-            x += 2;
-            direction = "right";
-            isIdle = false;
-        } else {
-            isIdle = true;
-        }
-
+    public void animationTick() {
         spriteTick++;
         if(spriteTick >= spriteSpeed) {
             spriteTick = 0;
             spriteIndex++;
-            if(spriteIndex > GetSpriteAmount(playerAction))
+            if(spriteIndex >= GetSpriteAmount(playerAction)) {
                 spriteIndex = 0;
+                attacking = false;
+            }
+        }
+    }
+
+    private void setAnimation() {
+
+        int startAni = playerAction;
+        if(moving) {
+            playerAction = RUNNING;
+        } else if (attacking) {
+            playerAction = ATTACK;
+        } else {
+            playerAction = IDLE;
         }
 
-        if(isIdle)
-            playerAction = IDLE;
-        else
-            playerAction = RUNNING;
+        if (startAni != playerAction) {
+            spriteTick = 0;
+            spriteIndex = 0;
+        }
+    }
 
-
+    public void update() {
+        moving = false;
+        if (up && !down) {
+            y -= playerSpeed;
+            moving = true;
+            direction = "up";
+        } else if (down && !up) {
+            y += playerSpeed;
+            moving = true;
+            direction = "down";
+        }
+        if (left && !right) {
+            x -= playerSpeed;
+            moving = true;
+            direction = "left";
+        } else if (right && !left) {
+            x += playerSpeed;
+            moving = true;
+            direction = "right";
+        }
+        if (right && up) {
+            y -= playerSpeed / 8;
+            x += playerSpeed / 8;
+            moving = true;
+            direction = "duRight";
+        } else if (right && down) {
+            y += playerSpeed / 8;
+            x += playerSpeed / 8;
+            moving = true;
+            direction = "ddRight";
+        }
+        if (left && up) {
+            y -= playerSpeed / 8;
+            x -= playerSpeed / 8;
+            moving = true;
+            direction = "duLeft";
+        } else if (left && down) {
+            y += playerSpeed / 8;
+            x -= playerSpeed / 8;
+            moving = true;
+            direction = "ddLeft";
+        }
 
     }
+
+
 
     public void render(Graphics g) {
-//        hitbox = new Hitbox((int)x + 35, (int)y, 64, 128, Color.red);
         drawHitbox(g);
-//        hitbox.draw(g);
-        if(isIdle) {
-            if(Objects.equals(direction, "up")) {
-                g.drawImage(upIdleAni[spriteIndex], (int)x, (int)y, null);
-            }else if(Objects.equals(direction, "down")){
-                g.drawImage(downIdleAni[spriteIndex], (int)x, (int)y, null);
-            }else if(Objects.equals(direction, "left")){
-                g.drawImage(leftIdleAni[spriteIndex], (int)x, (int)y, null);
-            }else if(Objects.equals(direction, "right")){
-                g.drawImage(rightIdleAni[spriteIndex], (int)x, (int)y, null);
-            } else {
-                g.drawImage(downIdleAni[spriteIndex], (int)x, (int)y, null);
+        animationTick();
+        setAnimation();
+        updateHitbox();
+        update();
+
+        if(moving) {
+            if(Objects.equals(direction, "left")) {
+                g.drawImage(sideAnimations[playerAction][spriteIndex], (int)x + 96, (int)y, -96,88, null);
+            } else if (direction == "right") {
+                g.drawImage(sideAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+            } else if (direction == "up") {
+                g.drawImage(backAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+            } else if(direction == "down") {
+                g.drawImage(frontAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+            }
+            if (direction == "duRight") {
+                g.drawImage(angleUpAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+            } else if (direction == "ddRight") {
+                g.drawImage(angleDownAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+            } else if (direction == "duLeft") {
+                g.drawImage(angleUpAnimations[playerAction][spriteIndex], (int)x + 96, (int)y, -96,88, null);
+            } else if (direction == "ddLeft") {
+                g.drawImage(angleDownAnimations[playerAction][spriteIndex], (int)x  + 96, (int)y, -96,88, null);
             }
         } else {
-            if(Objects.equals(direction, "up")) {
-                g.drawImage(upMoveAni[spriteIndex], (int)x, (int)y, null);
-            }else if(Objects.equals(direction, "down")){
-                g.drawImage(downMoveAni[spriteIndex], (int)x, (int)y, null);
-            }else if(Objects.equals(direction, "left")){
-                g.drawImage(leftMoveAni[spriteIndex], (int)x, (int)y, null);
-            }else if(Objects.equals(direction, "right")){
-                g.drawImage(rightMoveAni[spriteIndex], (int)x, (int)y, null);
-            }
+            g.drawImage(frontAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
         }
     }
 
-
-    public void setIdle(boolean idle) {
-        this.isIdle = idle;
+    public boolean isRight() {
+        return right;
     }
 
-    public void changeXDelta(int value) {
-        this.x += value;
-    }
-
-    public void changeYDelta(int value) {
-        this.y += value;
+    public void setRight(boolean right) {
+        this.right = right;
     }
 
     public boolean isUp() {
@@ -200,19 +222,11 @@ public class Player extends Entity {
         this.left = left;
     }
 
-    public boolean isRight() {
-        return right;
+    public boolean isAttacking() {
+        return attacking;
     }
 
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    public boolean isAction() {
-        return action;
-    }
-
-    public void setAction(boolean action) {
-        this.action = action;
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
     }
 }

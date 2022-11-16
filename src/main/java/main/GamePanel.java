@@ -25,10 +25,10 @@ public class GamePanel extends JPanel {
 
     // Player
     private int x = 300, y = 300;
-    private int width = 100, height = 100;
+    private int width = 48, height = 44;
     private Player player;
 
-    public Hitbox enemy = new Hitbox(400, 100, 100, 100, Color.BLUE);
+//    public Hitbox enemy = new Hitbox(400, 100, 48, 44, Color.BLUE);
 
     private Game game;
 
@@ -62,22 +62,18 @@ public class GamePanel extends JPanel {
 
     }
 
-    public void checkCollision() {
-        if(enemy.intersects(player.hitbox)) {
-            System.out.println("Tocou");
-        }
-    }
+//    public void checkCollision() {
+//        if(enemy.intersects(player.hitbox)) {
+//            System.out.println("Tocou");
+//        }
+//    }
 
 
 
     public void paint(Graphics g) {
         super.paint(g);
         game.render(g);
-        enemy.draw(g);
-
-
-
-
+//        enemy.draw(g);
     }
 
     public Game getGame() {

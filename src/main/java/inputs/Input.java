@@ -26,41 +26,6 @@ public class Input implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//
-//        switch (e.getKeyCode()) {
-//            case KeyEvent.VK_W -> {
-////                player.setIdle(false);
-////                player.changeYDelta(-10);
-////                player.direction = "up";
-//            }
-//            case KeyEvent.VK_A -> {
-////                player.setIdle(false);
-////                player.changeXDelta(-10);
-////                player.direction = "left";
-//            }
-//            case KeyEvent.VK_S -> {
-////                player.setIdle(false);
-////                player.changeYDelta(10);
-////                player.direction = "down";
-//            }
-//            case KeyEvent.VK_D -> {
-////                player.setIdle(false);
-////                player.changeXDelta(10);
-////                player.direction = "right";
-//            }
-//        }
-//    }
-//
-//
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//        switch (e.getKeyCode()) {
-//            case KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D -> player.setIdle(true);
-//        }
-//    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -74,10 +39,10 @@ public class Input implements KeyListener {
         } else if (key == KeyEvent.VK_A) {
             gp.getGame().getPlayer().setLeft(true);
         } else if (key == KeyEvent.VK_SPACE) {
-            gp.getGame().getPlayer().setAction(true);
+            gp.getGame().getPlayer().setAttacking(true);
         }
-
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -91,8 +56,9 @@ public class Input implements KeyListener {
         } else if (key == KeyEvent.VK_A) {
             gp.getGame().getPlayer().setLeft(false);
         } else if (key == KeyEvent.VK_SPACE) {
-            gp.getGame().getPlayer().setAction(false);
+            gp.getGame().getPlayer().setAttacking(false);
         }
     }
+
 
 }

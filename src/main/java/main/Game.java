@@ -4,34 +4,35 @@ import javax.swing.*;
 import java.awt.*;
 import entities.Player;
 import inputs.Input;
+//import levels.TileManager;
 
 public class Game extends JPanel implements Runnable{
 
     GamePanel gamePanel;
 
-    private Input key = new Input(gamePanel);
-    private Player player = new Player(200, 200, 128, 128,  key);
+//    private Input key = new Input(gamePanel);
+    private Player player = new Player(0, 0);
     private GamePanel gp = new GamePanel(this);
+    public final static int TILE_SIZE = 32;
+    public final static float SCALE = 1.0f;
+    public final static int TILES_IN_WIDTH = 26;
+    public final static int TILE_IN_HEIGHT = 26;
+    public final static int TS = (int)(TILE_SIZE * SCALE);
+    public final static int GAME_WIDTH = TILE_SIZE * TILES_IN_WIDTH;
+    public final static int GAME_GEIGHT = TILE_SIZE * TILE_IN_HEIGHT;
 
+//    TileManager tileM = new TileManager(this);
 
     private Thread fps;
     final int ticks = 120;
 
-
-
     public Game() {
-        initClasses();
         gamePanel = new GamePanel(this);
         gamePanel.requestFocus();
         start();
 
 
     }
-
-    private void initClasses() {
-
-    }
-
     public void start() {
         fps = new Thread(this);
         fps.start();
@@ -54,7 +55,7 @@ public class Game extends JPanel implements Runnable{
         super.paint(g);
         Graphics2D graphics = (Graphics2D) g;
         gamePanel.paint(graphics);
-
+//        tileM.paint(graphics);
 
         g.dispose();
 
