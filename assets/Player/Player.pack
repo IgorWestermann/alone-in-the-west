@@ -1,0 +1,45 @@
+
+Player.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Player Angle 1 Sheet
+  rotate: false
+  xy: 1, 667
+  size: 672, 220
+  orig: 672, 220
+  offset: 0, 0
+  index: -1
+Player Angle 2 Sheet
+  rotate: false
+  xy: 1, 445
+  size: 672, 220
+  orig: 672, 220
+  offset: 0, 0
+  index: -1
+Player Back Sheet
+  rotate: false
+  xy: 1, 223
+  size: 672, 220
+  orig: 672, 220
+  offset: 0, 0
+  index: -1
+Player Front Sheet
+  rotate: false
+  xy: 1, 1
+  size: 672, 220
+  orig: 672, 220
+  offset: 0, 0
+  index: -1
+
+Player2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Player Side Sheet
+  rotate: false
+  xy: 1, 1
+  size: 672, 220
+  orig: 672, 220
+  offset: 0, 0
+  index: -1

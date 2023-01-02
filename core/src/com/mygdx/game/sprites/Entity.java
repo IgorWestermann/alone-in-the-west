@@ -4,78 +4,143 @@
  */
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.screens.EntityHandler;
+import com.mygdx.game.screens.MapHandler;
+
 /**
  *
  * @author Hugo
  */
 public abstract class Entity extends Sprite {
 
-    public World world;
-    public Body body;
-    ///talvez seja mais interessante deixar os metodos e atributos de animação para cada classe filha
-    private TextureAtlas textures;
-    protected Array<Array<Animation>> animations;
-    float timer;
+    protected MapHandler mapHandler;
+    protected EntityHandler entityHandler;
+    protected Body body;
 
-    public Entity(World world, Screen screen) {
-        this.world = world;
-        defineThisBody();
+    protected float boxXOffset = 0;
+    protected float boxYOffset = 0;
+
+    protected short myCategory;
+    protected short collidesWith;
+
+    public Entity(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
+        this.mapHandler = mapHandler;
+        this.entityHandler = entityHandler;
+
+        setCategory(category);
+        setCollidesWith(collidesWith);
+        
     }
 
-    protected abstract void defineThisBody();
+    public Entity(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith, float sourceX, float sourceY) {
+        this.mapHandler = mapHandler;
+        this.entityHandler = entityHandler;
 
+        setCategory(category);
+        setCollidesWith(collidesWith);
+    }
+
+    public short getMyCategory() {
+        return myCategory;
+    }
+    
+    public MapHandler getMapHandler() {
+        return mapHandler;
+    }
+
+    public EntityHandler getEntityHandler() {
+        return entityHandler;
+    }
+
+    private void setCategory(short category) {
+        this.myCategory = category;
+    }
+
+    private void setCollidesWith(short[] collides) {
+
+        short mask = 0;
+
+        for (short m : collides) {
+            mask = (short) (mask | m);
+        }
+        this.collidesWith = mask;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+    protected void createBoxCollisionBody(float boxW, float boxH, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
+
+        
+        
+        System.out.println("Creating" + this.toString());
+        System.out.println("Width" + boxW);
+        System.out.println("Heigh" + boxH);
+        System.out.println("Inicial X " + inicialX );
+        System.out.println("Inicial Y " + inicialY );
+        
+        BodyDef bdef = new BodyDef();
+        //cria a definição do corpo fisico
+
+        bdef.position.set(inicialX, inicialY);
+        bdef.type = type;
+
+        //adiciona o corpo ao mundo
+        this.body = this.mapHandler.getWorld().createBody(bdef);
+
+        //definições de fixture e formato
+        FixtureDef fdef = new FixtureDef();
+
+        //shape da collisionBox
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(boxW, boxH);
+
+        fdef.shape = shape;
+        fdef.filter.categoryBits = myCategory;
+        fdef.filter.maskBits = collidesWith;
+
+        body.createFixture(fdef);
+        body.setUserData(this);
+
+        //aqui esta uma especie de atrito que o corpo sofre
+        body.setLinearDamping(dumping);
+    }
+
+    public void createCircleCollisionBox(int radius, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
+        BodyDef bdef = new BodyDef();
+        //cria a definição do corpo fisico
+        bdef.position.set(inicialX, inicialY);
+        bdef.type = type;
+
+        //adiciona o corpo ao mundo
+        this.body = this.mapHandler.getWorld().createBody(bdef);
+
+        //definições de fixture e formato
+        FixtureDef fdef = new FixtureDef();
+
+        //shape da collisionBox
+        CircleShape shape = new CircleShape();
+        shape.setRadius(radius);
+
+        fdef.shape = shape;
+        fdef.filter.categoryBits = myCategory;
+        fdef.filter.maskBits = collidesWith;
+
+        body.createFixture(fdef);
+        body.setUserData(this);
+
+        //aqui esta uma especie de atrito que o corpo sofre
+        body.setLinearDamping(dumping);
+    }
+    
     protected abstract TextureRegion getFrame(float dt);
 
-    protected Array<Array<Animation>> constructAnimations(String atlasName, int frameW, int frameH, String[] regionNames, int[] framesPerAction, Animation.PlayMode[] modes) {
-        //esse codigo ficou confuso mas achei util para ser reutilizado para outras sprites
-        //que seguem o padrão onde cada .png apresenta uma orientação e cada linha uma ação
-        //preferi por separar cada ação em um array especifico onde a orientação sera obtida por indexação
-        //lembrando que muito dessas orientações sera necessario flipar o frame
-        //oq sera feito por outro metodo
-        
-        textures = new TextureAtlas(atlasName);
-        Array<TextureRegion> textureArray = new Array<>();
-
-        //separa todas as texturas por nome fornecido via parametro
-        for (String regionName : regionNames) {
-            textureArray.add(textures.findRegion(regionName));
-        }
-        //inicializa um array de arrays com o total de posições de ações na spritesheet
-        Array<Array<Animation>> animationSet = new Array<>();
-
-        for (int i = 0; i < framesPerAction.length; i++) {
-            animationSet.add(new Array<Animation>());
-        }
-
-        Array<TextureRegion> frames = new Array<>();
-        //para cada região separada 
-        for (TextureRegion tr : textureArray) {
-            //para cada ação nas diferentes regiões 
-            for (int i = 0; i < framesPerAction.length; i++) {
-                //quebra a região em frames
-                for (int j = 0; j < framesPerAction[i]; j++) {
-                    frames.add(new TextureRegion(tr, j * frameW, i * frameH, frameW, frameH));
-                }
-                //o array mais externo de animações recebe esta animação
-                //ele manterá em cada indice de si um array que diz respeito a mesma ação porem em diferentes posições
-                animationSet.get(i).add(new Animation<>(0.2f, frames, modes[i]));
-                frames.clear();
-            }
-        }
-        return animationSet;
-    }
-
-    public void update(float f) {
-        super.setPosition(body.getPosition().x - super.getWidth() / 2, body.getPosition().y - super.getHeight() / 2);
-        super.setRegion(getFrame(f));
-    }
-
+    public abstract void update(float f);
 }
