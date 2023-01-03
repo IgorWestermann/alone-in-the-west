@@ -4,27 +4,23 @@
  */
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.game.constants.Direction;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
-import com.mygdx.game.sprites.Entity;
 import com.mygdx.game.sprites.mobs.Mob;
 
 /**
  *
  * @author Hugo
  */
-public class Projectile extends Entity {
-
+public class MeleeHitbox extends Entity {
     private TextureRegion texture;
     private Mob sourceMob;
 
-    public Projectile(MapHandler mapHandler, EntityHandler entityHandler, Mob sourceMob, Vector2 direction) {
+    public MeleeHitbox(MapHandler mapHandler, EntityHandler entityHandler, Mob sourceMob, Vector2 direction) {
 
         super(mapHandler, entityHandler, sourceMob.getMyCategory() == CollisionCategories.PLAYER_BODY ? CollisionCategories.PLAYER_PROJECTILE : CollisionCategories.ENEMY_PROJECTILE,
                 new short[]{
@@ -48,20 +44,10 @@ public class Projectile extends Entity {
         this.body.setLinearVelocity(direction);
 
     }
-
-    private short setMyCategory(Mob sourceMob) {
-        if (sourceMob.getMyCategory() == CollisionCategories.PLAYER_BODY) {
-            return CollisionCategories.PLAYER_PROJECTILE;
-        } else if (sourceMob.getMyCategory() == CollisionCategories.ENEMY_BODY) {
-            return CollisionCategories.ENEMY_PROJECTILE;
-        } else {
-            return CollisionCategories.PLAYER_PROJECTILE | CollisionCategories.ENEMY_PROJECTILE;
-        }
-    }
-
+    
     protected void defineThisBody(float x, float y) {
         this.texture = new TextureRegion(new Texture("debugTexture.png"));
-        super.createCircleCollisionBox(1, BodyDef.BodyType.DynamicBody, x, y, 0);
+        super.createBoxCollisionBody(sourceMob.getWidth() , sourceMob.getHeight(), BodyDef.BodyType.DynamicBody, x, y, 0);
     }
 
     @Override
@@ -74,5 +60,4 @@ public class Projectile extends Entity {
         super.setPosition((body.getPosition().x - super.getWidth() / 2) + boxXOffset, (body.getPosition().y - super.getHeight() / 2) + boxYOffset);
         super.setRegion(getFrame(f));
     }
-
 }

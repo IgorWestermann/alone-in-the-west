@@ -36,6 +36,7 @@ public class Wall extends Entity  {
     protected TextureRegion getFrame(float dt) {
        return null;
     }
+    
     @Override
     public void update(float f) {
         
