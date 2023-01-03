@@ -1,28 +1,21 @@
 package entities;
 
-
-import inputs.Input;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-import static utils.Constants.Directions.*;
 import static utils.Constants.PlayerConstants.*;
 
 public class Player extends Entity {
 
-    Input input;
-    public Hitbox hitbox;
-
     // Images
-    public int spriteTick = 0, spriteIndex, spriteSpeed = 360;
-    private BufferedImage[] downIdleAni, leftIdleAni, rightIdleAni, upIdleAni,
-            downMoveAni, upMoveAni, rightMoveAni, leftMoveAni;
-//                            attackLeft, attackRight, attackUp, attackDown;
+    public int spriteTick = 0, spriteIndex, spriteSpeed = 60;
     private BufferedImage[][] sideAnimations;
     private BufferedImage[][] backAnimations;
     private BufferedImage[][] frontAnimations;
@@ -31,7 +24,6 @@ public class Player extends Entity {
 
     // Actions
     private int playerAction = IDLE;
-    private int playerDir = -1;
     private final float playerSpeed = 0.13f;
     private final float diagonalSpeed = 0.00000001f;
     private boolean moving = false;
@@ -44,8 +36,6 @@ public class Player extends Entity {
 
     public Player(float x, float y) {
         super(x, y);
-//        this.direction = "down";
-//        this.isIdle = true;
         importImg();
         initHitbox();
     }
@@ -58,11 +48,17 @@ public class Player extends Entity {
         InputStream isAngleDown = getClass().getResourceAsStream("/PlayerAngleDownSheet.png");
 
         try {
+            assert isSide != null;
+            assert isBack != null;
+            assert isFront != null;
+            assert isAngleUp != null;
+            assert isAngleDown != null;
             BufferedImage imgSide = ImageIO.read(isSide);
             BufferedImage imgBack = ImageIO.read(isBack);
             BufferedImage imgFront = ImageIO.read(isFront);
             BufferedImage imgAngleUp = ImageIO.read(isAngleUp);
             BufferedImage imgAngleDown = ImageIO.read(isAngleDown);
+
 
             sideAnimations = new BufferedImage[5][14];
             backAnimations = new BufferedImage[5][14];
@@ -96,7 +92,6 @@ public class Player extends Entity {
     }
 
     private void setAnimation() {
-
         int startAni = playerAction;
         if(moving) {
             playerAction = RUNNING;
@@ -105,7 +100,6 @@ public class Player extends Entity {
         } else {
             playerAction = IDLE;
         }
-
         if (startAni != playerAction) {
             spriteTick = 0;
             spriteIndex = 0;
@@ -166,28 +160,68 @@ public class Player extends Entity {
         updateHitbox();
         update();
 
-        if(moving) {
-            if(Objects.equals(direction, "left")) {
+        switch (direction) {
+            case "left":
+                direction = "left";
                 g.drawImage(sideAnimations[playerAction][spriteIndex], (int)x + 96, (int)y, -96,88, null);
-            } else if (direction == "right") {
+                break;
+
+            case "right":
+                direction = "right";
                 g.drawImage(sideAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
-            } else if (direction == "up") {
+                break;
+
+            case "up":
+                direction = "up";
                 g.drawImage(backAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
-            } else if(direction == "down") {
+                break;
+
+            case "down":
+                direction = "down";
                 g.drawImage(frontAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
-            }
-            if (direction == "duRight") {
+                break;
+
+            case "duRight":
+                direction = "duRight";
                 g.drawImage(angleUpAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
-            } else if (direction == "ddRight") {
+                break;
+
+            case "ddRight":
+                direction = "ddRight";
                 g.drawImage(angleDownAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
-            } else if (direction == "duLeft") {
+                break;
+
+            case "duLeft":
+                direction = "duLeft";
                 g.drawImage(angleUpAnimations[playerAction][spriteIndex], (int)x + 96, (int)y, -96,88, null);
-            } else if (direction == "ddLeft") {
+                break;
+
+            case "ddLeft":
+                direction = "ddLeft";
                 g.drawImage(angleDownAnimations[playerAction][spriteIndex], (int)x  + 96, (int)y, -96,88, null);
-            }
-        } else {
-            g.drawImage(frontAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+                break;
+            default:
+                if(Objects.equals(direction, "left")) {
+                    g.drawImage(sideAnimations[playerAction][spriteIndex], (int)x + 96, (int)y, -96,88, null);
+                } else if (direction.equals("right")) {
+                    g.drawImage(sideAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+                } else if (direction == "up") {
+                    g.drawImage(backAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+                } else if(direction == "down") {
+                    g.drawImage(frontAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+                }
+                if (direction == "duRight") {
+                    g.drawImage(angleUpAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+                } else if (direction == "ddRight") {
+                    g.drawImage(angleDownAnimations[playerAction][spriteIndex], (int)x, (int)y, 96,88, null);
+                } else if (direction == "duLeft") {
+                    g.drawImage(angleUpAnimations[playerAction][spriteIndex], (int)x + 96, (int)y, -96,88, null);
+                } else if (direction == "ddLeft") {
+                    g.drawImage(angleDownAnimations[playerAction][spriteIndex], (int)x  + 96, (int)y, -96,88, null);
+                }
+                break;
         }
+
     }
 
     public boolean isRight() {
