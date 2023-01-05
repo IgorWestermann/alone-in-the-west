@@ -40,7 +40,7 @@ public class PlayableScreen implements Screen {
     public PlayableScreen(MyGdxGame game) {
         this.game = game;
         cam = new OrthographicCamera();
-        //viewport é usado pra manter a proporção da tela
+        //viewport e usado pra manter a proporcao da tela
         port = new FitViewport(W_WIDTH, W_HEIGHT, cam);
 
         MapHandler map1 = new MapHandler(port, cam, "mapa1.tmx");
@@ -58,8 +58,8 @@ public class PlayableScreen implements Screen {
 
     //lembrar de criar ou utilizar uma classe propria pra lidar com os inputs
     //esta esta sendo utilizada para testes
-    //esse metodo reune atualizaçao de objetos
-    //porem o ideal é ser quebrado em categorias menores relativas
+    //esse metodo reune atualizacao de objetos
+    //porem o ideal e ser quebrado em categorias menores relativas
     public void update(float dt) {
 
         cam.update();

@@ -50,6 +50,7 @@ public class Coffin extends Mob {
 
         this.mController = (MovimentController) new Seek(this);
         this.attackType = new SingleShot(this);
+        this.setMobType("melee_enemy");
         attackType.setDelay(0.5f);
     }
 
@@ -66,7 +67,7 @@ public class Coffin extends Mob {
         //super.boxYOffset = -1;
         super.setBounds(0, 0, 44, 44);
 
-        //esses arrays a seguir são usados para configurar o recurte e configuração das animações
+        //esses arrays a seguir sao usados para configurar o recurte e configuracao das animacoes
         String[] sprites = new String[]{
             "Coffin Front Sheet",
             "Coffin Back Sheet",

@@ -17,10 +17,10 @@ import com.mygdx.game.constants.*;
  *
  * @author Hugo
  */
-//essa classo coleciona as animações de um mesmo atlas e as separa por um map de sheets
-//cada map dessas sheets é separado então por ação dentro da sheet
-//tambem é passado um dicionario que pega uma direção e traduz na sheet que ela esta presente
-//por fim dentro dessa sheet, um novo dicionario faz a tradução de uma acção pra animação correspodente
+//essa classo coleciona as animacoes de um mesmo atlas e as separa por um map de sheets
+//cada map dessas sheets e separado entao por acao dentro da sheet
+//tambem e passado um dicionario que pega uma direcao e traduz na sheet que ela esta presente
+//por fim dentro dessa sheet, um novo dicionario faz a traducao de uma acao pra animacao correspodente
 public class AnimationHandler {
 
     private TextureAtlas textures;
@@ -65,9 +65,10 @@ public class AnimationHandler {
             Texture texture = new Texture(rootPath + spriteName + ".png");
             TextureRegion tr = new TextureRegion(texture);
 
-            //varre cada ação
+
+            //varre cada acao
             for (int i = 0; i < framesPerAction.length; i++) {
-                //varre o numero de frames por ação
+                //varre o numero de frames por acao
                 for (int j = 0; j < framesPerAction[i]; j++) {
                     frames.add(new TextureRegion(tr, j * frameW, i * frameH, frameW, frameH));
                 }

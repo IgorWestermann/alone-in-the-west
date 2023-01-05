@@ -6,6 +6,7 @@ package com.mygdx.game.sprites.mobs.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.constants.Direction;
@@ -14,6 +15,9 @@ import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.Projectile;
 import com.mygdx.game.sprites.mobs.Mob;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,6 +39,12 @@ public class SingleShot implements AttackType {
 
     private Mob thisMob;
 
+    public List<Projectile> getBullets() {
+        return bullets;
+    }
+
+    private List<Projectile> bullets = new ArrayList<>();
+
     public SingleShot(Mob thisMob) {
         this.thisMob = thisMob;
         this.mh = thisMob.getMapHandler();
@@ -43,24 +53,28 @@ public class SingleShot implements AttackType {
 
     @Override
     public void act(float dt) {
+        float px = thisMob.getEntityHandler().getPlayer().getBody().getWorldCenter().x;
+        float py = thisMob.getEntityHandler().getPlayer().getBody().getWorldCenter().y;
+        float ex = thisMob.getBody().getWorldCenter().x;
+        float ey = thisMob.getBody().getWorldCenter().y;
 
         if (actionLock) {
-            //esse codigo ta horrivel mas foi uma forma que encontrei de adicioanr delay a ação
             if (timer > delay && !didShoot) {
                 didShoot = true;
-                //System.out.println("Attacking");
-                //System.out.println("Source Mob " + thisMob);
                 new Projectile(mh, eh, this.thisMob, getProjectileDirection(mh, eh));
+
             }
             
             waitActionUnlock(dt);
             
         } else {
-            //essa verificação vai dentro do moviment controller
-            //ela esta aqui por teste
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (px - ex > 0 && py - ey > 0 && !thisMob.getMobType().equals("melee_enemy")) {
                 setActionLock(State.SHOTING, thisMob.getDirection());
-                //thisMob.setActionLock(State.SHOTING, thisMob.getDirection());
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                if (!thisMob.getMobType().equals("melee_enemy")) {
+                        setActionLock(State.SHOTING, thisMob.getEntityHandler().getPlayer().getDirection());
+                }
             }
         }
 
@@ -105,7 +119,7 @@ public class SingleShot implements AttackType {
 
     }
 
-    private void setActionLock(State state, Direction direction) {
+    public void setActionLock(State state, Direction direction) {
 
         if (!actionLock && lockedDirecion == null && lockedState == null) {
             //System.out.println("Locked Single-Shot");

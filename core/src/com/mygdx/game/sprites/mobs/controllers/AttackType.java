@@ -18,5 +18,7 @@ public interface AttackType {
     public void setCooldown(float cooldown);
     public void setDelay(float delay);
     public boolean isAttacking();
+
+
     
 }

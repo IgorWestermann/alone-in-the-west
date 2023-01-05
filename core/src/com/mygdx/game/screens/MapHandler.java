@@ -32,7 +32,7 @@ public class MapHandler {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
 
-    //variaveis de colisão
+    //variaveis de colisao
     private final World world;
     private final Box2DDebugRenderer box2DDebugRenderer;
 
@@ -41,7 +41,7 @@ public class MapHandler {
         this.port = port;
         this.cam = cam;
 
-        //objeto que carrega tmx , ojeto mapa em si , objeto que é responsavel por renderizar
+        //objeto que carrega tmx , ojeto mapa em si , objeto que e responsavel por renderizar
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapName);
         mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -49,8 +49,8 @@ public class MapHandler {
         //camera posicionada no centro do mapa
         cam.position.set(port.getWorldWidth() / 2, port.getWorldHeight() / 2, 0);
 
-        //este vector2 é um vetor responsavel pela gravidade
-        //o segundo parametro sinaliza para não calcular objetos em descanso 
+        //este vector2 e um vetor responsavel pela gravidade
+        //o segundo parametro sinaliza para nao calcular objetos em descanso
         world = new World(new Vector2(0, 0), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
 

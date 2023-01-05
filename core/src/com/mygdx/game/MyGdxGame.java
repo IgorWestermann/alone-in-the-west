@@ -11,7 +11,7 @@ import com.mygdx.game.screens.*;
 //vai ser responsavem por gerenciar o jogo e suas telas como um todo
 public class MyGdxGame extends Game {
     
-        //batch é responsavel por carimbar texturas na tela
+        //batch e responsavel por carimbar texturas na tela
 	public SpriteBatch batch;
 
 	@Override
