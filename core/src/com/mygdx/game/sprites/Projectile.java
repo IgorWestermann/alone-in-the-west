@@ -6,6 +6,7 @@ package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -40,11 +41,6 @@ public class Projectile extends Entity {
         defineThisBody(x, y);
         entityHandler.watchEntity(this);
 
-        //System.out.println("New Projectile");
-        //System.out.println("Source Mob" + sourceMob);
-        //System.out.println("Categoty" + this.getMyCategory());
-        //System.out.println("Collision mask" + this.collidesWith);
-
         this.body.setLinearVelocity(direction);
 
     }
@@ -60,9 +56,11 @@ public class Projectile extends Entity {
     }
 
     protected void defineThisBody(float x, float y) {
-        this.texture = new TextureRegion(new Texture("debugTexture.png"));
+        this.texture = new TextureRegion(new Texture("FX/bullet.png"));
         super.createCircleCollisionBox(1, BodyDef.BodyType.DynamicBody, x, y, 0);
+        super.setBounds(0,0,4,4);
     }
+
 
     @Override
     protected TextureRegion getFrame(float dt) {

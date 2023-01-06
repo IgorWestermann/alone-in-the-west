@@ -97,13 +97,13 @@ public class Player extends Mob {
 
     }
 
-    //toda entity implementa esse metodo para definir sua propria regra de animação
+    //toda entity implementa esse metodo para definir sua propria regra de animacao
     @Override
     protected TextureRegion getFrame(float dt) {
         return animations.getKeyFrame(getState(), getDirection(), dt);
     }
 
-    //todo sprite implementa essa função para definir seu priprio corpo e animação
+    //todo sprite implementa essa funcao para definir seu priprio corpo e animaï¿½ï¿½o
     @Override
     protected void defineThisBody(float startX, float startY) {
 
@@ -117,7 +117,7 @@ public class Player extends Mob {
         super.boxYOffset = 2;
         super.setBounds(0, 0, 32, 32);
 
-        //esses arrays a seguir são usados para configurar o recorte e configuração das animações
+        //esses arrays a seguir sao usados para configurar o recorte e configuracao das animacoes
         String[] sprites = new String[]{
             "Player Front Sheet",
             "Player Back Sheet",

@@ -28,9 +28,31 @@ public abstract class Mob extends Entity {
     private boolean actionLock = false;
     //
     protected AnimationHandler animations;
-
     private State lockedState = null;
     private Direction lockedDirecion = null;
+
+    private String mobType = "";
+
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    private int health = 10;
+
+    public String getMobType() {
+        return mobType;
+    }
+
+    public void setMobType(String mobType) {
+        this.mobType = mobType;
+    }
+
+
     // protected Body feet;
 
     public Mob(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
@@ -53,13 +75,15 @@ public abstract class Mob extends Entity {
         entityHandler.watchEntity(this);
     }
 
-    //nessa função a gente define cada caracteristica fisica do corpo
+    //nessa funcao a gente define cada caracteristica fisica do corpo
     protected abstract void defineThisBody(float startX, float startY);
 
     public void setActionLock(State state, Direction direction) {
-        //System.out.println("Action Locked");
+
         if (!actionLock && lockedDirecion == null && lockedState == null) {
 
+            if (this.getBody().getWorldCenter().x < 300) {
+            }
             this.lockedState = state;
             this.lockedDirecion = direction;
             this.animations.setAnimationLock(state, direction);

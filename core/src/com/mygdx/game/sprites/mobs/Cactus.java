@@ -49,6 +49,7 @@ public class Cactus extends Mob {
 
         this.mController = (MovimentController) new Seek(this);
         this.attackType = new SingleShot(this);
+        this.setMobType("ranged_enemy");
         attackType.setDelay(0.5f);
     }
 
@@ -64,7 +65,7 @@ public class Cactus extends Mob {
         super.boxYOffset = 2;
         super.setBounds(0, 0, 28, 28);
 
-        //esses arrays a seguir são usados para configurar o recurte e configuração das animações
+        //esses arrays a seguir sao usados para configurar o recurte e configuracao das animaï¿½ï¿½es
         String[] regions = new String[]{
             "Cactus Front Sheet",
             "Cactus Back Sheet",
@@ -95,7 +96,6 @@ public class Cactus extends Mob {
         directionDictionary.put(Direction.W, new Pair<>("Cactus Side Sheet", true));
 
         animations = new AnimationHandler();
-        //animations.buildAnimations("Mobs/Cactus.pack", 48, 48, regions, framesPerAction, modes);
         animations.setDirectionDictionary(directionDictionary);
         animations.setStateDictionary(stateDictionaty);
 
@@ -109,7 +109,6 @@ public class Cactus extends Mob {
         float xVel = super.body.getLinearVelocity().x;
         float yVel = super.body.getLinearVelocity().y;
 
-        //if (Math.abs(xVel) > Math.abs(yVel)) {
             if (xVel > 0) {
                 lastDirection = Direction.E;
                 return Direction.E;
@@ -117,7 +116,6 @@ public class Cactus extends Mob {
                 lastDirection = Direction.W;
                 return Direction.W;
             }
-        //} else {
             if (yVel > 0) {
                 lastDirection = Direction.N;
                 return Direction.N;

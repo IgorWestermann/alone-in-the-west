@@ -44,7 +44,7 @@ public class Melee implements AttackType{
     public void act(float dt) {
 
         if (actionLock) {
-            //esse codigo ta horrivel mas foi uma forma que encontrei de adicioanr delay a ação
+            //esse codigo ta horrivel mas foi uma forma que encontrei de adicioanr delay a acao
             if (timer > delay && !didShoot) {
                 didShoot = true;
                 //System.out.println("Attacking");
@@ -55,7 +55,7 @@ public class Melee implements AttackType{
             waitActionUnlock(dt);
             
         } else {
-            //essa verificação vai dentro do moviment controller
+            //essa verificacao vai dentro do moviment controller
             //ela esta aqui por teste
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 setActionLock(State.SHOTING, thisMob.getDirection());

@@ -30,6 +30,8 @@ public abstract class Entity extends Sprite {
     protected short myCategory;
     protected short collidesWith;
 
+
+
     public Entity(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
         this.mapHandler = mapHandler;
         this.entityHandler = entityHandler;
@@ -87,7 +89,7 @@ public abstract class Entity extends Sprite {
         System.out.println("Inicial Y " + inicialY );
         
         BodyDef bdef = new BodyDef();
-        //cria a definição do corpo fisico
+        //cria a definicao do corpo fisico
 
         bdef.position.set(inicialX, inicialY);
         bdef.type = type;
@@ -95,7 +97,7 @@ public abstract class Entity extends Sprite {
         //adiciona o corpo ao mundo
         this.body = this.mapHandler.getWorld().createBody(bdef);
 
-        //definições de fixture e formato
+        //definicoes de fixture e formato
         FixtureDef fdef = new FixtureDef();
 
         //shape da collisionBox
@@ -115,14 +117,14 @@ public abstract class Entity extends Sprite {
 
     public void createCircleCollisionBox(int radius, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
         BodyDef bdef = new BodyDef();
-        //cria a definição do corpo fisico
+        //cria a definicao do corpo fisico
         bdef.position.set(inicialX, inicialY);
         bdef.type = type;
 
         //adiciona o corpo ao mundo
         this.body = this.mapHandler.getWorld().createBody(bdef);
 
-        //definições de fixture e formato
+        //definicoes de fixture e formato
         FixtureDef fdef = new FixtureDef();
 
         //shape da collisionBox
