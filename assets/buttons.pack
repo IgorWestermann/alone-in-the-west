@@ -1,0 +1,26 @@
+
+buttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+botao1
+  rotate: false
+  xy: 1, 19
+  size: 86, 44
+  orig: 86, 44
+  offset: 0, 0
+  index: -1
+botao3
+  rotate: false
+  xy: 1, 1
+  size: 62, 16
+  orig: 62, 16
+  offset: 0, 0
+  index: -1
+botao2
+  rotate: false
+  xy: 89, 23
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
