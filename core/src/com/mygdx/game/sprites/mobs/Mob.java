@@ -17,6 +17,7 @@ import com.mygdx.game.sprites.mobs.controllers.AttackType;
  *
  * @author Hugo
  */
+
 public abstract class Mob extends Entity {
 
     protected State currentState;
@@ -28,11 +29,12 @@ public abstract class Mob extends Entity {
     private boolean actionLock = false;
     //
     protected AnimationHandler animations;
+    
     private State lockedState = null;
     private Direction lockedDirecion = null;
-
-    private String mobType = "";
-
+    
+    protected boolean triggerDeath = false;
+    
 
     public int getHealth() {
         return health;
@@ -42,16 +44,7 @@ public abstract class Mob extends Entity {
         this.health = health;
     }
 
-    private int health = 10;
-
-    public String getMobType() {
-        return mobType;
-    }
-
-    public void setMobType(String mobType) {
-        this.mobType = mobType;
-    }
-
+    private int health = 2;
 
     // protected Body feet;
 
@@ -81,9 +74,6 @@ public abstract class Mob extends Entity {
     public void setActionLock(State state, Direction direction) {
 
         if (!actionLock && lockedDirecion == null && lockedState == null) {
-
-            if (this.getBody().getWorldCenter().x < 300) {
-            }
             this.lockedState = state;
             this.lockedDirecion = direction;
             this.animations.setAnimationLock(state, direction);
@@ -95,7 +85,6 @@ public abstract class Mob extends Entity {
 
     public void waitActionUnlock(float dt) {
         if (this.actionLock && this.animations.isCurrentAnimationFinished()) {
-
             //System.out.println("Action Unlocked");
             this.lockedState = null;
             this.lockedDirecion = null;
@@ -146,14 +135,37 @@ public abstract class Mob extends Entity {
             mController.move(this, dt);
             attackType.act(dt);
         } else {
+            
             waitActionUnlock(dt);
         }
-
+        
+        verifyDeath(dt);
         movimentClamp();
 
         super.setPosition((body.getPosition().x - super.getWidth() / 2) + boxXOffset, (body.getPosition().y - super.getHeight() / 2) + boxYOffset);
         super.setRegion(getFrame(dt));
 
+    }
+    
+    public void hitted(){
+        
+        setActionLock(State.HIT, this.getDirection());
+        
+        this.health--;
+        
+        System.out.println(this + " " + this.health);
+        
+        if(this.health < 0 ){
+            System.out.println(this + " to die");
+            setActionLock(State.IDLE, Direction.S);
+            triggerDeath = true;
+        }
+    }
+    
+    private void verifyDeath(float dt){
+        if(triggerDeath && this.animations.isCurrentAnimationFinished()){
+            super.setSelfDestruct();
+        }
     }
 
 }

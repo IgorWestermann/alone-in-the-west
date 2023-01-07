@@ -64,6 +64,9 @@ public class Projectile extends Entity {
 
     @Override
     protected TextureRegion getFrame(float dt) {
+
+        
+        
         return texture;
     }
 

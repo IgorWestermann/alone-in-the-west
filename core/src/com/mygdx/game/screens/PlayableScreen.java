@@ -14,6 +14,7 @@ import com.mygdx.game.sprites.mobs.Cactus;
 import com.mygdx.game.sprites.Entity;
 import com.mygdx.game.sprites.mobs.Coffin;
 import com.mygdx.game.sprites.mobs.Player;
+import com.mygdx.game.sprites.objects.Spawner;
 
 /**
  *
@@ -36,6 +37,8 @@ public class PlayableScreen implements Screen {
     //variavel de entidades
     private EntityHandler entityHandler;
     
+    private Spawner TESTESpawner;
+    
 
     public PlayableScreen(MyGdxGame game) {
         this.game = game;
@@ -51,8 +54,7 @@ public class PlayableScreen implements Screen {
         
         currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
         
-        new Cactus(currentMap, entityHandler , 40 , 40);
-        new Coffin(currentMap, entityHandler , 10 , 20);
+        TESTESpawner = new Spawner(currentMap, entityHandler, 40, 40, 40, 2, Spawner.enemyType.RAMDON);
         
     }
 
@@ -62,7 +64,10 @@ public class PlayableScreen implements Screen {
     //porem o ideal e ser quebrado em categorias menores relativas
     public void update(float dt) {
 
+        TESTESpawner.update(dt);
+        
         cam.update();
+        
         currentMap.update(dt);
         entityHandler.update(dt);
         //camera segue o personagem

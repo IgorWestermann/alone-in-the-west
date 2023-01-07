@@ -17,7 +17,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-                setScreen(new PlayableScreen(this));
+                setScreen(new MenuScreen(this));
 	}
 
 	@Override
