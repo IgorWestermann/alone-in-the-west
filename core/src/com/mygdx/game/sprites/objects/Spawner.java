@@ -5,13 +5,14 @@
 package com.mygdx.game.sprites.objects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.game.controllers.Entity;
 import com.mygdx.game.screens.*;
 import com.mygdx.game.sprites.*;
 /**
  *
  * @author Hugo
  */
-public class Spawner extends Entity{
+public class Spawner extends Entity {
 
     public Spawner(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
         super(mapHandler, entityHandler, CollisionCategories.SPAWNER, new short[]{});

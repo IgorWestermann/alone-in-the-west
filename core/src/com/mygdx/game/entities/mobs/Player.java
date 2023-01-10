@@ -2,24 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.sprites.mobs;
+package com.mygdx.game.entities.mobs;
 
+//import com.mygdx.game.screens.Life;
+import com.mygdx.game.screens.Hud;
 import com.mygdx.game.sprites.CollisionCategories;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.constants.*;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
-import com.mygdx.game.sprites.mobs.controllers.MovimentController;
-import com.mygdx.game.sprites.mobs.controllers.PlayerMoviment;
-import com.mygdx.game.sprites.mobs.controllers.Seek;
-import com.mygdx.game.sprites.mobs.controllers.SingleShot;
+import com.mygdx.game.controllers.PlayerMoviment;
+import com.mygdx.game.controllers.SingleShot;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +24,7 @@ import java.util.Map;
  * @author Hugo
  */
 public class Player extends Mob {
+
 
     public Player(MapHandler mapHandler, EntityHandler entityHandler) {
         super(mapHandler, entityHandler, CollisionCategories.PLAYER_BODY,
@@ -38,8 +35,13 @@ public class Player extends Mob {
                     CollisionCategories.WALL,
                 });
 
+        this.setMobType("Player");
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
+
+        this.setHealth(5);
+
+
     }
 
     public Player(MapHandler mapHandler, EntityHandler entityHandler, float startX, float startY) {
@@ -49,8 +51,12 @@ public class Player extends Mob {
             CollisionCategories.ENEMY_PROJECTILE,
             CollisionCategories.WALL,}, startX, startY);
 
+        this.setMobType("Player");
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
+
+        this.setHealth(5);
+
     }
 
     @Override

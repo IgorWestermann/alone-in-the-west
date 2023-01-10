@@ -2,16 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.sprites.mobs;
+package com.mygdx.game.entities.mobs;
 
 import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
-import com.mygdx.game.sprites.Entity;
-import com.mygdx.game.sprites.mobs.controllers.MovimentController;
-import com.mygdx.game.sprites.mobs.controllers.AttackType;
+import com.mygdx.game.controllers.Entity;
+import com.mygdx.game.controllers.interfaces.MovimentController;
+import com.mygdx.game.controllers.interfaces.AttackType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -42,7 +45,7 @@ public abstract class Mob extends Entity {
         this.health = health;
     }
 
-    private int health = 10;
+    private int health;
 
     public String getMobType() {
         return mobType;
@@ -51,6 +54,9 @@ public abstract class Mob extends Entity {
     public void setMobType(String mobType) {
         this.mobType = mobType;
     }
+
+    private List<Integer> life = new ArrayList<>();
+
 
 
     // protected Body feet;
@@ -73,6 +79,18 @@ public abstract class Mob extends Entity {
 
         defineThisBody(startX, startY);
         entityHandler.watchEntity(this);
+        for(int i = 0; i < this.getHealth(); i++) {
+            this.life.add(1);
+        }
+    }
+
+    public void isAlive() {
+        int entityLife = this.getHealth();
+        if(entityLife > 0) {
+            this.setHealth(entityLife - 1);
+        } else if(this.getHealth() == 0 && this.getMobType() == "Player") {
+            System.out.println("GAME OVER");
+        }
     }
 
     //nessa funcao a gente define cada caracteristica fisica do corpo

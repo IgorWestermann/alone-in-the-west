@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.CollisionCategories;
-import com.mygdx.game.sprites.Entity;
+import com.mygdx.game.controllers.Entity;
 
 /**
  *

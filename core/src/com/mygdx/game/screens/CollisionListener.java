@@ -6,8 +6,9 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.constants.State;
+import com.mygdx.game.controllers.Entity;
+import com.mygdx.game.entities.mobs.Mob;
 import com.mygdx.game.sprites.*;
-import com.mygdx.game.sprites.mobs.*;
 
 
 /**
@@ -17,7 +18,9 @@ import com.mygdx.game.sprites.mobs.*;
 public class CollisionListener implements ContactListener {
 
     private MapHandler mapHandler;
+
     private EntityHandler entityHandler;
+//    private Life life;
 
     public CollisionListener(MapHandler mapHandler, EntityHandler entityHandler) {
         this.mapHandler = mapHandler;
@@ -58,6 +61,8 @@ public class CollisionListener implements ContactListener {
             projectile = b;
             hit = a;
             ((Mob) a.getBody().getUserData()).setHealth(((Mob) a.getBody().getUserData()).getHealth() -1);
+            ((Mob) a.getBody().getUserData()).isAlive();
+
         } else {
             return;
         }

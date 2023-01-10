@@ -2,23 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.sprites.mobs.controllers;
+package com.mygdx.game.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.State;
+import com.mygdx.game.controllers.interfaces.AttackType;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.Projectile;
-import com.mygdx.game.sprites.mobs.Mob;
+import com.mygdx.game.entities.mobs.Mob;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Hugo
  */
-public class Melee implements AttackType{
+public class SingleShot implements AttackType {
 
     private float timer = 0;
     private float cooldown = 0;
@@ -34,7 +38,13 @@ public class Melee implements AttackType{
 
     private Mob thisMob;
 
-    public Melee(Mob thisMob) {
+    public List<Projectile> getBullets() {
+        return bullets;
+    }
+
+    private List<Projectile> bullets = new ArrayList<>();
+
+    public SingleShot(Mob thisMob) {
         this.thisMob = thisMob;
         this.mh = thisMob.getMapHandler();
         this.eh = thisMob.getEntityHandler();
@@ -42,24 +52,28 @@ public class Melee implements AttackType{
 
     @Override
     public void act(float dt) {
+        float px = thisMob.getEntityHandler().getPlayer().getBody().getWorldCenter().x;
+        float py = thisMob.getEntityHandler().getPlayer().getBody().getWorldCenter().y;
+        float ex = thisMob.getBody().getWorldCenter().x;
+        float ey = thisMob.getBody().getWorldCenter().y;
 
         if (actionLock) {
-            //esse codigo ta horrivel mas foi uma forma que encontrei de adicioanr delay a acao
             if (timer > delay && !didShoot) {
                 didShoot = true;
-                //System.out.println("Attacking");
-                //System.out.println("Source Mob " + thisMob);
                 new Projectile(mh, eh, this.thisMob, getProjectileDirection(mh, eh));
+
             }
             
             waitActionUnlock(dt);
             
         } else {
-            //essa verificacao vai dentro do moviment controller
-            //ela esta aqui por teste
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (px - ex > 0 && py - ey > 0 && !thisMob.getMobType().equals("melee_enemy")) {
                 setActionLock(State.SHOTING, thisMob.getDirection());
-                //thisMob.setActionLock(State.SHOTING, thisMob.getDirection());
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                if (!thisMob.getMobType().equals("melee_enemy")) {
+                        setActionLock(State.SHOTING, thisMob.getEntityHandler().getPlayer().getDirection());
+                }
             }
         }
 
@@ -104,7 +118,7 @@ public class Melee implements AttackType{
 
     }
 
-    private void setActionLock(State state, Direction direction) {
+    public void setActionLock(State state, Direction direction) {
 
         if (!actionLock && lockedDirecion == null && lockedState == null) {
             //System.out.println("Locked Single-Shot");

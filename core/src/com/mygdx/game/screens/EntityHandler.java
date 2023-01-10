@@ -6,15 +6,9 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.screens.MapHandler;
-import com.mygdx.game.screens.PlayableScreen;
-import com.mygdx.game.sprites.Entity;
-import com.mygdx.game.sprites.mobs.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.mygdx.game.entities.mobs.Player;
+import com.mygdx.game.controllers.Entity;
 
 /**
  *

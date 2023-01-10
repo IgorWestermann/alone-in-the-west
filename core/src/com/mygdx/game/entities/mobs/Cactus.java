@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.sprites.mobs;
+package com.mygdx.game.entities.mobs;
 
 import com.mygdx.game.sprites.CollisionCategories;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -14,10 +14,10 @@ import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
-import com.mygdx.game.sprites.mobs.controllers.MovimentController;
-import com.mygdx.game.sprites.mobs.controllers.SeekAndAvoid;
-import com.mygdx.game.sprites.mobs.controllers.Seek;
-import com.mygdx.game.sprites.mobs.controllers.SingleShot;
+import com.mygdx.game.controllers.interfaces.MovimentController;
+import com.mygdx.game.controllers.SeekAndAvoid;
+import com.mygdx.game.controllers.Seek;
+import com.mygdx.game.controllers.SingleShot;
 import java.util.HashMap;
 import java.util.Map;
 

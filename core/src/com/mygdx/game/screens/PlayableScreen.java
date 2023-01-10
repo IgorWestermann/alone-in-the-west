@@ -8,12 +8,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.sprites.mobs.Cactus;
-import com.mygdx.game.sprites.Entity;
-import com.mygdx.game.sprites.mobs.Coffin;
-import com.mygdx.game.sprites.mobs.Player;
+import com.mygdx.game.entities.mobs.Cactus;
+import com.mygdx.game.entities.mobs.Coffin;
+import com.mygdx.game.entities.mobs.Player;
 
 /**
  *
@@ -35,7 +35,8 @@ public class PlayableScreen implements Screen {
 
     //variavel de entidades
     private EntityHandler entityHandler;
-    
+
+    private Hud hud;
 
     public PlayableScreen(MyGdxGame game) {
         this.game = game;
@@ -50,6 +51,7 @@ public class PlayableScreen implements Screen {
         entityHandler.setPlayer(new Player(this.currentMap , this.entityHandler , 80 , 80));
         
         currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
+        hud = new Hud(entityHandler.getPlayer());
         
         new Cactus(currentMap, entityHandler , 40 , 40);
         new Coffin(currentMap, entityHandler , 10 , 20);
@@ -82,12 +84,13 @@ public class PlayableScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(f);
+        hud.update();
 
         currentMap.render(f);
         game.batch.setProjectionMatrix(cam.combined);
+
         //tudo que for ser desenhado precisa estar entre batch.begin() e batch.end()
         game.batch.begin();
-
         entityHandler.draw(game.batch);
         game.batch.end();
 
