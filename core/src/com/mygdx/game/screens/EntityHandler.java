@@ -54,9 +54,19 @@ public class EntityHandler {
     public void addToBeRemoved(Entity e){
         toBeRemoved.add(e);
     }
+    
+    public void verifyMobSelfDestruction(){
+       for(Entity e : entities){
+           if(e.isToSelfDestruct()){
+               System.out.println("Removing " + e);
+               addToBeRemoved(e);
+           }
+       }
+    }
 
     public void update(float dt) {
         
+        verifyMobSelfDestruction();
         remove();
         
         for (Entity e : entities) {

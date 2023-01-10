@@ -30,7 +30,7 @@ public abstract class Entity extends Sprite {
     protected short myCategory;
     protected short collidesWith;
 
-
+    protected boolean toSelfDestruct = false;
 
     public Entity(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
         this.mapHandler = mapHandler;
@@ -38,7 +38,7 @@ public abstract class Entity extends Sprite {
 
         setCategory(category);
         setCollidesWith(collidesWith);
-        
+
     }
 
     public Entity(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith, float sourceX, float sourceY) {
@@ -52,7 +52,15 @@ public abstract class Entity extends Sprite {
     public short getMyCategory() {
         return myCategory;
     }
+
+    public boolean isToSelfDestruct() {
+        return toSelfDestruct;
+    }
     
+    protected void setSelfDestruct(){
+        this.toSelfDestruct = true;
+    }
+
     public MapHandler getMapHandler() {
         return mapHandler;
     }
@@ -78,16 +86,15 @@ public abstract class Entity extends Sprite {
     public Body getBody() {
         return body;
     }
+
     protected void createBoxCollisionBody(float boxW, float boxH, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
 
-        
-        
         System.out.println("Creating" + this.toString());
         System.out.println("Width" + boxW);
         System.out.println("Heigh" + boxH);
-        System.out.println("Inicial X " + inicialX );
-        System.out.println("Inicial Y " + inicialY );
-        
+        System.out.println("Inicial X " + inicialX);
+        System.out.println("Inicial Y " + inicialY);
+
         BodyDef bdef = new BodyDef();
         //cria a definicao do corpo fisico
 
@@ -141,7 +148,7 @@ public abstract class Entity extends Sprite {
         //aqui esta uma especie de atrito que o corpo sofre
         body.setLinearDamping(dumping);
     }
-    
+
     protected abstract TextureRegion getFrame(float dt);
 
     public abstract void update(float f);

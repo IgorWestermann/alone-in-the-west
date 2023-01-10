@@ -8,12 +8,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.entities.mobs.Cactus;
-import com.mygdx.game.entities.mobs.Coffin;
-import com.mygdx.game.entities.mobs.Player;
+import com.mygdx.game.sprites.objects.Spawner;
 
 /**
  *
@@ -36,6 +33,7 @@ public class PlayableScreen implements Screen {
     //variavel de entidades
     private EntityHandler entityHandler;
 
+    private Spawner TESTESpawner;
     private Hud hud;
 
     public PlayableScreen(MyGdxGame game) {
@@ -52,9 +50,8 @@ public class PlayableScreen implements Screen {
         
         currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
         hud = new Hud(entityHandler.getPlayer(), game.batch);
-        
-        new Cactus(currentMap, entityHandler , 40 , 40);
-        new Coffin(currentMap, entityHandler , 10 , 20);
+
+        TESTESpawner = new Spawner(currentMap, entityHandler, 40, 40, 40, 2, Spawner.enemyType.RAMDON);
         
     }
 
@@ -64,7 +61,10 @@ public class PlayableScreen implements Screen {
     //porem o ideal e ser quebrado em categorias menores relativas
     public void update(float dt) {
 
+        TESTESpawner.update(dt);
+
         cam.update();
+
         currentMap.update(dt);
         entityHandler.update(dt);
         //camera segue o personagem
