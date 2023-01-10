@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -22,9 +23,9 @@ public class Hud {
 
     Player player;
 
-    public Hud(Player player) {
+    public Hud(Player player, SpriteBatch sb) {
         viewport = new FillViewport(400, 200, new OrthographicCamera());
-        stage =  new Stage(viewport);
+        stage =  new Stage(viewport, sb);
         life = new Texture(Gdx.files.internal("FX/heart.png"));
         this.player = player;
         player.getHealth();

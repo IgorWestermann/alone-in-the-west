@@ -51,7 +51,7 @@ public class PlayableScreen implements Screen {
         entityHandler.setPlayer(new Player(this.currentMap , this.entityHandler , 80 , 80));
         
         currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
-        hud = new Hud(entityHandler.getPlayer());
+        hud = new Hud(entityHandler.getPlayer(), game.batch);
         
         new Cactus(currentMap, entityHandler , 40 , 40);
         new Coffin(currentMap, entityHandler , 10 , 20);
@@ -79,12 +79,12 @@ public class PlayableScreen implements Screen {
 
     @Override
     public void render(float f) {
+
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(f);
-        hud.update();
 
         currentMap.render(f);
         game.batch.setProjectionMatrix(cam.combined);
@@ -93,7 +93,7 @@ public class PlayableScreen implements Screen {
         game.batch.begin();
         entityHandler.draw(game.batch);
         game.batch.end();
-
+        hud.update();
     }
 
     @Override
