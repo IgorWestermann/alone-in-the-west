@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import com.mygdx.game.MyGdxGame;
 
@@ -58,6 +60,7 @@ public class MenuScreen implements Screen {
 
         style.up = buttonSkin.getDrawable("botao3");
         style.down = buttonSkin.getDrawable("botao3");
+        style.over = buttonSkin.getDrawable("botao2");
         style.pressedOffsetX = 2;
         style.pressedOffsetY = 2;
         style.font = dark;
@@ -78,22 +81,26 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
 
-        viewport = new ExtendViewport(800, 560);
+        viewport = new FitViewport(800, 560);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
-
+        
         atlas = new TextureAtlas("buttons.pack");
 
         buttonSkin = new Skin(atlas);
 
         mainTable = new Table();
         mainTable.setFillParent(true);
-
+        
+        
         //mainTable.setBounds(0, 0,Gdx.graphics.getWidth() , Gdx.graphics.getHeight());
         mainTable.debug();
         mainTable.center();
         mainTable.left();
         mainTable.padLeft(Gdx.graphics.getWidth() / 3);
+        
+        addTextButton("Alone in the West");
+        mainTable.row();
 
         addTextButton("Play").addListener(new ClickListener() {
             @Override
@@ -102,9 +109,14 @@ public class MenuScreen implements Screen {
             }
         });
         mainTable.row();
-        addTextButton("Play");
+        addTextButton("Score");
         mainTable.row();
-        addTextButton("Play");
+        addTextButton("Quit").addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               ;
+            }
+        });;
         mainTable.row();
 
         stage.addActor(mainTable);

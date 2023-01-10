@@ -29,8 +29,9 @@ public class CollisionListener implements ContactListener {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
 
-        checkProjectileMobCollision(a, b);
-        //checkProjectileWallCollision(a, b);
+       // checkProjectileMobCollision(a, b);
+        checkProjectileWallCollision(a, b);
+        //checkMeleeMobCollision(a, b);
     }
 
     @Override
@@ -61,17 +62,10 @@ public class CollisionListener implements ContactListener {
         } else {
             return;
         }
-
-        //System.out.println("Hit a ->" + hit.getBody().getUserData().toString()
-        //        + " --- "
-        //        + ((Mob) a.getBody().getUserData()).getHealth()
-        //);
-        
-
         this.entityHandler.addToBeRemoved((Entity) projectile.getBody().getUserData());
 
         Mob hitMob = (Mob) hit.getBody().getUserData();
-        
+
         hitMob.hitted();
         hitMob.setActionLock(State.HIT, hitMob.getDirection());
     }
@@ -86,17 +80,28 @@ public class CollisionListener implements ContactListener {
         } else if (b.getBody().getUserData() instanceof Projectile && a.getBody().getUserData() instanceof Wall) {
             projectile = b;
             hit = a;
-            ((Mob) a.getBody().getUserData()).setHealth(((Mob) a.getBody().getUserData()).getHealth() - 1);
         } else {
             return;
         }
-
-        System.out.println("Hit a ->" + hit.getBody().getUserData().toString()
-                + " --- "
-                + ((Mob) a.getBody().getUserData()).getHealth()
-        );
-
         this.entityHandler.addToBeRemoved((Entity) projectile.getBody().getUserData());
+    }
+    
+     private void checkMeleeMobCollision(Fixture a, Fixture b) {
+        Fixture hitbox;
+        Fixture hit;
+
+        if (a.getBody().getUserData() instanceof MeleeHitbox && b.getBody().getUserData() instanceof Mob) {
+            hitbox = a;
+            hit = b;
+        } else if (b.getBody().getUserData() instanceof MeleeHitbox && a.getBody().getUserData() instanceof Mob) {
+            hitbox = b;
+            hit = a;
+        } else {
+            return;
+        }
+        Mob hitMob = (Mob) hit.getBody().getUserData();
+        hitMob.hitted();
+        
     }
 
 }

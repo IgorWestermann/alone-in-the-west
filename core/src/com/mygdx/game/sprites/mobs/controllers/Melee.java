@@ -11,14 +11,14 @@ import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
-import com.mygdx.game.sprites.Projectile;
+import com.mygdx.game.sprites.*;
 import com.mygdx.game.sprites.mobs.Mob;
 
 /**
  *
  * @author Hugo
  */
-public class Melee implements AttackType{
+public class Melee implements AttackType {
 
     private float timer = 0;
     private float cooldown = 0;
@@ -49,18 +49,14 @@ public class Melee implements AttackType{
                 didShoot = true;
                 //System.out.println("Attacking");
                 //System.out.println("Source Mob " + thisMob);
-                new Projectile(mh, eh, this.thisMob, getProjectileDirection(mh, eh));
+                new MeleeHitbox(mh, eh, this.thisMob, coordinates());
             }
-            
+
             waitActionUnlock(dt);
-            
+
         } else {
             //essa verificacao vai dentro do moviment controller
             //ela esta aqui por teste
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                setActionLock(State.SHOTING, thisMob.getDirection());
-                //thisMob.setActionLock(State.SHOTING, thisMob.getDirection());
-            }
         }
 
     }
@@ -75,36 +71,45 @@ public class Melee implements AttackType{
         return thisMob.getAnimations().isCurrentAnimationFinished();
     }
 
-    private Vector2 getProjectileDirection(MapHandler mh, EntityHandler eh) {
+    private Vector2 coordinates() {
 
-        Direction d = thisMob.getDirection();
-        float x = 0;
-        float y = 0;
+        Direction d = lockedDirecion;
+
+
+        float mobX = thisMob.getBody().getWorldCenter().x;
+        float mobY = thisMob.getBody().getWorldCenter().y;
+        float mobW = thisMob.getBodyW();
+        float mobH = thisMob.getBodyH();
+
+        float x = mobX;
+        float y = mobY;
 
         if (d == Direction.N) {
-            y = speedModifier;
+            y = mobY + mobH/2;
         } else if (d == Direction.NE) {
-            x = y = speedModifier;
+            x = mobX + mobW/2;
+            y = mobY + mobH/2;
         } else if (d == Direction.E) {
-            x = speedModifier;
+            x = mobX + mobW/2;
         } else if (d == Direction.SE) {
-            y = -speedModifier;
-            x = speedModifier;
+            x = mobX + mobW/2;
+            y = mobY -mobH/2;
         } else if (d == Direction.S) {
-            y = -speedModifier;
+            y = mobY - mobH/2;
         } else if (d == Direction.SW) {
-            x = y = -speedModifier;
+            x = mobX - mobW/2;
+            y = mobY - mobH/2;
         } else if (d == Direction.W) {
-            x = -speedModifier;
+            x = mobX - mobW/2;
         } else if (d == Direction.NW) {
-            y = speedModifier;
-            x = -speedModifier;
+            x = mobX - mobW/2;
+            y = mobY + mobH/2;
         }
         return new Vector2(x, y);
 
     }
 
-    private void setActionLock(State state, Direction direction) {
+    public void attack(State state, Direction direction) {
 
         if (!actionLock && lockedDirecion == null && lockedState == null) {
             //System.out.println("Locked Single-Shot");
@@ -132,7 +137,17 @@ public class Melee implements AttackType{
 
     @Override
     public void setDelay(float f) {
-       this.delay = f;
+        this.delay = f;
+    }
+
+    @Override
+    public void setAttackModifier(float f) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public float getAttackMoidifier() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

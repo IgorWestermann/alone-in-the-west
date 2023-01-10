@@ -4,6 +4,9 @@
  */
 package com.mygdx.game.sprites.mobs.controllers;
 
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.constants.Direction;
+import com.mygdx.game.constants.State;
 import com.mygdx.game.sprites.mobs.Mob;
 
 /**
@@ -32,42 +35,115 @@ public class SeekAndAvoid implements MovimentController {
         int applyX = 0;
         int applyY = 0;
 
-        int speedModifier = 40;
+        float maxDistance = 70;
+        float offset = 20;
 
-        float maxDistance = 50;
+        int modifier = 5;
+        int limit = 40;
 
-        System.out.println(Math.abs(px - tx));
+        double squareDistance = ((px - tx) * (px - tx)) + ((py - ty) * (py - ty));
 
-        //fogr
-        if (Math.abs(px - tx) < maxDistance - 10 && Math.abs(py - ty) < maxDistance - 10 ) {
-            if (px - tx > 0) {
-                applyX = -speedModifier;
+        if (Math.abs(px - tx) < maxDistance - offset && Math.abs(py - ty) < maxDistance - offset ) {
+            //foge
+            //verifica a menor distancia
+            //System.out.println("Fugindo");
+            if (Math.abs((px - tx)) > Math.abs(py - ty)) {
+                //se modulo de x maior  
+                //foge pra y
+                if (py - ty > 0 && thisMob.getBody().getLinearVelocity().y > -limit) {
+                    applyY = -modifier;
+                } else if (py - ty < 0 && thisMob.getBody().getLinearVelocity().y < limit) {
+                    applyY = modifier;
+                }
             } else {
-                applyX = speedModifier;
+                //se modulo de y maior
+                //foge pra x
+                if (px - tx > 0 && thisMob.getBody().getLinearVelocity().x > -limit) {
+                    applyX = -modifier;
+                } else if (px - tx < 0 && thisMob.getBody().getLinearVelocity().x < limit) {
+                    applyX = modifier;
+                }
             }
-
-            if (py - ty > 0) {
-                applyY = -speedModifier;
+        } else if (Math.abs(px - tx) > maxDistance + offset || Math.abs(py - ty) > maxDistance + offset ) {
+            //se esta fora da distancia de fuga
+            
+            //System.out.println("Seguindo");
+             if (Math.abs((px - tx)) > Math.abs(py - ty)) {
+                //se modulo de x maior  
+                //persegue x
+                if (px - tx > 0 && thisMob.getBody().getLinearVelocity().x < limit) {
+                    applyX = modifier;
+                } else if (px - tx < 0 && thisMob.getBody().getLinearVelocity().x > -limit) {
+                    applyX = -modifier;
+                }
             } else {
-                applyY = speedModifier;
+                //se modulo de y maior
+                //persegue y
+                if (py - ty > 0 && thisMob.getBody().getLinearVelocity().y < limit) {
+                    applyY = modifier;
+                } else if (py - ty < 0 && thisMob.getBody().getLinearVelocity().y >- limit) {
+                    applyY = -modifier;
+                }
             }
-            //persegue
-        } else if (Math.abs(px - tx) > maxDistance  + 10 && Math.abs(py - ty) < maxDistance + 10) {
-
-            if (px - tx > 0) {
-                applyX = speedModifier;
+        }else{
+            //verifica a menor distancia
+            //System.out.println("Alinhando pra atirar");
+            if (Math.abs((px - tx)) > Math.abs(py - ty)) {
+                //alinha em y
+                if (py - ty > 0) {
+                    applyY = modifier;
+                } else {
+                    applyY = -modifier;
+                }
             } else {
-                applyX = -speedModifier;
-            }
-
-            if (py - ty > 0) {
-                applyY = speedModifier;
-            } else {
-                applyY = -speedModifier;
+                //alinha em x
+                if (px - tx > 0) {
+                    applyX = modifier;
+                } else {
+                    applyX = -modifier;
+                }
             }
         }
-        thisMob.getBody().setLinearVelocity(applyX, applyY);
 
+        //atira se estiver dentro da distancia e alinhado
+        if ((Math.abs(px - tx) < offset || Math.abs(py - ty) < offset)) {
+
+            this.thisMob.getAttackType().attack(State.SHOTING, getPlayerDirection());
+        }
+
+        thisMob.getBody().applyLinearImpulse(applyX, applyY, 0, 0, true);
+
+    }
+
+    private Direction getPlayerDirection() {
+
+        Mob player = thisMob.getEntityHandler().getPlayer();
+
+        float px = player.getBody().getWorldCenter().x;
+        float py = player.getBody().getWorldCenter().y;
+
+        float tx = thisMob.getBody().getWorldCenter().x;
+        float ty = thisMob.getBody().getWorldCenter().y;
+
+        //verifica pra onde a distancia é menor
+        if (Math.abs((px - tx)) < Math.abs(py - ty)) {
+            //modulo de y menor
+            if (py - ty > 0) {
+                //o player esta acima do mob
+                return Direction.N;
+            } else {
+                //o player esta abaixo do mob
+                return Direction.S;
+            }
+        } else {
+            if (px - tx > 0) {
+                //o player esta a direita do mob
+                return Direction.E;
+            } else {
+                //o player esta a esquerda do mob
+                return Direction.W;
+            }
+        }
     }
 
 }

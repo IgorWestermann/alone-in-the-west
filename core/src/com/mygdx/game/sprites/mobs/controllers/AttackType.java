@@ -4,9 +4,7 @@
  */
 package com.mygdx.game.sprites.mobs.controllers;
 
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
-import com.mygdx.game.sprites.mobs.Mob;
+import com.mygdx.game.constants.*;
 
 /**
  *
@@ -15,8 +13,11 @@ import com.mygdx.game.sprites.mobs.Mob;
 public interface AttackType {
     
     public void act(float dt);
+    public void attack(State state , Direction direction);
     public void setCooldown(float cooldown);
     public void setDelay(float delay);
+    public void setAttackModifier(float modifier);
+    public float getAttackMoidifier();
     public boolean isAttacking();
 
 

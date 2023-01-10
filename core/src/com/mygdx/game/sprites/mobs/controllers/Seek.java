@@ -5,6 +5,8 @@
 package com.mygdx.game.sprites.mobs.controllers;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.constants.Direction;
+import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.mobs.Mob;
 
@@ -25,31 +27,68 @@ public class Seek implements MovimentController {
 
         Mob player = thisMob.getEntityHandler().getPlayer();
 
-        float px = player.getBody().getWorldCenter().x;
-        float py = player.getBody().getWorldCenter().y;
+        int px = (int) player.getBody().getWorldCenter().x;
+        int py = (int) player.getBody().getWorldCenter().y;
 
-        float tx = thisMob.getBody().getWorldCenter().x;
-        float ty = thisMob.getBody().getWorldCenter().y;
+        int tx = (int) thisMob.getBody().getWorldCenter().x;
+        int ty = (int) thisMob.getBody().getWorldCenter().y;
 
         int applyX = 0;
         int applyY = 0;
 
         int speedModifier = 10;
 
-        if (px - tx > 0) {
+        if (px - tx > 5) {
             applyX = speedModifier;
-        } else {
+        } else if (px - tx < -5) {
             applyX = -speedModifier;
         }
 
-        if (py - ty > 0) {
+        if (py - ty > 5) {
             applyY = speedModifier;
-        } else {
+        } else if (py - ty < -5) {
             applyY = -speedModifier;
+        }
+
+        double squaredDistance = (((px - tx) * (px - tx)) + ((py - ty) * (py - ty)));
+
+        if (squaredDistance < thisMob.getBodyH() * thisMob.getBodyH()) {
+            this.thisMob.getAttackType().attack(State.SHOTING, getPlayerDirection());
         }
 
         thisMob.getBody().setLinearVelocity(applyX, applyY);
 
+    }
+
+    private Direction getPlayerDirection() {
+
+        Mob player = thisMob.getEntityHandler().getPlayer();
+
+        float px = player.getBody().getWorldCenter().x;
+        float py = player.getBody().getWorldCenter().y;
+
+        float tx = thisMob.getBody().getWorldCenter().x;
+        float ty = thisMob.getBody().getWorldCenter().y;
+
+        //verifica pra onde a distancia é menor
+        if (Math.abs((px - tx)) < Math.abs(py - ty)) {
+            //modulo de y menor
+            if (py - ty > 0) {
+                //o player esta acima do mob
+                return Direction.N;
+            } else {
+                //o player esta abaixo do mob
+                return Direction.S;
+            }
+        } else {
+            if (px - tx > 0) {
+                //o player esta a direita do mob
+                return Direction.E;
+            } else {
+                //o player esta a esquerda do mob
+                return Direction.W;
+            }
+        }
     }
 
 }

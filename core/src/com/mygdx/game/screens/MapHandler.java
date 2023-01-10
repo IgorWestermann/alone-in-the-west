@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.game.sprites.objects.Spawner;
 import com.mygdx.game.sprites.objects.Wall;
 
 /**
@@ -26,6 +27,8 @@ public class MapHandler {
     //variaveis de camera
     private OrthographicCamera cam;
     private FitViewport port;
+
+    private EntityHandler eh;
 
     //variaveis de mapa
     private final TmxMapLoader mapLoader;
@@ -54,19 +57,65 @@ public class MapHandler {
         world = new World(new Vector2(0, 0), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        this.loadCollisionBoxes();
+        //this.loadCollisionBoxes();
+        //this.loadSpawners();
     }
 
     public World getWorld() {
         return this.world;
     }
 
-    public void loadCollisionBoxes() {
+    public void loadCollisionBoxes(EntityHandler eh) {
 
         for (MapObject obj : map.getLayers().get("Collision").getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
-            new Wall(this, null, rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
-            
+            new Wall(this, eh, rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
+
+        }
+
+    }
+
+    public void loadSpawners(EntityHandler eh) {
+
+        try {
+            for (MapObject obj : map.getLayers().get("Spawner_Cactus").getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Spawner(this, eh, rect.getX(), rect.getY(), 10, 4, Spawner.enemyType.CACTUS, rect.getWidth(), rect.getHeight());
+
+            }
+        } catch (Exception e) {
+            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Cactus");
+        }
+
+        try {
+            for (MapObject obj : map.getLayers().get("Spawner_Coffin").getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Spawner(this, eh, rect.getX(), rect.getY(), 10, 4, Spawner.enemyType.COFFIN, rect.getWidth(), rect.getHeight());
+
+            }
+        } catch (Exception e) {
+            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Coffin");
+        }
+
+        try {
+            for (MapObject obj : map.getLayers().get("Spawner_Both").getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Spawner(this, eh, rect.getX(), rect.getY(), 10, 4, Spawner.enemyType.BOTH_EQUAL, rect.getWidth(), rect.getHeight());
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Both");
+        }
+
+        try {
+            for (MapObject obj : map.getLayers().get("Spawner_Random").getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Spawner(this, null, rect.getX(), rect.getY(), 10, 4, Spawner.enemyType.RAMDON, rect.getWidth(), rect.getHeight());
+
+            }
+        } catch (Exception e) {
+            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Random");
         }
 
     }

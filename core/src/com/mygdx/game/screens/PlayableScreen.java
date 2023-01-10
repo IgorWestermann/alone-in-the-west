@@ -5,6 +5,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,7 +38,7 @@ public class PlayableScreen implements Screen {
     //variavel de entidades
     private EntityHandler entityHandler;
     
-    private Spawner TESTESpawner;
+    private boolean isPause;
     
 
     public PlayableScreen(MyGdxGame game) {
@@ -54,8 +55,13 @@ public class PlayableScreen implements Screen {
         
         currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
         
-        TESTESpawner = new Spawner(currentMap, entityHandler, 40, 40, 40, 2, Spawner.enemyType.RAMDON);
+        currentMap.loadCollisionBoxes(entityHandler);
+        //currentMap.loadSpawners(entityHandler);
         
+        //TESTESpawner = new Spawner(currentMap, entityHandler, 40, 40, 10, 2, Spawner.enemyType.RAMDON);
+        
+        //new Cactus(currentMap, entityHandler , 20 , 20);
+        //new Coffin(currentMap, entityHandler, 20, 20);
     }
 
     //lembrar de criar ou utilizar uma classe propria pra lidar com os inputs
@@ -63,16 +69,25 @@ public class PlayableScreen implements Screen {
     //esse metodo reune atualizacao de objetos
     //porem o ideal e ser quebrado em categorias menores relativas
     public void update(float dt) {
+        
+        if(!isPause && Gdx.input.isKeyPressed(Input.Keys.P)){
+             pause();
+        }else if(isPause && Gdx.input.isKeyPressed(Input.Keys.P)){
+            resume();
+        }
+           
+        
+        if(isPause){
+            dt = 0;
+        }else{
+            cam.update();
 
-        TESTESpawner.update(dt);
-        
-        cam.update();
-        
-        currentMap.update(dt);
-        entityHandler.update(dt);
-        //camera segue o personagem
-        cam.position.x = entityHandler.getPlayer().getBody().getPosition().x;
-        cam.position.y = entityHandler.getPlayer().getBody().getPosition().y;
+            currentMap.update(dt);
+            entityHandler.update(dt);
+            //camera segue o personagem
+            cam.position.x = entityHandler.getPlayer().getBody().getPosition().x;
+            cam.position.y = entityHandler.getPlayer().getBody().getPosition().y;
+        }
     }
 
     @Override
@@ -92,8 +107,9 @@ public class PlayableScreen implements Screen {
         game.batch.setProjectionMatrix(cam.combined);
         //tudo que for ser desenhado precisa estar entre batch.begin() e batch.end()
         game.batch.begin();
-
+        
         entityHandler.draw(game.batch);
+        
         game.batch.end();
 
     }
@@ -107,21 +123,28 @@ public class PlayableScreen implements Screen {
     @Override
     public void pause() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        System.out.println("Pause");
+        this.isPause = true;
     }
 
     @Override
     public void resume() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        System.out.println("Unpause");
+        this.isPause = false;
     }
 
     @Override
     public void hide() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        pause();
     }
 
     @Override
     public void dispose() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
 }

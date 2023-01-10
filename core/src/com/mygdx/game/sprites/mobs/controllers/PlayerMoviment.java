@@ -6,6 +6,8 @@ package com.mygdx.game.sprites.mobs.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.constants.Direction;
 
 import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.MapHandler;
@@ -24,7 +26,6 @@ public class PlayerMoviment implements MovimentController {
 
         float applyX = 0;
         float applyY = 0;
-       
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             applyY = 50;
@@ -44,8 +45,28 @@ public class PlayerMoviment implements MovimentController {
         } else {
             applyX = 0;
         }
-        
+
+        float mobVX = mob.getBody().getLinearVelocity().x;
+        float mobVY = mob.getBody().getLinearVelocity().y;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            mob.getAttackType().attack(State.SHOTING, mob.getDirection());
+            System.out.println(mob.getAttackType().getAttackMoidifier());
+        }
+
         mob.getBody().setLinearVelocity(applyX, applyY);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            System.out.println("E");
+            mob.getBody().applyLinearImpulse(10000 * mobVX, 10000 * mobVY, 0, 0, true);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+            System.out.println("P");
+            
+            float pSpeed = mob.getAttackType().getAttackMoidifier();
+            mob.getAttackType().setAttackModifier(pSpeed + 20);
+        }
 
     }
 

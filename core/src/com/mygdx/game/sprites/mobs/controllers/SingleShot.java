@@ -28,7 +28,8 @@ public class SingleShot implements AttackType {
     private float timer = 0;
     private float cooldown = 0;
     private float delay = 0;
-    private int speedModifier = 100;
+    private float speedModifier = 1000000;
+    private int damage = 1;
     private boolean actionLock = false;
     private boolean didShoot = false;
     private Direction lockedDirecion;
@@ -38,10 +39,6 @@ public class SingleShot implements AttackType {
     private EntityHandler eh;
 
     private Mob thisMob;
-
-    public List<Projectile> getBullets() {
-        return bullets;
-    }
 
     private List<Projectile> bullets = new ArrayList<>();
 
@@ -53,31 +50,13 @@ public class SingleShot implements AttackType {
 
     @Override
     public void act(float dt) {
-        float px = thisMob.getEntityHandler().getPlayer().getBody().getWorldCenter().x;
-        float py = thisMob.getEntityHandler().getPlayer().getBody().getWorldCenter().y;
-        float ex = thisMob.getBody().getWorldCenter().x;
-        float ey = thisMob.getBody().getWorldCenter().y;
-
         if (actionLock) {
             if (timer > delay && !didShoot) {
                 didShoot = true;
-                new Projectile(mh, eh, this.thisMob, getProjectileDirection(mh, eh));
-
+                new Projectile(mh, eh, this.thisMob, getProjectileDirection() , this.damage);
             }
-            
             waitActionUnlock(dt);
-            
-        } else {
-            if (px - ex > 0 && py - ey > 0 && !thisMob.getMobType().equals("melee_enemy")) {
-                setActionLock(State.SHOTING, thisMob.getDirection());
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                if (!thisMob.getMobType().equals("melee_enemy")) {
-                        setActionLock(State.SHOTING, thisMob.getEntityHandler().getPlayer().getDirection());
-                }
-            }
         }
-
     }
 
     @Override
@@ -90,9 +69,9 @@ public class SingleShot implements AttackType {
         return thisMob.getAnimations().isCurrentAnimationFinished();
     }
 
-    private Vector2 getProjectileDirection(MapHandler mh, EntityHandler eh) {
+    private Vector2 getProjectileDirection() {
 
-        Direction d = thisMob.getDirection();
+        Direction d = lockedDirecion;
         float x = 0;
         float y = 0;
 
@@ -119,7 +98,7 @@ public class SingleShot implements AttackType {
 
     }
 
-    public void setActionLock(State state, Direction direction) {
+    public void attack(State state, Direction direction) {
 
         if (!actionLock && lockedDirecion == null && lockedState == null) {
             //System.out.println("Locked Single-Shot");
@@ -147,7 +126,17 @@ public class SingleShot implements AttackType {
 
     @Override
     public void setDelay(float f) {
-       this.delay = f;
+        this.delay = f;
+    }
+    
+    @Override
+    public void setAttackModifier(float speedModifier) {
+        this.speedModifier = speedModifier;
+    }
+
+    @Override
+    public float getAttackMoidifier() {
+       return this.speedModifier;
     }
 
 }
