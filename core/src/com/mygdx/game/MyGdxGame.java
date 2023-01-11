@@ -18,6 +18,8 @@ public class MyGdxGame extends Game {
 		batch = new SpriteBatch();
                 setScreen(new MenuScreen(this));
 	}
+        
+        
 
 	@Override
 	public void render () {

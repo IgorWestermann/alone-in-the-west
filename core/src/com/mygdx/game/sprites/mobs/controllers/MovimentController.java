@@ -5,7 +5,6 @@
 package com.mygdx.game.sprites.mobs.controllers;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.*;
 import com.mygdx.game.sprites.mobs.*;
 

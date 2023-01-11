@@ -61,8 +61,8 @@ public class ScoreScreen implements Screen {
     @Override
     public void show() {
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
-        this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
+        this.light = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
 
         viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport);
@@ -96,6 +96,7 @@ public class ScoreScreen implements Screen {
         outerContainer.align(1).center();
 
         Array<Pair<String, Integer>> array = readCSVData();
+        
 
         for (Pair p : array) {
             addEntry(p);

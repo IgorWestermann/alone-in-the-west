@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.screens;
+package com.mygdx.game.sprites.mobs.controllers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -42,7 +42,7 @@ public class MapHandler {
 
     //variaveis de colisao
     private final World world;
-    private final Box2DDebugRenderer box2DDebugRenderer;
+   // private final Box2DDebugRenderer box2DDebugRenderer;
 
     private final Set<Spawner> spawenersSet;
 
@@ -62,7 +62,7 @@ public class MapHandler {
         //este vector2 e um vetor responsavel pela gravidade
         //o segundo parametro sinaliza para nao calcular objetos em descanso
         world = new World(new Vector2(0, 0), true);
-        box2DDebugRenderer = new Box2DDebugRenderer();
+        //box2DDebugRenderer = new Box2DDebugRenderer();
         this.spawenersSet = new HashSet<>();
         //this.loadCollisionBoxes();
         //this.loadSpawners();
@@ -176,7 +176,7 @@ public class MapHandler {
     public void render(float dt) {
         mapRenderer.render();
         //esse metodo desenha as collision boxes do mapa
-        box2DDebugRenderer.render(world, cam.combined);
+        //box2DDebugRenderer.render(world, cam.combined);
     }
 
     public void dispose() {
@@ -185,6 +185,6 @@ public class MapHandler {
         mapRenderer.dispose();
         //variaveis de colisao
         world.dispose();
-        box2DDebugRenderer.dispose();
+        //box2DDebugRenderer.dispose();
     }
 }

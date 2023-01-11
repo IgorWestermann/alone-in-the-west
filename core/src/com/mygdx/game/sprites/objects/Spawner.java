@@ -4,6 +4,8 @@
  */
 package com.mygdx.game.sprites.objects;
 
+import com.mygdx.game.sprites.mobs.controllers.EntityHandler;
+import com.mygdx.game.sprites.mobs.controllers.MapHandler;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;

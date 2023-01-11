@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.screens;
+package com.mygdx.game.sprites.mobs.controllers;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.sprites.mobs.controllers.MapHandler;
 import com.mygdx.game.screens.PlayableScreen;
 import com.mygdx.game.sprites.Entity;
 import com.mygdx.game.sprites.mobs.*;

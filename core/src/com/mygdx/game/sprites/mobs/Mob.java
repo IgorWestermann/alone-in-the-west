@@ -6,8 +6,8 @@ package com.mygdx.game.sprites.mobs;
 
 import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.State;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.sprites.mobs.controllers.EntityHandler;
+import com.mygdx.game.sprites.mobs.controllers.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
 import com.mygdx.game.sprites.Entity;
 import com.mygdx.game.sprites.mobs.controllers.MovimentController;
@@ -188,11 +188,11 @@ public abstract class Mob extends Entity {
 
         this.health -= value;
 
-        //System.out.println(this + " " + this.health);
+        System.out.println(this + " " + this.health);
 
-        if (this.health <= 0) {
-            System.out.println(this + " to die");
-            setActionLock(State.IDLE, Direction.S);
+        if (this.health <= 0 && !triggerDeath) {
+            //System.out.println(this + " to die");
+            setActionLock(State.DYING, Direction.ALL);
             this.animations.overrideAnimation(State.DYING, Direction.ALL);
             triggerDeath = true;
         }

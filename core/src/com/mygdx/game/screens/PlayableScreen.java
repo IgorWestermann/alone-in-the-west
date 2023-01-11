@@ -4,6 +4,9 @@
  */
 package com.mygdx.game.screens;
 
+import com.mygdx.game.sprites.mobs.controllers.EntityHandler;
+import com.mygdx.game.sprites.mobs.controllers.CollisionListener;
+import com.mygdx.game.sprites.mobs.controllers.MapHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -64,6 +67,7 @@ public class PlayableScreen implements Screen {
     private boolean isroundEnded;
     private final TextureAtlas atlas;
     private Window pause;
+    private final Hud hud;
 
     public PlayableScreen(MyGdxGame game, String mapName) {
         this.game = game;
@@ -83,6 +87,8 @@ public class PlayableScreen implements Screen {
         currentMap.getWorld().setContactListener(new CollisionListener(map1, entityHandler));
         currentMap.loadCollisionBoxes(entityHandler);
         currentMap.loadSpawners(entityHandler);
+        
+        hud = new Hud(this.entityHandler.getPlayer(), this.game.batch);
 
         this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
@@ -199,6 +205,7 @@ public class PlayableScreen implements Screen {
 
     public void update(float dt) {
 
+        
         vefifyEnd();
         checkPlayerDeath();
 
@@ -222,6 +229,11 @@ public class PlayableScreen implements Screen {
             currentMap.update(dt);
             entityHandler.update(dt);
             //camera segue o personagem
+            
+            
+
+            
+            
             cam.position.x = entityHandler.getPlayer().getBody().getPosition().x;
             cam.position.y = entityHandler.getPlayer().getBody().getPosition().y;
         }
@@ -251,6 +263,9 @@ public class PlayableScreen implements Screen {
 
             stage.draw();
         }
+        
+        hud.update(f);
+        
     }
 
     @Override

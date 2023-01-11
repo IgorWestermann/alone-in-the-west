@@ -11,7 +11,6 @@ import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.GlobalConfig;
 
 import com.mygdx.game.constants.State;
-import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.Projectile;
 import com.mygdx.game.sprites.mobs.Mob;
 import com.mygdx.game.sprites.mobs.controllers.MovimentController;

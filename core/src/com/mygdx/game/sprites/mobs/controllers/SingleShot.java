@@ -11,8 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.State;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.Projectile;
 import com.mygdx.game.sprites.mobs.Mob;
 

@@ -69,8 +69,8 @@ public class Settings implements Screen {
     @Override
     public void show() {
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
-        this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
+        this.light = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
 
         viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport);
@@ -264,11 +264,7 @@ public class Settings implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        mainTable.setClip(true);
-        mainTable.setFillParent(true);
-        mainTable.setTransform(true);
-        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
-
+     
         updateValue();
 
 

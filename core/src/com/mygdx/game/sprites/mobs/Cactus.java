@@ -4,7 +4,7 @@
  */
 package com.mygdx.game.sprites.mobs;
 
-import com.mygdx.game.sprites.CollisionCategories;
+import com.mygdx.game.constants.CollisionCategories;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,8 +12,8 @@ import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.constants.Pair;
 import com.mygdx.game.constants.State;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.sprites.mobs.controllers.EntityHandler;
+import com.mygdx.game.sprites.mobs.controllers.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
 import com.mygdx.game.sprites.mobs.controllers.MovimentController;
 import com.mygdx.game.sprites.mobs.controllers.SeekAndAvoid;
