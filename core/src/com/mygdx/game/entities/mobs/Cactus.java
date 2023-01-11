@@ -32,7 +32,8 @@ public class Cactus extends Mob {
                 new short[]{
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.PLAYER_PROJECTILE,
-                    CollisionCategories.ENEMY_BODY,});
+                    CollisionCategories.ENEMY_BODY,
+                    CollisionCategories.WALL});
 
         this.mController = (MovimentController) new SeekAndAvoid(this);
         this.attackType = new SingleShot(this);
@@ -44,19 +45,27 @@ public class Cactus extends Mob {
                 new short[]{
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.PLAYER_PROJECTILE,
-                    CollisionCategories.ENEMY_BODY,}
-        , startX, startY);
+                    CollisionCategories.ENEMY_BODY,
+                    CollisionCategories.WALL,
+                },
+                startX, startY
+        );
 
-        this.mController = (MovimentController) new Seek(this);
+        this.mController = (MovimentController) new SeekAndAvoid(this);
+
         this.attackType = new SingleShot(this);
-        this.setMobType("ranged_enemy");
-        attackType.setDelay(0.5f);
+
+        attackType.setDelay(
+                0.5f);
     }
 
     @Override
     protected void defineThisBody(float x, float y) {
 
-        createBoxCollisionBody(6, 9, BodyDef.BodyType.DynamicBody, x, y, 0.5f);
+        this.bodyW = 12;
+        this.bodyH = 18;
+
+        createBoxCollisionBody(bodyW / 2, bodyH / 2, BodyDef.BodyType.DynamicBody, x, y, 0.5f);
 
         //inicializa a sprite olhando pro sul
         lastDirection = Direction.S;
@@ -109,21 +118,21 @@ public class Cactus extends Mob {
         float xVel = super.body.getLinearVelocity().x;
         float yVel = super.body.getLinearVelocity().y;
 
-            if (xVel > 0) {
-                lastDirection = Direction.E;
-                return Direction.E;
-            } else if (xVel < 0) {
-                lastDirection = Direction.W;
-                return Direction.W;
-            }
-            if (yVel > 0) {
-                lastDirection = Direction.N;
-                return Direction.N;
+        //System.out.println("Cactus " + xVel + " <> " + yVel);
+        if (xVel > 0) {
+            lastDirection = Direction.E;
+            return Direction.E;
+        } else if (xVel < 0) {
+            lastDirection = Direction.W;
+            return Direction.W;
+        } else if (yVel > 0) {
+            lastDirection = Direction.N;
+            return Direction.N;
 
-            } else if (yVel < 0) {
-                lastDirection = Direction.S;
-                return Direction.S;
-            }
+        } else if (yVel < 0) {
+            lastDirection = Direction.S;
+            return Direction.S;
+        }
         //}
 
         return lastDirection;

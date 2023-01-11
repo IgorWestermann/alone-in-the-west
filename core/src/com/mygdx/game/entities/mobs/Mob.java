@@ -19,7 +19,6 @@ import java.util.List;
  *
  * @author Hugo
  */
-
 public abstract class Mob extends Entity {
 
     protected State currentState;
@@ -62,7 +61,6 @@ public abstract class Mob extends Entity {
     private int health = 2;
 
     // protected Body feet;
-
     public Mob(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
         super(mapHandler, entityHandler, category, collidesWith);
         this.currentState = State.IDLE;
@@ -140,8 +138,21 @@ public abstract class Mob extends Entity {
         } else {
             return lockedState;
         }
-
     }
+
+    public AttackType getAttackType() {
+        return attackType;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    private int health = 2;
 
     private void movimentClamp() {
         float x = this.body.getLinearVelocity().x;
@@ -176,6 +187,9 @@ public abstract class Mob extends Entity {
 
     public void hitted(){
 
+
+    public void hitted() {
+
         setActionLock(State.HIT, this.getDirection());
 
         this.health--;
@@ -189,8 +203,8 @@ public abstract class Mob extends Entity {
         }
     }
 
-    private void verifyDeath(float dt){
-        if(triggerDeath && this.animations.isCurrentAnimationFinished()){
+    private void verifyDeath(float dt) {
+        if (triggerDeath && this.animations.isCurrentAnimationFinished()) {
             super.setSelfDestruct();
         }
     }

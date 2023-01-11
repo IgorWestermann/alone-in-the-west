@@ -23,6 +23,8 @@ public abstract class Entity extends Sprite {
     protected MapHandler mapHandler;
     protected EntityHandler entityHandler;
     protected Body body;
+    protected float bodyW;
+    protected float bodyH;
 
     protected float boxXOffset = 0;
     protected float boxYOffset = 0;
@@ -49,6 +51,14 @@ public abstract class Entity extends Sprite {
         setCollidesWith(collidesWith);
     }
 
+    public float getBodyW() {
+        return bodyW;
+    }
+
+    public float getBodyH() {
+        return bodyH;
+    }
+
     public short getMyCategory() {
         return myCategory;
     }
@@ -56,8 +66,8 @@ public abstract class Entity extends Sprite {
     public boolean isToSelfDestruct() {
         return toSelfDestruct;
     }
-    
-    protected void setSelfDestruct(){
+
+    protected void setSelfDestruct() {
         this.toSelfDestruct = true;
     }
 
@@ -89,11 +99,11 @@ public abstract class Entity extends Sprite {
 
     protected void createBoxCollisionBody(float boxW, float boxH, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
 
-        System.out.println("Creating" + this.toString());
-        System.out.println("Width" + boxW);
-        System.out.println("Heigh" + boxH);
-        System.out.println("Inicial X " + inicialX);
-        System.out.println("Inicial Y " + inicialY);
+        //System.out.println("Creating" + this.toString());
+        //System.out.println("Width" + boxW);
+        //System.out.println("Heigh" + boxH);
+        //System.out.println("Inicial X " + inicialX);
+        //System.out.println("Inicial Y " + inicialY);
 
         BodyDef bdef = new BodyDef();
         //cria a definicao do corpo fisico
@@ -114,6 +124,42 @@ public abstract class Entity extends Sprite {
         fdef.shape = shape;
         fdef.filter.categoryBits = myCategory;
         fdef.filter.maskBits = collidesWith;
+
+        body.createFixture(fdef);
+        body.setUserData(this);
+
+        //aqui esta uma especie de atrito que o corpo sofre
+        body.setLinearDamping(dumping);
+    }
+    
+    protected void createBoxSensorBody(float boxW, float boxH, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
+
+        //System.out.println("Creating" + this.toString());
+        //System.out.println("Width" + boxW);
+        //System.out.println("Heigh" + boxH);
+        //System.out.println("Inicial X " + inicialX);
+        //System.out.println("Inicial Y " + inicialY);
+
+        BodyDef bdef = new BodyDef();
+        //cria a definicao do corpo fisico
+
+        bdef.position.set(inicialX, inicialY);
+        bdef.type = type;
+
+        //adiciona o corpo ao mundo
+        this.body = this.mapHandler.getWorld().createBody(bdef);
+
+        //definicoes de fixture e formato
+        FixtureDef fdef = new FixtureDef();
+
+        //shape da collisionBox
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(boxW, boxH);
+
+        fdef.shape = shape;
+        fdef.filter.categoryBits = myCategory;
+        fdef.filter.maskBits = collidesWith;
+        fdef.isSensor = true;
 
         body.createFixture(fdef);
         body.setUserData(this);

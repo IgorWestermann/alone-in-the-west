@@ -56,6 +56,34 @@ public class AnimationHandler {
         sheets = new HashMap<>();
         currentAnimationFinished = false;
     }
+    
+    public void changeAnimationSpeed(State s , float time){
+        
+        for(Map sheet : sheets.values()){
+            Animation a = (Animation) sheet.get(stateDictionary.get(s));
+            System.out.println(a);
+            System.out.println(a.getFrameDuration());
+            
+            a.setFrameDuration(time);
+        }
+    }
+    
+    public float getAnimationFrameDuration(State s){
+        int totalSheets = 0;
+        float totalTime = 0;
+         for(Map sheet : sheets.values()){
+            totalSheets++ ;
+            Animation a = (Animation) sheet.get(stateDictionary.get(s));
+            
+            return a.getFrameDuration();
+            
+            //totalTime += a.getFrameDuration();
+        }
+         
+         return -1;
+         
+         //return totalTime/totalSheets;
+    }
 
     public void buildAnimationsBySpriteList(String rootPath, String[] spriteNames, int frameW, int frameH, int[] framesPerAction, Animation.PlayMode[] modes) {
 

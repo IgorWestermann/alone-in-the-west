@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mygdx.game.entities.mobs;
+package com.mygdx.game.sprites.mobs;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,9 +12,11 @@ import com.mygdx.game.screens.EntityHandler;
 import com.mygdx.game.screens.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
 import com.mygdx.game.sprites.CollisionCategories;
-import com.mygdx.game.controllers.interfaces.MovimentController;
-import com.mygdx.game.controllers.Seek;
-import com.mygdx.game.controllers.SingleShot;
+import com.mygdx.game.sprites.mobs.controllers.Melee;
+import com.mygdx.game.sprites.mobs.controllers.MovimentController;
+import com.mygdx.game.sprites.mobs.controllers.SeekAndAvoid;
+import com.mygdx.game.sprites.mobs.controllers.Seek;
+import com.mygdx.game.sprites.mobs.controllers.SingleShot;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,15 +50,17 @@ public class Coffin extends Mob {
                 startX, startY);
 
         this.mController = (MovimentController) new Seek(this);
-        this.attackType = new SingleShot(this);
-        this.setMobType("melee_enemy");
+        this.attackType = new Melee(this);
         attackType.setDelay(0.5f);
     }
 
     @Override
     protected void defineThisBody(float x, float y) {
-
-        createBoxCollisionBody(8, 12, BodyDef.BodyType.DynamicBody, x, y, 0.5f);
+        
+        this.bodyW = 16;
+        this.bodyH = 24;
+        
+        createBoxCollisionBody(bodyW/2, bodyH/2, BodyDef.BodyType.DynamicBody, x, y, 0.5f);
 
         //inicializa a sprite olhando pro sul
         lastDirection = Direction.S;
@@ -106,6 +110,7 @@ public class Coffin extends Mob {
     public Direction getDirection() {
         float xVel = super.body.getLinearVelocity().x;
         float yVel = super.body.getLinearVelocity().y;
+        
 
         if (xVel > 0) {
             lastDirection = Direction.E;
