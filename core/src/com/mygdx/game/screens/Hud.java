@@ -46,9 +46,8 @@ public class Hud {
     }
 
     public void update() {
-        if (this.player.getHealth() != this.playerHealth.size() && this.playerHealth.size() > 0) {
+        if (this.player.isHit() && this.playerHealth.size() > 0) {
             table.removeActor(this.playerHealth.get(player.getHealth()));
-            this.playerHealth.remove(0);
         }
         stage.draw();
     }
