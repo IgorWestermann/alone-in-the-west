@@ -2,7 +2,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.constants.State;
 import com.mygdx.game.controllers.Entity;
 import com.mygdx.game.sprites.*;
 import com.mygdx.game.entities.mobs.*;
@@ -60,7 +59,6 @@ public class CollisionListener implements ContactListener {
         } else if (b.getBody().getUserData() instanceof Projectile && a.getBody().getUserData() instanceof Mob) {
             projectile = b;
             hit = a;
-            System.out.println("hit: " + ((Mob) a.getBody().getUserData()).getHealth());
         } else {
             return;
         }

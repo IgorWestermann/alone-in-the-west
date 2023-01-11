@@ -98,7 +98,6 @@ public class MenuScreen implements Screen {
         mainTable = new Table();
         mainTable.setClip(true);
         mainTable.setFillParent(true);
-        mainTable.debug();
         mainTable.center();
         mainTable.align(1);
         mainTable.setBackground(new TextureRegionDrawable(new Texture("UI/background.png")));
