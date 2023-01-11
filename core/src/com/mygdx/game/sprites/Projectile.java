@@ -22,9 +22,11 @@ public class Projectile extends Entity {
 
     private TextureRegion texture;
     private Mob sourceMob;
-    private int damage;
+    private final int damage;
+    
+    
 
-    public Projectile(MapHandler mapHandler, EntityHandler entityHandler, Mob sourceMob, Vector2 direction , int damage) {
+    public Projectile(MapHandler mapHandler, EntityHandler entityHandler, Mob sourceMob, Vector2 direction) {
 
         super(mapHandler, entityHandler, sourceMob.getMyCategory() == CollisionCategories.PLAYER_BODY ? CollisionCategories.PLAYER_PROJECTILE : CollisionCategories.ENEMY_PROJECTILE,
                 new short[]{
@@ -37,7 +39,7 @@ public class Projectile extends Entity {
         float x = sourceMob.getBody().getWorldCenter().x;
         float y = sourceMob.getBody().getWorldCenter().y;
         
-        this.damage = damage;
+        this.damage = sourceMob.getAttackDamage();
 
         defineThisBody(x, y);
         entityHandler.watchEntity(this);
@@ -46,6 +48,10 @@ public class Projectile extends Entity {
         this.body.setLinearDamping(0);
         this.body.applyLinearImpulse(direction , new Vector2(0,0) , true);
 
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     protected void defineThisBody(float x, float y) {
@@ -90,10 +96,6 @@ public class Projectile extends Entity {
 
     @Override
     public void update(float f) {
-        
-        System.out.println(this.getBody().getLinearVelocity().x);
-        
-        System.out.println(this.getBody().getLinearVelocity().y);
         
         super.setPosition((body.getPosition().x - super.getWidth()/2) + boxXOffset, (body.getPosition().y - super.getHeight()/2) + boxYOffset);
         super.setRegion(getFrame(f));

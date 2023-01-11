@@ -29,8 +29,12 @@ public class Coffin extends Mob {
                     CollisionCategories.ENEMY_BODY,
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.PLAYER_PROJECTILE,
-                    CollisionCategories.WALL,}, 8 , 12
+                    CollisionCategories.WALL,}, 8, 12
         );
+
+        this.setAttackDamage(GlobalConfig.CoffinDamageModifier);
+        this.setSpeedModifier(GlobalConfig.CoffinSpeedModifier);
+        this.setHealth(GlobalConfig.CoffinHealth);
 
         this.mController = (MovimentController) new Seek(this);
         this.attackType  = new SingleShot(this);
@@ -53,11 +57,11 @@ public class Coffin extends Mob {
 
     @Override
     protected void defineThisBody(float x, float y) {
-        
+
         this.bodyW = 16;
         this.bodyH = 24;
-        
-        createBoxCollisionBody(bodyW/2, bodyH/2, BodyDef.BodyType.DynamicBody, x, y, 0.5f);
+
+        createBoxCollisionBody(bodyW / 2, bodyH / 2, BodyDef.BodyType.DynamicBody, x, y, 0.5f);
 
         //inicializa a sprite olhando pro sul
         lastDirection = Direction.S;
@@ -107,7 +111,6 @@ public class Coffin extends Mob {
     public Direction getDirection() {
         float xVel = super.body.getLinearVelocity().x;
         float yVel = super.body.getLinearVelocity().y;
-        
 
         if (xVel > 0) {
             lastDirection = Direction.E;

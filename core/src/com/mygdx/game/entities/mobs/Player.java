@@ -30,7 +30,12 @@ public class Player extends Mob {
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.ENEMY_PROJECTILE,
                     CollisionCategories.WALL,
+                    CollisionCategories.ENEMY_PROJECTILE, //CollisionCategories.WALL,
                 });
+
+        this.setAttackDamage(GlobalConfig.PlayerDamageModifier);
+        this.setSpeedModifier(GlobalConfig.PlayerSpeedModifier);
+        this.setHealth(GlobalConfig.PlayerHealth);
 
         this.setMobType("Player");
         this.mController = new PlayerMoviment();
@@ -49,15 +54,17 @@ public class Player extends Mob {
             CollisionCategories.ENEMY_BODY,
             CollisionCategories.PLAYER_BODY,
             CollisionCategories.ENEMY_PROJECTILE,
-            //CollisionCategories.WALL,
-        }, startX, startY);
+            CollisionCategories.WALL,}, startX, startY);
+
+        this.setAttackDamage(GlobalConfig.PlayerDamageModifier);
+        this.setSpeedModifier(GlobalConfig.PlayerSpeedModifier);
+        this.setHealth(GlobalConfig.PlayerHealth);
 
         this.setMobType("Player");
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
 
         this.setHealth(5);
-
     }
 
     @Override
@@ -117,7 +124,7 @@ public class Player extends Mob {
         this.bodyW = 12;
         this.bodyH = 22;
 
-        createBoxCollisionBody(bodyW/2, bodyH/2 , BodyDef.BodyType.DynamicBody, startX, startX, 0.5f);
+        createBoxCollisionBody(bodyW / 2, bodyH / 2, BodyDef.BodyType.DynamicBody, startX, startX, 0.5f);
 
         //inicializa a sprite olhando pro sul
         lastDirection = Direction.S;

@@ -64,6 +64,34 @@ public abstract class Mob extends Entity {
     private List<Integer> life = new ArrayList<>();
 
     // protected Body feet;
+    private int attackDamage = 0;
+    private int speedModifier = 0 ;
+    private int attackSpeed = 0 ;
+
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public int getSpeedModifier() {
+        return speedModifier;
+    }
+
+    public void setSpeedModifier(int speedModifier) {
+        this.speedModifier = speedModifier;
+    }
+
+    public int getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public void setAttackSpeed(int attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
     public Mob(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
         super(mapHandler, entityHandler, category, collidesWith);
         this.currentState = State.IDLE;
@@ -174,17 +202,18 @@ public abstract class Mob extends Entity {
 
     }
 
-    public void hitted() {
+    public void hitted(int value) {
 
         setActionLock(State.HIT, this.getDirection());
 
-        this.health--;
+        this.health-=value;
 
         System.out.println(this + " " + this.health);
 
-        if(this.health < 0 ){
+        if(this.health <= 0 ){
             System.out.println(this + " to die");
             setActionLock(State.IDLE, Direction.S);
+            this.animations.overrideAnimation(State.IDLE, Direction.S);
             triggerDeath = true;
         }
     }

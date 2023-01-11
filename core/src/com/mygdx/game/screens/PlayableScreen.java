@@ -36,14 +36,21 @@ public class PlayableScreen implements Screen {
 
     private boolean isPause;
     private Hud hud;
+    private boolean isroundEnded;
 
-    public PlayableScreen(MyGdxGame game) {
+
+    public PlayableScreen(MyGdxGame game , String mapName) {
         this.game = game;
         cam = new OrthographicCamera();
         //viewport e usado pra manter a proporcao da tela
         port = new FitViewport(W_WIDTH, W_HEIGHT, cam);
+        isPause = false;
+        isroundEnded = false;
 
-        MapHandler map1 = new MapHandler(port, cam, "mapa1.tmx");
+
+        MapHandler map1 = new MapHandler(port, cam, "Maps/mapa1.tmx");
+
+
         currentMap = map1;
 
         entityHandler = new EntityHandler(currentMap);
@@ -51,9 +58,13 @@ public class PlayableScreen implements Screen {
 
         currentMap.getWorld().setContactListener(new CollisionListener(map1, entityHandler));
         hud = new Hud(entityHandler.getPlayer(), game.batch);
-
         currentMap.loadCollisionBoxes(entityHandler);
         currentMap.loadSpawners(entityHandler);
+
+        currentMap.loadSpawners(entityHandler);
+
+        new Coffin(map1, entityHandler, 40, 40);
+        new Cactus(map1, entityHandler, 60 , 60);
 
     }
 
@@ -61,8 +72,16 @@ public class PlayableScreen implements Screen {
     //esta esta sendo utilizada para testes
     //esse metodo reune atualizacao de objetos
     //porem o ideal e ser quebrado em categorias menores relativas
-    public void update(float dt) {
 
+    private void vefifyEnd(){
+        if(this.entityHandler.vefityMobsEnded() && this.currentMap.verifySpawnersEnded()){
+            this.isroundEnded = true;
+            this.isPause = true;
+        }
+    }
+
+    public void update(float dt) {
+vefifyEnd();
         if (!isPause && Gdx.input.isKeyPressed(Input.Keys.P)) {
             pause();
         } else if (isPause && Gdx.input.isKeyPressed(Input.Keys.P)) {

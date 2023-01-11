@@ -18,10 +18,12 @@ import com.mygdx.game.entities.mobs.Mob;
  * @author Hugo
  */
 public class MeleeHitbox extends Entity {
+
     private TextureRegion texture;
     private Mob sourceMob;
-    private float selfDestructTimer = 0 ;
+    private float selfDestructTimer = 0;
     private float selfDestructLimit = 0.5f;
+    private final int damage;
 
     public MeleeHitbox(MapHandler mapHandler, EntityHandler entityHandler, Mob sourceMob, Vector2 direction) {
 
@@ -32,16 +34,17 @@ public class MeleeHitbox extends Entity {
         );
 
         this.sourceMob = sourceMob;
+        this.damage = sourceMob.getAttackDamage();
 
-        defineThisBody(direction.x ,direction.y);
-        
+        defineThisBody(direction.x, direction.y);
+
         entityHandler.watchEntity(this);
 
     }
-    
+
     protected void defineThisBody(float x, float y) {
-        this.texture = new TextureRegion(new Texture("debugTexture.png"));
-        super.createBoxSensorBody(sourceMob.getBodyW()/2, sourceMob.getBodyW()/2, BodyDef.BodyType.KinematicBody, x, y, 0);
+        this.texture = new TextureRegion(new Texture("Buildings/debugTexture.png"));
+        super.createBoxSensorBody(sourceMob.getBodyW() / 2, sourceMob.getBodyW() / 2, BodyDef.BodyType.KinematicBody, x, y, 0);
     }
 
     @Override
@@ -49,13 +52,17 @@ public class MeleeHitbox extends Entity {
         return texture;
     }
 
+    public int getDamage() {
+        return damage;
+    }
+
     @Override
     public void update(float f) {
 
-        if(selfDestructTimer > selfDestructLimit){
+        if (selfDestructTimer > selfDestructLimit) {
             this.toSelfDestruct = true;
         }
-        selfDestructTimer+=f;
+        selfDestructTimer += f;
         super.setPosition((body.getPosition().x - super.getWidth() / 2) + boxXOffset, (body.getPosition().y - super.getHeight() / 2) + boxYOffset);
         super.setRegion(getFrame(f));
     }

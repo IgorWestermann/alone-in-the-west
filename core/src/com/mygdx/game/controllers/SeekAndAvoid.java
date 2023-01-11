@@ -5,6 +5,7 @@
 package com.mygdx.game.controllers;
 
 import com.mygdx.game.constants.Direction;
+import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.constants.State;
 import com.mygdx.game.controllers.interfaces.MovimentController;
 import com.mygdx.game.entities.mobs.Mob;
@@ -38,8 +39,8 @@ public class SeekAndAvoid implements MovimentController {
         float maxDistance = 70;
         float offset = 20;
 
-        int modifier = 5;
-        int limit = 40;
+        int modifier = GlobalConfig.CactusSpeedModifier;
+        int limit = GlobalConfig.SpeedLimit;
 
         double squareDistance = ((px - tx) * (px - tx)) + ((py - ty) * (py - ty));
 
@@ -90,16 +91,16 @@ public class SeekAndAvoid implements MovimentController {
             //System.out.println("Alinhando pra atirar");
             if (Math.abs((px - tx)) > Math.abs(py - ty)) {
                 //alinha em y
-                if (py - ty > 0) {
+                if (py - ty > 0 && thisMob.getBody().getLinearVelocity().y < limit) {
                     applyY = modifier;
-                } else {
+                } else if(py - ty < 0 && thisMob.getBody().getLinearVelocity().y > -limit){
                     applyY = -modifier;
                 }
             } else {
                 //alinha em x
-                if (px - tx > 0) {
+                if (px - tx > 0 && thisMob.getBody().getLinearVelocity().x < limit) {
                     applyX = modifier;
-                } else {
+                } else if(px - tx < 0 && thisMob.getBody().getLinearVelocity().x > -limit){
                     applyX = -modifier;
                 }
             }
@@ -111,7 +112,7 @@ public class SeekAndAvoid implements MovimentController {
             this.thisMob.getAttackType().attack(State.SHOTING, getPlayerDirection());
         }
 
-        thisMob.getBody().applyLinearImpulse(applyX, applyY, 0, 0, true);
+        thisMob.getBody().setLinearVelocity(applyX, applyY);
 
     }
 
