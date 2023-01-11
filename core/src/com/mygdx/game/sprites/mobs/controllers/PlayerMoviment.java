@@ -31,19 +31,19 @@ public class PlayerMoviment implements MovimentController {
         float mobVX = mob.getBody().getLinearVelocity().x;
         float mobVY = mob.getBody().getLinearVelocity().y;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && mobVY < GlobalConfig.SpeedLimit) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             applyY += GlobalConfig.PlayerSpeedModifier;
 
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && mobVY > - GlobalConfig.SpeedLimit) {
-            applyY = -GlobalConfig.PlayerSpeedModifier;
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            applyY += -GlobalConfig.PlayerSpeedModifier;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && mobVX < GlobalConfig.SpeedLimit) {
-            applyX = GlobalConfig.PlayerSpeedModifier;
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            applyX += GlobalConfig.PlayerSpeedModifier;
 
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && mobVX > - GlobalConfig.SpeedLimit) {
-            applyX = -GlobalConfig.PlayerSpeedModifier;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            applyX += -GlobalConfig.PlayerSpeedModifier;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {

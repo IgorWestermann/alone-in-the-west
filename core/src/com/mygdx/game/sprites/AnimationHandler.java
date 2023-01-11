@@ -57,6 +57,19 @@ public class AnimationHandler {
         currentAnimationFinished = false;
     }
 
+    public float getAnimationDuration(State s) {
+
+        float duration = 0;
+
+        for (Map sheet : sheets.values()) {
+            Animation a = (Animation) sheet.get(stateDictionary.get(s));
+            duration = a.getAnimationDuration();
+        }
+
+        return duration;
+
+    }
+
     public void changeAnimationSpeed(State s, float time) {
 
         for (Map sheet : sheets.values()) {
@@ -71,12 +84,10 @@ public class AnimationHandler {
         for (Map sheet : sheets.values()) {
             totalSheets++;
             Animation a = (Animation) sheet.get(stateDictionary.get(s));
-
             return a.getFrameDuration();
 
             //totalTime += a.getFrameDuration();
         }
-
         return -1;
 
         //return totalTime/totalSheets;
@@ -177,7 +188,7 @@ public class AnimationHandler {
     }
 
     public void overrideAnimation(State s, Direction d) {
-         //System.out.println("Animation Locked");
+        //System.out.println("Animation Locked");
         this.timer = 0;
         this.lockedState = s;
         this.lockedDirecion = d;

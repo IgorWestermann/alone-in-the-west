@@ -44,64 +44,70 @@ public class SeekAndAvoid implements MovimentController {
 
         double squareDistance = ((px - tx) * (px - tx)) + ((py - ty) * (py - ty));
 
-        if (Math.abs(px - tx) < maxDistance - offset && Math.abs(py - ty) < maxDistance - offset ) {
+        if (Math.abs(px - tx) < maxDistance - offset && Math.abs(py - ty) < maxDistance - offset) {
             //foge
             //verifica a menor distancia
             //System.out.println("Fugindo");
             if (Math.abs((px - tx)) > Math.abs(py - ty)) {
                 //se modulo de x maior  
                 //foge pra y
-                if (py - ty > 0 && thisMob.getBody().getLinearVelocity().y > -limit) {
-                    applyY = -modifier;
-                } else if (py - ty < 0 && thisMob.getBody().getLinearVelocity().y < limit) {
-                    applyY = modifier;
+                if (py - ty > 0) {
+                    applyY += -modifier;
+                }
+                if (py - ty < 0) {
+                    applyY += modifier;
                 }
             } else {
                 //se modulo de y maior
                 //foge pra x
-                if (px - tx > 0 && thisMob.getBody().getLinearVelocity().x > -limit) {
-                    applyX = -modifier;
-                } else if (px - tx < 0 && thisMob.getBody().getLinearVelocity().x < limit) {
-                    applyX = modifier;
+                if (px - tx > 0) {
+                    applyX += -modifier;
+                }
+                if (px - tx < 0) {
+                    applyX += modifier;
                 }
             }
-        } else if (Math.abs(px - tx) > maxDistance + offset || Math.abs(py - ty) > maxDistance + offset ) {
+        } else if (Math.abs(px - tx) > maxDistance + offset || Math.abs(py - ty) > maxDistance + offset) {
             //se esta fora da distancia de fuga
-            
+
             //System.out.println("Seguindo");
-             if (Math.abs((px - tx)) > Math.abs(py - ty)) {
+            if (Math.abs((px - tx)) > Math.abs(py - ty)) {
                 //se modulo de x maior  
                 //persegue x
-                if (px - tx > 0 && thisMob.getBody().getLinearVelocity().x < limit) {
-                    applyX = modifier;
-                } else if (px - tx < 0 && thisMob.getBody().getLinearVelocity().x > -limit) {
-                    applyX = -modifier;
+                if (px - tx > 0) {
+                    applyX += modifier;
+                }
+                if (px - tx < 0) {
+                    applyX += -modifier;
                 }
             } else {
                 //se modulo de y maior
                 //persegue y
-                if (py - ty > 0 && thisMob.getBody().getLinearVelocity().y < limit) {
-                    applyY = modifier;
-                } else if (py - ty < 0 && thisMob.getBody().getLinearVelocity().y >- limit) {
-                    applyY = -modifier;
+                if (py - ty > 0) {
+                    applyY += modifier;
+                }
+                if (py - ty < 0) {
+                    applyY += -modifier;
                 }
             }
-        }else{
+        } else {
             //verifica a menor distancia
             //System.out.println("Alinhando pra atirar");
             if (Math.abs((px - tx)) > Math.abs(py - ty)) {
                 //alinha em y
-                if (py - ty > 0 && thisMob.getBody().getLinearVelocity().y < limit) {
-                    applyY = modifier;
-                } else if(py - ty < 0 && thisMob.getBody().getLinearVelocity().y > -limit){
-                    applyY = -modifier;
+                if (py - ty > 0) {
+                    applyY += modifier;
+                }
+                if (py - ty < 0) {
+                    applyY += -modifier;
                 }
             } else {
                 //alinha em x
-                if (px - tx > 0 && thisMob.getBody().getLinearVelocity().x < limit) {
-                    applyX = modifier;
-                } else if(px - tx < 0 && thisMob.getBody().getLinearVelocity().x > -limit){
-                    applyX = -modifier;
+                if (px - tx > 0) {
+                    applyX += modifier;
+                }
+                if (px - tx < 0) {
+                    applyX += -modifier;
                 }
             }
         }

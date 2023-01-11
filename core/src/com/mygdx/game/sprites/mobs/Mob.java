@@ -36,7 +36,12 @@ public abstract class Mob extends Entity {
 
     private int attackDamage = 0;
     private int speedModifier = 0 ;
-    private int attackSpeed = 0 ;
+    private int attackSpeed = 1 ;
+    
+    private float getAttackDuration(){
+        
+        return 1/attackSpeed; 
+    }
 
     public int getAttackDamage() {
         return attackDamage;
@@ -80,6 +85,8 @@ public abstract class Mob extends Entity {
 
         defineThisBody(startX, startY);
         entityHandler.watchEntity(this);
+        
+        
     }
 
     //nessa funcao a gente define cada caracteristica fisica do corpo
@@ -175,8 +182,9 @@ public abstract class Mob extends Entity {
     }
 
     public void hitted(int value) {
-
+        
         setActionLock(State.HIT, this.getDirection());
+        this.animations.overrideAnimation(State.HIT, this.getDirection());
 
         this.health-=value;
 

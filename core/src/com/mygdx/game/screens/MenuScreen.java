@@ -59,22 +59,22 @@ public class MenuScreen implements Screen {
 
         TextButtonStyle style = new TextButtonStyle();
 
-        style.up = UIAtlas.getDrawable("placa_1");
-        style.down = UIAtlas.getDrawable("placa_1");
-        style.over = UIAtlas.getDrawable("placa_1");
+        style.up = UIAtlas.getDrawable("placa_2");
+        style.down = UIAtlas.getDrawable("placa_2");
+        style.over = UIAtlas.getDrawable("placa_2");
         style.pressedOffsetX = 2;
         style.pressedOffsetY = 2;
         style.font = dark;
 
         TextButton button = new TextButton(name, style);
-
+        Container container = new Container(button);
+        mainTable.add(container);
+        
         button.pad(20);
         //button.padBottom(5);
-
-        Container container = new Container(button);
         container.pad(5);
 
-        mainTable.add(container);
+        
 
         return button;
     }
@@ -85,17 +85,17 @@ public class MenuScreen implements Screen {
         this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
-        viewport = new FitViewport(800, 560);
+        viewport = new FitViewport(1280, 720);
         stage = new Stage(viewport);
+
         Gdx.input.setInputProcessor(stage);
 
         atlas = new TextureAtlas("UI/AtlasUI.pack");
-
-        LabelStyle labelStyle = new LabelStyle(light, Color.WHITE);
-
         UIAtlas = new Skin(atlas);
 
         mainTable = new Table();
+        stage.addActor(mainTable);
+
         mainTable.setClip(true);
         mainTable.setFillParent(true);
         mainTable.debug();
@@ -110,25 +110,24 @@ public class MenuScreen implements Screen {
         this.textButtonStyle.fontColor = Color.WHITE;
 
         this.title = new TextButton("Alone in the West", textButtonStyle);
+        mainTable.add(title);
         title.pad(20);
         title.getLabel().setScale(3);
 
         title.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                game.setScreen(new Settings((MyGdxGame) game));
+                
+                dispose();
+                game.setScreen(new HiddenScreen((MyGdxGame) game));
             }
         });
-        mainTable.add(title);
-
         mainTable.row();
-
-        Screen thisScreen = this;
 
         addTextButton("Play").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                dispose();
                 game.setScreen(new PlayableScreen((MyGdxGame) game, "Maps/mapa1.tmx"));
             }
         });
@@ -137,19 +136,19 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen((Screen) new HiddenScreen((MyGdxGame) game));
+                dispose();
+                game.setScreen((Screen) new ScoreScreen((MyGdxGame) game));
             }
         });
         mainTable.row();
         addTextButton("Quit").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                dispose();
                 Gdx.app.exit();
             }
         });;
         mainTable.row();
-
-        stage.addActor(mainTable);
 
     }
 
@@ -159,12 +158,11 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        viewport.update(menuWidth, menuHeight);
 
         mainTable.setClip(true);
         mainTable.setFillParent(true);
         mainTable.setTransform(true);
-        mainTable.setBounds(viewport.getScreenX() , viewport.getScreenY(),  viewport.getScreenWidth() , viewport.getScreenHeight());
+        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 
         stage.act(f);
         stage.draw();
@@ -173,7 +171,7 @@ public class MenuScreen implements Screen {
     @Override
     public void resize(int width, int heigth) {
 
-        viewport.update(menuWidth, menuHeight);
+        viewport.update(1280, 720);
 
     }
 

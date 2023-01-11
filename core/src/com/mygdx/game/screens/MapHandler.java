@@ -84,12 +84,21 @@ public class MapHandler {
     public boolean verifySpawnersEnded() {
 
         for (Spawner spawner : spawenersSet) {
-            if(!spawner.isFinished()){
+            System.out.println(spawner + " " + spawner.isFinished());
+            if (!spawner.isFinished()) {
                 return false;
             };
         }
-        
+
+        System.out.println("fim");
         return true;
+
+    }
+
+    public void restartSpawners() {
+        for (Spawner spawner : spawenersSet) {
+            spawner.reset();
+        }
 
     }
 
@@ -167,5 +176,14 @@ public class MapHandler {
         mapRenderer.render();
         //esse metodo desenha as collision boxes do mapa
         box2DDebugRenderer.render(world, cam.combined);
+    }
+
+    public void dispose() {
+        //variaveis 
+        map.dispose();
+        mapRenderer.dispose();
+        //variaveis de colisao
+        world.dispose();
+        box2DDebugRenderer.dispose();
     }
 }

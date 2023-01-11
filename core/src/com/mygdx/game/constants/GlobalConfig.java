@@ -29,7 +29,7 @@ public class GlobalConfig {
     public static int SpeedLimit = 50;
 
     public static int SpawnerMaxSpawns = 4;
-    public static int SpawnerCooldowns = 2;
+    public static float SpawnerCooldowns = 2;
     
     public static String password = new String("1234567");
 

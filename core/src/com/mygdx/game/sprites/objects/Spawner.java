@@ -55,8 +55,8 @@ public class Spawner extends Entity {
         this.bodyW = boxW;
         this.bodyH = boxH;
 
-        this.open = new TextureRegion(new Texture("open_door.png"));
-        this.closed = new TextureRegion(new Texture("closed_door.png"));
+        this.open = new TextureRegion(new Texture("Buildings/open_door.png"));
+        this.closed = new TextureRegion(new Texture("Buildings/closed_door.png"));
         
 
         createBoxSensorBody(boxW, boxH, BodyDef.BodyType.StaticBody, x, y, timer);
@@ -82,11 +82,7 @@ public class Spawner extends Entity {
 
     private void spawnEnemy(float dt) {
 
-        System.out.println("dt " + dt);
-
         this.timer += dt;
-
-        System.out.println(timer);
 
         if (timer > cooldown && totalMobsToSpawn > 0) {
             switch (spawnType) {
@@ -135,20 +131,20 @@ public class Spawner extends Entity {
         return finished;
     }
     
-    public void increaseTotalSpawnsBy(int amout) throws Exception{
+    public void increaseTotalSpawnsBy(int amout){
         
         if(!finished){
-            throw new Exception("Mudando o total de spawns em quando o jogo esta ativo");
+            //throw new Exception("Mudando o total de spawns em quando o jogo esta ativo");
             
         }else{
             this.totalMobsToSpawn += amout;
         }
     }
     
-    public void reset() throws Exception{
+    public void reset(){
         
          if(!finished){
-            throw new Exception("Resetando spawner com o jogo ativo");
+            //throw new Exception("Resetando spawner com o jogo ativo");
         }else {
              this.finished = false;
              this.totalMobsToSpawn = GlobalConfig.SpawnerMaxSpawns;
@@ -157,10 +153,10 @@ public class Spawner extends Entity {
         
     }
 
-    public void setTotalMobsToSpawn(int totalMobsToSpawn) throws Exception {
+    public void setTotalMobsToSpawn(int totalMobsToSpawn) {
         
         if(!finished){
-            throw new Exception("Mudando o total de mobs spawnados com o jogo ativo");
+            //throw new Exception("Mudando o total de mobs spawnados com o jogo ativo");
         }else {
             this.totalMobsToSpawn = totalMobsToSpawn;
         }
