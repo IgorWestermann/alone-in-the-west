@@ -4,8 +4,6 @@
  */
 package com.mygdx.game.entities.mobs;
 
-//import com.mygdx.game.screens.Life;
-import com.mygdx.game.screens.Hud;
 import com.mygdx.game.sprites.CollisionCategories;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,21 +23,20 @@ import java.util.Map;
  */
 public class Player extends Mob {
 
-
-    public Player(MapHandler mapHandler, EntityHandler entityHandler) {
+    public Player(MapHandler mapHandler, EntityHandler entityHandler, int health) {
         super(mapHandler, entityHandler, CollisionCategories.PLAYER_BODY,
                 new short[]{
                     CollisionCategories.ENEMY_BODY,
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.ENEMY_PROJECTILE,
-                    //CollisionCategories.WALL,
+                    CollisionCategories.WALL,
                 });
 
         this.setMobType("Player");
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
 
-        this.setHealth(5);
+        setHealth(5);
 
 
 

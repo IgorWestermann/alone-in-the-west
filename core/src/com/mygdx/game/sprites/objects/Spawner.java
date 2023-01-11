@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.controllers.Entity;
 import com.mygdx.game.screens.*;
-import com.mygdx.game.sprites.*;
-import com.mygdx.game.entities.mobs.Cactus;
-import com.mygdx.game.entities.mobs.Coffin;
+import com.mygdx.game.entities.mobs.*;
 
 /**
  *

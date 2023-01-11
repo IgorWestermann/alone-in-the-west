@@ -84,7 +84,7 @@ public class MapHandler {
 
             }
         } catch (Exception e) {
-            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Cactus");
+            System.out.println("Map: loadSpawners : nao existe layer com nome de Spawner_Cactus");
         }
 
         try {
@@ -94,7 +94,7 @@ public class MapHandler {
 
             }
         } catch (Exception e) {
-            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Coffin");
+            System.out.println("Map: loadSpawners : nao existe layer com nome de Spawner_Coffin");
         }
 
         try {
@@ -105,7 +105,7 @@ public class MapHandler {
             }
 
         } catch (Exception e) {
-            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Both");
+            System.out.println("Map: loadSpawners : nao existe layer com nome de Spawner_Both");
         }
 
         try {
@@ -115,7 +115,7 @@ public class MapHandler {
 
             }
         } catch (Exception e) {
-            System.out.println("Map: loadSpawners : não existe layer com nome de Spawner_Random");
+            System.out.println("Map: loadSpawners : nao existe layer com nome de Spawner_Random");
         }
 
     }

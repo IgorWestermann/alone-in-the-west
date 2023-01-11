@@ -39,13 +39,6 @@ public abstract class Mob extends Entity {
 
     private String mobType = "";
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
     public String getMobType() {
         return mobType;
@@ -55,10 +48,20 @@ public abstract class Mob extends Entity {
         this.mobType = mobType;
     }
 
+    public AttackType getAttackType() {
+        return attackType;
+    }
+
+    private int health;
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
     private List<Integer> life = new ArrayList<>();
-
-
-    private int health = 2;
 
     // protected Body feet;
     public Mob(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith) {
@@ -140,20 +143,6 @@ public abstract class Mob extends Entity {
         }
     }
 
-    public AttackType getAttackType() {
-        return attackType;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    private int health = 2;
-
     private void movimentClamp() {
         float x = this.body.getLinearVelocity().x;
         float y = this.body.getLinearVelocity().y;
@@ -184,9 +173,6 @@ public abstract class Mob extends Entity {
         super.setRegion(getFrame(dt));
 
     }
-
-    public void hitted(){
-
 
     public void hitted() {
 

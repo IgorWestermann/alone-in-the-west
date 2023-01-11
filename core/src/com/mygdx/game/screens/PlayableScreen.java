@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.entities.mobs.Player;
 import com.mygdx.game.sprites.objects.Spawner;
 
 /**
