@@ -1,26 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.entities.mobs;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.constants.*;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.controllers.EntityHandler;
+import com.mygdx.game.controllers.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
-import com.mygdx.game.sprites.CollisionCategories;
+import com.mygdx.game.constants.CollisionCategories;
 import com.mygdx.game.controllers.interfaces.MovimentController;
 import com.mygdx.game.controllers.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author Hugo
- */
+
 public class Coffin extends Mob {
 
     public Coffin(MapHandler mapHandler, EntityHandler entityHandler) {
@@ -93,6 +87,7 @@ public class Coffin extends Mob {
         stateDictionaty.put(State.RUNNING, 1);
         stateDictionaty.put(State.SHOTING, 2);
         stateDictionaty.put(State.HIT, 3);
+        stateDictionaty.put(State.DYING, 0);
 
         Map<Direction, Pair<String, Boolean>> directionDictionary = new HashMap<>();
 
@@ -100,9 +95,11 @@ public class Coffin extends Mob {
         directionDictionary.put(Direction.S, new Pair<>("Coffin Front Sheet", false));
         directionDictionary.put(Direction.E, new Pair<>("Coffin Side Sheet", false));
         directionDictionary.put(Direction.W, new Pair<>("Coffin Side Sheet", true));
+         directionDictionary.put(Direction.ALL, new Pair<>("Death Explosion", true));
 
         animations = new AnimationHandler();
         animations.buildAnimationsBySpriteList("Mobs/Coffin/", sprites, 74, 70, framesPerAction, modes);
+        animations.buildAnimationsBySheet("Mobs/Coffin/Death Explosion.png", "Death Explosion", 50, 55, new int []{8}, new Animation.PlayMode[]{Animation.PlayMode.NORMAL});
         animations.setDirectionDictionary(directionDictionary);
         animations.setStateDictionary(stateDictionaty);
     }

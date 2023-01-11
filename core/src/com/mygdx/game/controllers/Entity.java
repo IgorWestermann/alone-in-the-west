@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.controllers;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,13 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
 
-/**
- *
- * @author Hugo
- */
 public abstract class Entity extends Sprite {
 
     protected MapHandler mapHandler;

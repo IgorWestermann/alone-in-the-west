@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mygdx.game.entities.mobs;
 
 import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.State;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.controllers.EntityHandler;
+import com.mygdx.game.controllers.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
 import com.mygdx.game.controllers.Entity;
 import com.mygdx.game.controllers.interfaces.MovimentController;
@@ -16,9 +12,6 @@ import com.mygdx.game.controllers.interfaces.AttackType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Hugo
- */
 public abstract class Mob extends Entity {
 
     protected State currentState;
@@ -35,6 +28,7 @@ public abstract class Mob extends Entity {
     private Direction lockedDirecion = null;
 
     protected boolean triggerDeath = false;
+    protected boolean dead = false;
 
     private String mobType = "";
 
@@ -65,7 +59,12 @@ public abstract class Mob extends Entity {
     // protected Body feet;
     private int attackDamage = 0;
     private int speedModifier = 0;
-    private int attackSpeed = 0;
+    private int attackSpeed = 1;
+
+    private float getAttackDuration() {
+
+        return 1 / attackSpeed;
+    }
 
     public boolean isHit() {
         return isHit;
@@ -111,8 +110,7 @@ public abstract class Mob extends Entity {
         entityHandler.watchEntity(this);
     }
 
-    public Mob(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith, float startX,
-            float startY) {
+    public Mob(MapHandler mapHandler, EntityHandler entityHandler, short category, short[] collidesWith, float startX, float startY) {
         super(mapHandler, entityHandler, category, collidesWith);
         this.currentState = State.IDLE;
         this.currentDirection = Direction.S;
@@ -120,20 +118,7 @@ public abstract class Mob extends Entity {
 
         defineThisBody(startX, startY);
         entityHandler.watchEntity(this);
-        for (int i = 0; i < this.getHealth(); i++) {
-            this.life.add(1);
-        }
     }
-
-    public void isAlive() {
-        int entityLife = this.getHealth();
-        if (entityLife > 0) {
-            this.setHealth(entityLife - 1);
-        } else if (this.getHealth() == 0 && this.getMobType() == "Player") {
-            System.out.println("GAME OVER");
-        }
-    }
-
     // nessa funcao a gente define cada caracteristica fisica do corpo
     protected abstract void defineThisBody(float startX, float startY);
 
@@ -207,8 +192,7 @@ public abstract class Mob extends Entity {
         verifyDeath(dt);
         movimentClamp();
 
-        super.setPosition((body.getPosition().x - super.getWidth() / 2) + boxXOffset,
-                (body.getPosition().y - super.getHeight() / 2) + boxYOffset);
+        super.setPosition((body.getPosition().x - super.getWidth() / 2) + boxXOffset, (body.getPosition().y - super.getHeight() / 2) + boxYOffset);
         super.setRegion(getFrame(dt));
 
     }
@@ -216,28 +200,28 @@ public abstract class Mob extends Entity {
     public void hitted(int value) {
 
         setActionLock(State.HIT, this.getDirection());
+        this.animations.overrideAnimation(State.HIT, this.getDirection());
 
-        this.health--;
+        this.health -= value;
         this.isHit = true;
-
-        System.out.println(this + " " + this.health);
 
         if (this.health <= 0) {
             System.out.println(this + " to die");
             setActionLock(State.IDLE, Direction.S);
-            this.animations.overrideAnimation(State.IDLE, Direction.S);
+            this.animations.overrideAnimation(State.DYING, Direction.ALL);
             triggerDeath = true;
         }
     }
 
-    public boolean isHitted(boolean gotHit) {
-        return gotHit;
-    }
-
     private void verifyDeath(float dt) {
         if (triggerDeath && this.animations.isCurrentAnimationFinished()) {
+            dead = true;
             super.setSelfDestruct();
         }
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 
 }

@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.constants;
 
-/**
- *
- * @author Hugo
- */
 public class GlobalConfig {
 
     public static int PlayerHealth = 20;
@@ -29,7 +22,7 @@ public class GlobalConfig {
     public static int SpeedLimit = 50;
 
     public static int SpawnerMaxSpawns = 4;
-    public static int SpawnerCooldowns = 2;
+    public static float SpawnerCooldowns = 2;
     
     public static String password = new String("1234567");
 

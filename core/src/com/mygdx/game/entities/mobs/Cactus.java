@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.entities.mobs;
 
-import com.mygdx.game.sprites.CollisionCategories;
+import com.mygdx.game.constants.CollisionCategories;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,8 +9,8 @@ import com.mygdx.game.constants.Direction;
 import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.constants.Pair;
 import com.mygdx.game.constants.State;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.controllers.EntityHandler;
+import com.mygdx.game.controllers.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
 import com.mygdx.game.controllers.interfaces.MovimentController;
 import com.mygdx.game.controllers.*;
@@ -21,10 +18,7 @@ import com.mygdx.game.controllers.SingleShot;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author Hugo
- */
+
 public class Cactus extends Mob {
 
     public Cactus(MapHandler mapHandler, EntityHandler entityHandler) {
@@ -106,6 +100,8 @@ public class Cactus extends Mob {
         stateDictionaty.put(State.RUNNING, 1);
         stateDictionaty.put(State.SHOTING, 2);
         stateDictionaty.put(State.HIT, 3);
+        
+        stateDictionaty.put(State.DYING, 0);
 
         Map<Direction, Pair<String, Boolean>> directionDictionary = new HashMap<>();
 
@@ -113,6 +109,7 @@ public class Cactus extends Mob {
         directionDictionary.put(Direction.S, new Pair<>("Cactus Front Sheet", false));
         directionDictionary.put(Direction.E, new Pair<>("Cactus Side Sheet", false));
         directionDictionary.put(Direction.W, new Pair<>("Cactus Side Sheet", true));
+        directionDictionary.put(Direction.ALL, new Pair<>("Death Explosion", true));
 
         animations = new AnimationHandler();
         animations.setDirectionDictionary(directionDictionary);
@@ -121,6 +118,8 @@ public class Cactus extends Mob {
         animations.buildAnimationsBySheet("Mobs/Cactus/Cactus Back Sheet.png", "Cactus Back Sheet", 40, 40, framesPerAction, modes);
         animations.buildAnimationsBySheet("Mobs/Cactus/Cactus Front Sheet.png", "Cactus Front Sheet", 40, 40, framesPerAction, modes);
         animations.buildAnimationsBySheet("Mobs/Cactus/Cactus Side Sheet.png", "Cactus Side Sheet", 40, 40, framesPerAction, modes);
+        
+        animations.buildAnimationsBySheet("Mobs/Cactus/Death Explosion.png", "Death Explosion", 50, 55, new int []{8}, new Animation.PlayMode[]{Animation.PlayMode.NORMAL});
     }
 
     @Override

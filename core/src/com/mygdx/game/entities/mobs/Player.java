@@ -1,27 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mygdx.game.entities.mobs;
 
-import com.mygdx.game.sprites.CollisionCategories;
+import com.mygdx.game.constants.CollisionCategories;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.constants.*;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.controllers.EntityHandler;
+import com.mygdx.game.controllers.MapHandler;
 import com.mygdx.game.sprites.AnimationHandler;
 import com.mygdx.game.controllers.PlayerMoviment;
 import com.mygdx.game.controllers.SingleShot;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author Hugo
- */
 public class Player extends Mob {
+
 
     public Player(MapHandler mapHandler, EntityHandler entityHandler, int health) {
         super(mapHandler, entityHandler, CollisionCategories.PLAYER_BODY,
@@ -30,7 +23,7 @@ public class Player extends Mob {
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.ENEMY_PROJECTILE,
                     CollisionCategories.WALL,
-                    CollisionCategories.ENEMY_PROJECTILE, //CollisionCategories.WALL,
+                    CollisionCategories.ENEMY_PROJECTILE,
                 });
 
         this.setAttackDamage(GlobalConfig.PlayerDamageModifier);
@@ -42,10 +35,6 @@ public class Player extends Mob {
         this.attackType = new SingleShot(this);
 
         setHealth(5);
-
-
-
-
         this.animations.changeAnimationSpeed(currentState , 10);
     }
 
@@ -171,14 +160,11 @@ public class Player extends Mob {
         directionDictionary.put(Direction.NE, new Pair<>("Player Angle 2 Sheet", false));
         directionDictionary.put(Direction.E, new Pair<>("Player Side Sheet", false));
         directionDictionary.put(Direction.SE, new Pair<>("Player Angle 1 Sheet", false));
+        directionDictionary.put(Direction.ALL, new Pair<>("Player Front Sheet", false));
 
         animations = new AnimationHandler();
         animations.buildAnimationsBySpriteList("Player/", sprites, 48, 44, framesPerRegions, modes);
         animations.setStateDictionary(stateDictionaty);
         animations.setDirectionDictionary(directionDictionary);
     }
-
-//    public void changeProjectileSpeed(float f){
-//        this.attackType.setAttackModifier(f);
-//    }
 }

@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mygdx.game.screens;
+
+package com.mygdx.game.controllers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -12,21 +9,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.constants.GlobalConfig;
+import com.mygdx.game.controllers.EntityHandler;
 import com.mygdx.game.sprites.objects.Spawner;
 import com.mygdx.game.sprites.objects.Wall;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Hugo
- */
 public class MapHandler {
 
     //variaveis de camera
@@ -61,8 +51,6 @@ public class MapHandler {
         //o segundo parametro sinaliza para nao calcular objetos em descanso
         world = new World(new Vector2(0, 0), true);
         this.spawenersSet = new HashSet<>();
-        //this.loadCollisionBoxes();
-        //this.loadSpawners();
 
     }
 
@@ -75,19 +63,22 @@ public class MapHandler {
         for (Spawner spawner : spawenersSet) {
             spawner.setCooldown(f);
         }
-
     }
 
     public boolean verifySpawnersEnded() {
 
         for (Spawner spawner : spawenersSet) {
-            if(!spawner.isFinished()){
+            if (!spawner.isFinished()) {
                 return false;
             };
         }
-        
         return true;
+    }
 
+    public void restartSpawners() throws Exception {
+        for (Spawner spawner : spawenersSet) {
+            spawner.reset();
+        }
     }
 
     public void increaseSpawnersMaxSpawn(int i) {
@@ -97,6 +88,7 @@ public class MapHandler {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            System.out.println("Resetando spawners para configuracao padrao");
         }
     }
 
@@ -163,5 +155,13 @@ public class MapHandler {
     public void render(float dt) {
         mapRenderer.render();
         //esse metodo desenha as collision boxes do mapa
+    }
+
+    public void dispose() {
+        //variaveis 
+        map.dispose();
+        mapRenderer.dispose();
+        //variaveis de colisao
+        world.dispose();
     }
 }

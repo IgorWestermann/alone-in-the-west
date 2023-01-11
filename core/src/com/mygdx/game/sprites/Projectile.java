@@ -1,23 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.game.constants.CollisionCategories;
 import com.mygdx.game.constants.Direction;
 import com.mygdx.game.controllers.Entity;
-import com.mygdx.game.screens.EntityHandler;
-import com.mygdx.game.screens.MapHandler;
+import com.mygdx.game.controllers.EntityHandler;
+import com.mygdx.game.controllers.MapHandler;
 import com.mygdx.game.entities.mobs.Mob;
 
-/**
- *
- * @author Hugo
- */
 public class Projectile extends Entity {
 
     private TextureRegion texture;
@@ -44,7 +38,6 @@ public class Projectile extends Entity {
         defineThisBody(x, y);
         entityHandler.watchEntity(this);
 
-        //this.rotate(getProjectileRotation());
         this.body.setLinearDamping(0);
         this.body.applyLinearImpulse(direction , new Vector2(0,0) , true);
 

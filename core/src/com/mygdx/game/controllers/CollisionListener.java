@@ -1,18 +1,11 @@
 
-package com.mygdx.game.screens;
+package com.mygdx.game.controllers;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.controllers.Entity;
 import com.mygdx.game.sprites.*;
 import com.mygdx.game.entities.mobs.*;
 import com.mygdx.game.sprites.objects.Wall;
 
-
-
-/**
- *
- * @author Hugo
- */
 public class CollisionListener implements ContactListener {
 
     private MapHandler mapHandler;

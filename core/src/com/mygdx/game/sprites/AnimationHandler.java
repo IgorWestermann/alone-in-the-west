@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -13,10 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import com.mygdx.game.constants.*;
 
-/**
- *
- * @author Hugo
- */
 //essa classo coleciona as animacoes de um mesmo atlas e as separa por um map de sheets
 //cada map dessas sheets e separado entao por acao dentro da sheet
 //tambem e passado um dicionario que pega uma direcao e traduz na sheet que ela esta presente
@@ -57,6 +50,19 @@ public class AnimationHandler {
         currentAnimationFinished = false;
     }
 
+    public float getAnimationDuration(State s) {
+
+        float duration = 0;
+
+        for (Map sheet : sheets.values()) {
+            Animation a = (Animation) sheet.get(stateDictionary.get(s));
+            duration = a.getAnimationDuration();
+        }
+
+        return duration;
+
+    }
+
     public void changeAnimationSpeed(State s, float time) {
 
         for (Map sheet : sheets.values()) {
@@ -71,15 +77,10 @@ public class AnimationHandler {
         for (Map sheet : sheets.values()) {
             totalSheets++;
             Animation a = (Animation) sheet.get(stateDictionary.get(s));
-
             return a.getFrameDuration();
 
-            //totalTime += a.getFrameDuration();
         }
-
         return -1;
-
-        //return totalTime/totalSheets;
     }
 
     public void buildAnimationsBySpriteList(String rootPath, String[] spriteNames, int frameW, int frameH, int[] framesPerAction, Animation.PlayMode[] modes) {
@@ -168,7 +169,6 @@ public class AnimationHandler {
 
     public void waitAnimationUnlock() {
         if (animationLock && currentAnimationFinished) {
-            //System.out.println("Animation Unlocked");
             lockedDirecion = null;
             lockedState = null;
             animationLock = false;
@@ -177,7 +177,6 @@ public class AnimationHandler {
     }
 
     public void overrideAnimation(State s, Direction d) {
-         //System.out.println("Animation Locked");
         this.timer = 0;
         this.lockedState = s;
         this.lockedDirecion = d;
@@ -187,7 +186,6 @@ public class AnimationHandler {
 
     public void setAnimationLock(State s, Direction d) {
         if (!animationLock && lockedState == null && lockedDirecion == null) {
-            //System.out.println("Animation Locked");
             this.timer = 0;
             this.lockedState = s;
             this.lockedDirecion = d;

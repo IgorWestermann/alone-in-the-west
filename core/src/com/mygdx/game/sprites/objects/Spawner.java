@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mygdx.game.sprites.objects;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -9,13 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.controllers.Entity;
-import com.mygdx.game.screens.*;
+import com.mygdx.game.controllers.EntityHandler;
+import com.mygdx.game.controllers.MapHandler;
 import com.mygdx.game.entities.mobs.*;
 
-/**
- *
- * @author Hugo
- */
 public class Spawner extends Entity {
 
     public enum enemyType {
@@ -54,8 +48,9 @@ public class Spawner extends Entity {
         this.bodyW = boxW;
         this.bodyH = boxH;
 
-        this.open = new TextureRegion(new Texture("open_door.png"));
-        this.closed = new TextureRegion(new Texture("closed_door.png"));
+        this.open = new TextureRegion(new Texture("Buildings/open_door.png"));
+        this.closed = new TextureRegion(new Texture("Buildings/closed_door.png"));
+        
 
         createBoxSensorBody(boxW, boxH, BodyDef.BodyType.StaticBody, x, y, timer);
         super.setBounds(x, y, boxW, boxH);
@@ -117,7 +112,7 @@ public class Spawner extends Entity {
             }
             this.isOpen = true;
             totalMobsToSpawn--;
-
+            
             if(totalMobsToSpawn <= 0){
                 this.finished = true;
             }
@@ -128,31 +123,31 @@ public class Spawner extends Entity {
     public boolean isFinished() {
         return finished;
     }
-
-    public void increaseTotalSpawnsBy(int amout) throws Exception{
-
+    
+    public void increaseTotalSpawnsBy(int amout) throws Exception {
+        
         if(!finished){
             throw new Exception("Mudando o total de spawns em quando o jogo esta ativo");
-
+            
         }else{
             this.totalMobsToSpawn += amout;
         }
     }
-
-    public void reset() throws Exception{
-
+    
+    public void reset() throws Exception {
+        
          if(!finished){
             throw new Exception("Resetando spawner com o jogo ativo");
         }else {
              this.finished = false;
              this.totalMobsToSpawn = GlobalConfig.SpawnerMaxSpawns;
         }
-
-
+        
+        
     }
 
     public void setTotalMobsToSpawn(int totalMobsToSpawn) throws Exception {
-
+        
         if(!finished){
             throw new Exception("Mudando o total de mobs spawnados com o jogo ativo");
         }else {

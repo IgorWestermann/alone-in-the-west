@@ -20,7 +20,6 @@ public class Hud {
     Texture life;
     private List<Image> playerHealth;
     Table table = new Table();
-
     Player player;
 
     public Hud(Player player, SpriteBatch sb) {
@@ -39,10 +38,7 @@ public class Hud {
             table.add(healthPoint);
         }
         table.setFillParent(true);
-        table.debug();
         stage.addActor(table);
-
-
     }
 
     public void update() {
@@ -51,6 +47,4 @@ public class Hud {
         }
         stage.draw();
     }
-
-
 }

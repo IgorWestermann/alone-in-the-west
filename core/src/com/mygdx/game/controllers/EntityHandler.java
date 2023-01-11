@@ -1,20 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mygdx.game.screens;
+
+package com.mygdx.game.controllers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entities.mobs.Cactus;
 import com.mygdx.game.entities.mobs.Coffin;
 import com.mygdx.game.entities.mobs.Player;
-import com.mygdx.game.controllers.Entity;
 
-/**
- *
- * @author Hugo
- */
 public class EntityHandler {
 
     private MapHandler mapHandler;
@@ -24,10 +16,16 @@ public class EntityHandler {
 
     private Array<Entity> toBeRemoved;
     private Player player;
+    
+    private int totalEnemiesDead;
 
     public Player getPlayer() {
         return player;
 
+    }
+
+    public int getTotalEnemiesDead() {
+        return totalEnemiesDead;
     }
 
     public void setPlayer(Player p) {
@@ -41,6 +39,8 @@ public class EntityHandler {
 
         this.cactusListArray = new Array<>();
         this.coffinListArray = new Array<>();
+        
+        totalEnemiesDead = 0;
     }
 
     public void watchEntity(Entity e) {
@@ -58,8 +58,10 @@ public class EntityHandler {
 
             if (e instanceof Cactus) {
                 cactusListArray.removeValue((Cactus) e , true);
+                totalEnemiesDead++;
             } else if (e instanceof Coffin) {
                 coffinListArray.removeValue((Coffin) e , true);
+                totalEnemiesDead++;
             }
 
             this.entities.removeValue(e, true);
