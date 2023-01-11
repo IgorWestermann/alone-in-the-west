@@ -34,15 +34,17 @@ public class Player extends Mob {
                 new short[]{
                     CollisionCategories.ENEMY_BODY,
                     CollisionCategories.PLAYER_BODY,
-                    CollisionCategories.ENEMY_PROJECTILE,
-                    //CollisionCategories.WALL,
+                    CollisionCategories.ENEMY_PROJECTILE, //CollisionCategories.WALL,
                 });
+
+        this.setAttackDamage(GlobalConfig.PlayerDamageModifier);
+        this.setSpeedModifier(GlobalConfig.PlayerSpeedModifier);
+        this.setHealth(GlobalConfig.PlayerHealth);
 
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
-        
-        
-        this.animations.changeAnimationSpeed(currentState , 10);
+
+        this.animations.changeAnimationSpeed(currentState, 10);
     }
 
     public Player(MapHandler mapHandler, EntityHandler entityHandler, float startX, float startY) {
@@ -50,12 +52,15 @@ public class Player extends Mob {
             CollisionCategories.ENEMY_BODY,
             CollisionCategories.PLAYER_BODY,
             CollisionCategories.ENEMY_PROJECTILE,
-            //CollisionCategories.WALL,
-        }, startX, startY);
+            CollisionCategories.WALL,}, startX, startY);
+
+        this.setAttackDamage(GlobalConfig.PlayerDamageModifier);
+        this.setSpeedModifier(GlobalConfig.PlayerSpeedModifier);
+        this.setHealth(GlobalConfig.PlayerHealth);
 
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
-        
+
         //this.animations.changeAnimationSpeed(State.SHOTING , 0.05f);
     }
 
@@ -112,11 +117,11 @@ public class Player extends Mob {
     //todo sprite implementa essa funcao para definir seu priprio corpo e anima��o
     @Override
     protected void defineThisBody(float startX, float startY) {
-        
+
         this.bodyW = 12;
         this.bodyH = 22;
 
-        createBoxCollisionBody(bodyW/2, bodyH/2 , BodyDef.BodyType.DynamicBody, startX, startX, 0.5f);
+        createBoxCollisionBody(bodyW / 2, bodyH / 2, BodyDef.BodyType.DynamicBody, startX, startX, 0.5f);
 
         //inicializa a sprite olhando pro sul
         lastDirection = Direction.S;
@@ -168,9 +173,5 @@ public class Player extends Mob {
         animations.buildAnimationsBySpriteList("Player/", sprites, 48, 44, framesPerRegions, modes);
         animations.setStateDictionary(stateDictionaty);
         animations.setDirectionDictionary(directionDictionary);
-    }
-    
-    public void changeProjectileSpeed(float f){
-        this.attackType.setAttackModifier(f);
     }
 }

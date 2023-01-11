@@ -16,8 +16,6 @@ public interface AttackType {
     public void attack(State state , Direction direction);
     public void setCooldown(float cooldown);
     public void setDelay(float delay);
-    public void setAttackModifier(float modifier);
-    public float getAttackMoidifier();
     public boolean isAttacking();
 
 

@@ -39,43 +39,57 @@ public class PlayableScreen implements Screen {
     private EntityHandler entityHandler;
     
     private boolean isPause;
+    private boolean isroundEnded;
     
 
-    public PlayableScreen(MyGdxGame game) {
+    public PlayableScreen(MyGdxGame game , String mapName) {
         this.game = game;
         cam = new OrthographicCamera();
         //viewport e usado pra manter a proporcao da tela
         port = new FitViewport(W_WIDTH, W_HEIGHT, cam);
-
-        MapHandler map1 = new MapHandler(port, cam, "mapa1.tmx");
+        isPause = false;
+        isroundEnded = false;
+        
+        
+        MapHandler map1 = new MapHandler(port, cam, "Maps/mapa1.tmx");
+        
+        
         currentMap = map1;
         
         entityHandler = new EntityHandler(currentMap);
         entityHandler.setPlayer(new Player(this.currentMap , this.entityHandler , 80 , 80));
         
         currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
-        
         currentMap.loadCollisionBoxes(entityHandler);
-        //currentMap.loadSpawners(entityHandler);
+        currentMap.loadSpawners(entityHandler);
         
-        //TESTESpawner = new Spawner(currentMap, entityHandler, 40, 40, 10, 2, Spawner.enemyType.RAMDON);
-        
-        //new Cactus(currentMap, entityHandler , 20 , 20);
-        //new Coffin(currentMap, entityHandler, 20, 20);
+        new Coffin(map1, entityHandler, 40, 40);
+        new Cactus(map1, entityHandler, 60 , 60);
+
     }
 
     //lembrar de criar ou utilizar uma classe propria pra lidar com os inputs
     //esta esta sendo utilizada para testes
     //esse metodo reune atualizacao de objetos
     //porem o ideal e ser quebrado em categorias menores relativas
+    
+    private void vefifyEnd(){
+        if(this.entityHandler.vefityMobsEnded() && this.currentMap.verifySpawnersEnded()){
+            this.isroundEnded = true;
+            this.isPause = true;
+        }
+    }
+    
     public void update(float dt) {
+        
+        
+        vefifyEnd();
         
         if(!isPause && Gdx.input.isKeyPressed(Input.Keys.P)){
              pause();
         }else if(isPause && Gdx.input.isKeyPressed(Input.Keys.P)){
             resume();
         }
-           
         
         if(isPause){
             dt = 0;

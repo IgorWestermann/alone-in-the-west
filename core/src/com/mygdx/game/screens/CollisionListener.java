@@ -29,9 +29,9 @@ public class CollisionListener implements ContactListener {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
 
-       // checkProjectileMobCollision(a, b);
+        checkProjectileMobCollision(a, b);
         checkProjectileWallCollision(a, b);
-        //checkMeleeMobCollision(a, b);
+        checkMeleeMobCollision(a, b);
     }
 
     @Override
@@ -63,11 +63,12 @@ public class CollisionListener implements ContactListener {
             return;
         }
         this.entityHandler.addToBeRemoved((Entity) projectile.getBody().getUserData());
+        
+        
 
         Mob hitMob = (Mob) hit.getBody().getUserData();
-
-        hitMob.hitted();
-        hitMob.setActionLock(State.HIT, hitMob.getDirection());
+        Projectile p = (Projectile)projectile.getBody().getUserData();
+        hitMob.hitted(p.getDamage());
     }
 
     private void checkProjectileWallCollision(Fixture a, Fixture b) {
@@ -100,7 +101,8 @@ public class CollisionListener implements ContactListener {
             return;
         }
         Mob hitMob = (Mob) hit.getBody().getUserData();
-        hitMob.hitted();
+        MeleeHitbox hb = (MeleeHitbox)hitbox.getBody().getUserData();
+        hitMob.hitted(hb.getDamage());
         
     }
 

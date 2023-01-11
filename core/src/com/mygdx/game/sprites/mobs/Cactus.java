@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.constants.Direction;
+import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.constants.Pair;
 import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.EntityHandler;
@@ -33,11 +34,19 @@ public class Cactus extends Mob {
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.PLAYER_PROJECTILE,
                     CollisionCategories.ENEMY_BODY,
-                    CollisionCategories.WALL});
+                    CollisionCategories.WALL
+                });
+
+        this.setAttackDamage(GlobalConfig.CactusDamageModifier);
+        this.setSpeedModifier(GlobalConfig.CactusSpeedModifier);
+        this.setHealth(GlobalConfig.CactusHealth);
+
 
         this.mController = (MovimentController) new SeekAndAvoid(this);
         this.attackType = new SingleShot(this);
+
         attackType.setDelay(0.5f);
+
     }
 
     public Cactus(MapHandler mapHandler, EntityHandler entityHandler, float startX, float startY) {
@@ -46,13 +55,15 @@ public class Cactus extends Mob {
                     CollisionCategories.PLAYER_BODY,
                     CollisionCategories.PLAYER_PROJECTILE,
                     CollisionCategories.ENEMY_BODY,
-                    CollisionCategories.WALL,
-                },
+                    CollisionCategories.WALL,},
                 startX, startY
         );
 
-        this.mController = (MovimentController) new SeekAndAvoid(this);
+        this.setAttackDamage(GlobalConfig.CactusDamageModifier);
+        this.setSpeedModifier(GlobalConfig.CactusSpeedModifier);
+        this.setHealth(GlobalConfig.CactusHealth);
 
+        this.mController = (MovimentController) new SeekAndAvoid(this);
         this.attackType = new SingleShot(this);
 
         attackType.setDelay(

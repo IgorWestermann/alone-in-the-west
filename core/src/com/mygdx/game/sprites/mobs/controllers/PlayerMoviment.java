@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.constants.Direction;
+import com.mygdx.game.constants.GlobalConfig;
 
 import com.mygdx.game.constants.State;
 import com.mygdx.game.screens.MapHandler;
@@ -27,47 +28,29 @@ public class PlayerMoviment implements MovimentController {
         float applyX = 0;
         float applyY = 0;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            applyY = 50;
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            applyY = -50;
-        } else {
-            applyY = 0;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            applyX = 50;
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            applyX = -50;
-
-        } else {
-            applyX = 0;
-        }
-
         float mobVX = mob.getBody().getLinearVelocity().x;
         float mobVY = mob.getBody().getLinearVelocity().y;
 
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && mobVY < GlobalConfig.SpeedLimit) {
+            applyY += GlobalConfig.PlayerSpeedModifier;
+
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && mobVY > - GlobalConfig.SpeedLimit) {
+            applyY = -GlobalConfig.PlayerSpeedModifier;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && mobVX < GlobalConfig.SpeedLimit) {
+            applyX = GlobalConfig.PlayerSpeedModifier;
+
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && mobVX > - GlobalConfig.SpeedLimit) {
+            applyX = -GlobalConfig.PlayerSpeedModifier;
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             mob.getAttackType().attack(State.SHOTING, mob.getDirection());
-            System.out.println(mob.getAttackType().getAttackMoidifier());
         }
 
         mob.getBody().setLinearVelocity(applyX, applyY);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            System.out.println("E");
-            mob.getBody().applyLinearImpulse(10000 * mobVX, 10000 * mobVY, 0, 0, true);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-            System.out.println("P");
-            
-            float pSpeed = mob.getAttackType().getAttackMoidifier();
-            mob.getAttackType().setAttackModifier(pSpeed + 20);
-        }
-
     }
-
 }

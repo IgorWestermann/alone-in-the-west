@@ -1,0 +1,61 @@
+
+AtlasUI.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+placa
+  rotate: false
+  xy: 1, 19
+  size: 86, 44
+  orig: 86, 44
+  offset: 0, 0
+  index: 1
+placa
+  rotate: false
+  xy: 1, 1
+  size: 62, 16
+  orig: 62, 16
+  offset: 0, 0
+  index: 3
+placa
+  rotate: false
+  xy: 89, 23
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: 2
+placa
+  rotate: false
+  xy: 171, 27
+  size: 64, 36
+  orig: 64, 36
+  offset: 0, 0
+  index: 5
+placa
+  rotate: false
+  xy: 237, 31
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 4
+placa
+  rotate: false
+  xy: 271, 36
+  size: 24, 27
+  orig: 24, 27
+  offset: 0, 0
+  index: 6
+skull_knob
+  rotate: false
+  xy: 297, 42
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+cactu_knob
+  rotate: false
+  xy: 65, 6
+  size: 14, 11
+  orig: 14, 11
+  offset: 0, 0
+  index: -1

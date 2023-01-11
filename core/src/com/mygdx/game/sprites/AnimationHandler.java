@@ -56,33 +56,30 @@ public class AnimationHandler {
         sheets = new HashMap<>();
         currentAnimationFinished = false;
     }
-    
-    public void changeAnimationSpeed(State s , float time){
-        
-        for(Map sheet : sheets.values()){
+
+    public void changeAnimationSpeed(State s, float time) {
+
+        for (Map sheet : sheets.values()) {
             Animation a = (Animation) sheet.get(stateDictionary.get(s));
-            System.out.println(a);
-            System.out.println(a.getFrameDuration());
-            
             a.setFrameDuration(time);
         }
     }
-    
-    public float getAnimationFrameDuration(State s){
+
+    public float getAnimationFrameDuration(State s) {
         int totalSheets = 0;
         float totalTime = 0;
-         for(Map sheet : sheets.values()){
-            totalSheets++ ;
+        for (Map sheet : sheets.values()) {
+            totalSheets++;
             Animation a = (Animation) sheet.get(stateDictionary.get(s));
-            
+
             return a.getFrameDuration();
-            
+
             //totalTime += a.getFrameDuration();
         }
-         
-         return -1;
-         
-         //return totalTime/totalSheets;
+
+        return -1;
+
+        //return totalTime/totalSheets;
     }
 
     public void buildAnimationsBySpriteList(String rootPath, String[] spriteNames, int frameW, int frameH, int[] framesPerAction, Animation.PlayMode[] modes) {
@@ -92,7 +89,6 @@ public class AnimationHandler {
 
             Texture texture = new Texture(rootPath + spriteName + ".png");
             TextureRegion tr = new TextureRegion(texture);
-
 
             //varre cada acao
             for (int i = 0; i < framesPerAction.length; i++) {
@@ -169,7 +165,8 @@ public class AnimationHandler {
 
         return frame;
     }
-    public void waitAnimationUnlock(){
+
+    public void waitAnimationUnlock() {
         if (animationLock && currentAnimationFinished) {
             //System.out.println("Animation Unlocked");
             lockedDirecion = null;
@@ -177,6 +174,15 @@ public class AnimationHandler {
             animationLock = false;
             this.timer = 0;
         }
+    }
+
+    public void overrideAnimation(State s, Direction d) {
+         //System.out.println("Animation Locked");
+        this.timer = 0;
+        this.lockedState = s;
+        this.lockedDirecion = d;
+        this.animationLock = true;
+        this.currentAnimationFinished = false;
     }
 
     public void setAnimationLock(State s, Direction d) {

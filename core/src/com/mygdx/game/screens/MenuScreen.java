@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import com.mygdx.game.MyGdxGame;
@@ -38,13 +41,14 @@ public class MenuScreen implements Screen {
     private BitmapFont light;
     private BitmapFont dark;
 
-    private Skin buttonSkin;
+    private Skin UIAtlas;
 
     private Table mainTable;
-    private Label title;
+    private TextButton title;
 
     private final int menuWidth = 800;
     private final int menuHeight = 560;
+    private TextButtonStyle textButtonStyle;
 
     public MenuScreen(MyGdxGame game) {
         this.game = game;
@@ -53,14 +57,11 @@ public class MenuScreen implements Screen {
 
     private TextButton addTextButton(String name) {
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
-        this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
-
         TextButtonStyle style = new TextButtonStyle();
 
-        style.up = buttonSkin.getDrawable("botao3");
-        style.down = buttonSkin.getDrawable("botao3");
-        style.over = buttonSkin.getDrawable("botao2");
+        style.up = UIAtlas.getDrawable("placa_1");
+        style.down = UIAtlas.getDrawable("placa_1");
+        style.over = UIAtlas.getDrawable("placa_1");
         style.pressedOffsetX = 2;
         style.pressedOffsetY = 2;
         style.font = dark;
@@ -81,40 +82,69 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
 
+        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
+
         viewport = new FitViewport(800, 560);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
-        
-        atlas = new TextureAtlas("buttons.pack");
 
-        buttonSkin = new Skin(atlas);
+        atlas = new TextureAtlas("UI/AtlasUI.pack");
+
+        LabelStyle labelStyle = new LabelStyle(light, Color.WHITE);
+
+        UIAtlas = new Skin(atlas);
 
         mainTable = new Table();
+        mainTable.setClip(true);
         mainTable.setFillParent(true);
-        
-        
-        //mainTable.setBounds(0, 0,Gdx.graphics.getWidth() , Gdx.graphics.getHeight());
         mainTable.debug();
         mainTable.center();
-        mainTable.left();
-        mainTable.padLeft(Gdx.graphics.getWidth() / 3);
-        
-        addTextButton("Alone in the West");
+        mainTable.align(1);
+        mainTable.setBackground(new TextureRegionDrawable(new Texture("UI/background.png")));
+
+        //mainTable.padLeft(Gdx.graphics.getWidth() / 3);
+        this.textButtonStyle = new TextButtonStyle();
+        this.textButtonStyle.up = UIAtlas.getDrawable("placa_3");
+        this.textButtonStyle.font = light;
+        this.textButtonStyle.fontColor = Color.WHITE;
+
+        this.title = new TextButton("Alone in the West", textButtonStyle);
+        title.pad(20);
+        title.getLabel().setScale(3);
+
+        title.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                game.setScreen(new Settings((MyGdxGame) game));
+            }
+        });
+        mainTable.add(title);
+
         mainTable.row();
+
+        Screen thisScreen = this;
 
         addTextButton("Play").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayableScreen((MyGdxGame) game));
+                game.setScreen(new PlayableScreen((MyGdxGame) game, "Maps/mapa1.tmx"));
             }
         });
         mainTable.row();
-        addTextButton("Score");
+        addTextButton("Score").addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                game.setScreen((Screen) new HiddenScreen((MyGdxGame) game));
+            }
+        });
         mainTable.row();
         addTextButton("Quit").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               ;
+                Gdx.app.exit();
             }
         });;
         mainTable.row();
@@ -126,8 +156,15 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float f) {
 
-        Gdx.gl.glClearColor(f, f, f, f);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        viewport.update(menuWidth, menuHeight);
+
+        mainTable.setClip(true);
+        mainTable.setFillParent(true);
+        mainTable.setTransform(true);
+        mainTable.setBounds(viewport.getScreenX() , viewport.getScreenY(),  viewport.getScreenWidth() , viewport.getScreenHeight());
 
         stage.act(f);
         stage.draw();
@@ -136,12 +173,8 @@ public class MenuScreen implements Screen {
     @Override
     public void resize(int width, int heigth) {
 
-        mainTable.setX(0);
-        mainTable.setY(0);
-        mainTable.setWidth(menuWidth);
-        mainTable.setHeight(menuHeight);
-
         viewport.update(menuWidth, menuHeight);
+
     }
 
     @Override
@@ -165,7 +198,7 @@ public class MenuScreen implements Screen {
         atlas.dispose();
         light.dispose();
         dark.dispose();
-        buttonSkin.dispose();
+        UIAtlas.dispose();
     }
 
 }

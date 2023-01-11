@@ -23,11 +23,12 @@ public class Melee implements AttackType {
     private float timer = 0;
     private float cooldown = 0;
     private float delay = 0;
-    private int speedModifier = 100;
     private boolean actionLock = false;
     private boolean didShoot = false;
     private Direction lockedDirecion;
     private State lockedState;
+    
+    
 
     private MapHandler mh;
     private EntityHandler eh;
@@ -138,16 +139,6 @@ public class Melee implements AttackType {
     @Override
     public void setDelay(float f) {
         this.delay = f;
-    }
-
-    @Override
-    public void setAttackModifier(float f) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public float getAttackMoidifier() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

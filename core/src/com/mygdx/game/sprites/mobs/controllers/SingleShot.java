@@ -29,7 +29,6 @@ public class SingleShot implements AttackType {
     private float cooldown = 0;
     private float delay = 0;
     private float speedModifier = 1000000;
-    private int damage = 1;
     private boolean actionLock = false;
     private boolean didShoot = false;
     private Direction lockedDirecion;
@@ -53,7 +52,7 @@ public class SingleShot implements AttackType {
         if (actionLock) {
             if (timer > delay && !didShoot) {
                 didShoot = true;
-                new Projectile(mh, eh, this.thisMob, getProjectileDirection() , this.damage);
+                new Projectile(mh, eh, this.thisMob, getProjectileDirection());
             }
             waitActionUnlock(dt);
         }
@@ -123,20 +122,8 @@ public class SingleShot implements AttackType {
         }
         timer += dt;
     }
-
     @Override
     public void setDelay(float f) {
         this.delay = f;
     }
-    
-    @Override
-    public void setAttackModifier(float speedModifier) {
-        this.speedModifier = speedModifier;
-    }
-
-    @Override
-    public float getAttackMoidifier() {
-       return this.speedModifier;
-    }
-
 }
