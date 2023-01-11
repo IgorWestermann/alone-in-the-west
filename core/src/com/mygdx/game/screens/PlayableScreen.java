@@ -15,7 +15,6 @@ import com.mygdx.game.entities.mobs.Player;
 import com.mygdx.game.sprites.objects.Spawner;
 
 /**
- *
  * @author Hugo
  */
 public class PlayableScreen implements Screen {
@@ -46,20 +45,16 @@ public class PlayableScreen implements Screen {
 
         MapHandler map1 = new MapHandler(port, cam, "mapa1.tmx");
         currentMap = map1;
-        
+
         entityHandler = new EntityHandler(currentMap);
-        entityHandler.setPlayer(new Player(this.currentMap , this.entityHandler , 80 , 80));
-        
-        currentMap.getWorld().setContactListener(new CollisionListener(map1 , entityHandler));
+        entityHandler.setPlayer(new Player(this.currentMap, this.entityHandler, 80, 80));
+
+        currentMap.getWorld().setContactListener(new CollisionListener(map1, entityHandler));
         hud = new Hud(entityHandler.getPlayer(), game.batch);
 
         currentMap.loadCollisionBoxes(entityHandler);
-        //currentMap.loadSpawners(entityHandler);
-        
-        //TESTESpawner = new Spawner(currentMap, entityHandler, 40, 40, 10, 2, Spawner.enemyType.RAMDON);
+        currentMap.loadSpawners(entityHandler);
 
-        //new Cactus(currentMap, entityHandler , 20 , 20);
-        //new Coffin(currentMap, entityHandler, 20, 20);
     }
 
     //lembrar de criar ou utilizar uma classe propria pra lidar com os inputs
@@ -68,23 +63,24 @@ public class PlayableScreen implements Screen {
     //porem o ideal e ser quebrado em categorias menores relativas
     public void update(float dt) {
 
-        if(!isPause && Gdx.input.isKeyPressed(Input.Keys.P)){
-             pause();
-        }else if(isPause && Gdx.input.isKeyPressed(Input.Keys.P)){
+        if (!isPause && Gdx.input.isKeyPressed(Input.Keys.P)) {
+            pause();
+        } else if (isPause && Gdx.input.isKeyPressed(Input.Keys.P)) {
             resume();
         }
 
 
-        if(isPause){
+        if (isPause) {
             dt = 0;
-}else{
-        cam.update();
+        } else {
+            cam.update();
 
-        currentMap.update(dt);
-        entityHandler.update(dt);
-        //camera segue o personagem
-        cam.position.x = entityHandler.getPlayer().getBody().getPosition().x;
-        cam.position.y = entityHandler.getPlayer().getBody().getPosition().y;}
+            currentMap.update(dt);
+            entityHandler.update(dt);
+            //camera segue o personagem
+            cam.position.x = entityHandler.getPlayer().getBody().getPosition().x;
+            cam.position.y = entityHandler.getPlayer().getBody().getPosition().y;
+        }
     }
 
     @Override

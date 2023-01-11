@@ -56,7 +56,6 @@ public class EntityHandler {
     public void verifyMobSelfDestruction(){
        for(Entity e : entities){
            if(e.isToSelfDestruct()){
-               //System.out.println("Removing " + e);
                addToBeRemoved(e);
            }
        }
@@ -77,8 +76,6 @@ public class EntityHandler {
     public void draw(SpriteBatch batch) {
 
         for (Entity e : entities) {
-            //batch.draw(t, e.getBoundingRectangle().x, e.getBoundingRectangle().y, e.getBoundingRectangle().width, e.getBoundingRectangle().height);
-            //System.out.println("Drawning " + e.toString());
             e.draw(batch);
         }
 

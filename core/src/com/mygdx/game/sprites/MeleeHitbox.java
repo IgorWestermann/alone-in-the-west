@@ -37,12 +37,6 @@ public class MeleeHitbox extends Entity {
         
         entityHandler.watchEntity(this);
 
-        //System.out.println("New Projectile");
-        //System.out.println("Source Mob" + sourceMob);
-        //System.out.println("Categoty" + this.getMyCategory());
-        //System.out.println("Collision mask" + this.collidesWith);
-
-
     }
     
     protected void defineThisBody(float x, float y) {
@@ -57,8 +51,7 @@ public class MeleeHitbox extends Entity {
 
     @Override
     public void update(float f) {
-        
-        
+
         if(selfDestructTimer > selfDestructLimit){
             this.toSelfDestruct = true;
         }

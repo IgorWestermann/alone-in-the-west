@@ -54,8 +54,8 @@ public class Cactus extends Mob {
 
         this.attackType = new SingleShot(this);
 
-        attackType.setDelay(
-                0.5f);
+        attackType.setDelay(0.5f);
+        this.setHealth(2);
     }
 
     @Override
@@ -114,8 +114,8 @@ public class Cactus extends Mob {
 
     @Override
     public Direction getDirection() {
-        float xVel = super.body.getLinearVelocity().x;
-        float yVel = super.body.getLinearVelocity().y;
+        float xVel = super.body.getLinearVelocity().x / 3;
+        float yVel = super.body.getLinearVelocity().y / 3;
 
         //System.out.println("Cactus " + xVel + " <> " + yVel);
         if (xVel > 0) {

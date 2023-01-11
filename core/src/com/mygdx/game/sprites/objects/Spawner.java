@@ -78,11 +78,7 @@ public class Spawner extends Entity {
 
     private void spawnEnemy(float dt) {
 
-        System.out.println("dt " + dt);
-
         this.timer += dt;
-
-        System.out.println(timer);
 
         if (timer > cooldown && totalMobsToSpawn > 0) {
             switch (spawnType) {

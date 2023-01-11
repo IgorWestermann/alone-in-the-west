@@ -58,8 +58,6 @@ public class Player extends Mob {
 
         this.setHealth(5);
 
-
-        //this.animations.changeAnimationSpeed(State.SHOTING , 0.05f);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class MenuScreen implements Screen {
     private Table mainTable;
     private Label title;
 
-    private final int menuWidth = 800;
+    private final int menuWidth = 700;
     private final int menuHeight = 560;
 
     public MenuScreen(MyGdxGame game) {

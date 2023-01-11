@@ -30,9 +30,9 @@ public class CollisionListener implements ContactListener {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
 
-       // checkProjectileMobCollision(a, b);
+        checkProjectileMobCollision(a, b);
         checkProjectileWallCollision(a, b);
-        //checkMeleeMobCollision(a, b);
+        checkMeleeMobCollision(a, b);
     }
 
     @Override
@@ -60,6 +60,7 @@ public class CollisionListener implements ContactListener {
         } else if (b.getBody().getUserData() instanceof Projectile && a.getBody().getUserData() instanceof Mob) {
             projectile = b;
             hit = a;
+            System.out.println("hit: " + ((Mob) a.getBody().getUserData()).getHealth());
         } else {
             return;
         }
