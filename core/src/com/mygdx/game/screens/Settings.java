@@ -92,7 +92,6 @@ public class Settings implements Screen {
 
         mainTable = new Table();
         mainTable.setFillParent(true);
-        mainTable.debug();
         mainTable.center();
 
         scroll = new ScrollPane(mainTable);
