@@ -103,15 +103,15 @@ public class Settings implements Screen {
         addLabel("Configuracoes", 20);
         this.playerHealth = addSliderInput("Vida do Jogador ", 1, 20, 20);
         this.cactusHealth = addSliderInput("Vida do Cactu", 1, 20, 20);
-        this.coffinHealth = addSliderInput("Vida do Caixão", 1, 20, 20);
+        this.coffinHealth = addSliderInput("Vida do Caixao", 1, 20, 20);
 
         this.playerDamage = addSliderInput("Dano do Jogador ", 1, 20, 20);
         this.cactusDamage = addSliderInput("Dano do Cactu", 1, 20, 20);
-        this.coffinDamage = addSliderInput("Dano do Caixão", 1, 20, 20);
+        this.coffinDamage = addSliderInput("Dano do Caixao", 1, 20, 20);
 
         this.playerSpeed = addSliderInput("Velocidade do jogador ", 1, 20, 20);
         this.cactusSpeed = addSliderInput("Velocidade do Cactu", 1, 20, 20);
-        this.coffinSpeed = addSliderInput("Velocidade do Caixão", 1, 20, 20);
+        this.coffinSpeed = addSliderInput("Velocidade do Caixao", 1, 20, 20);
 
         this.spawnerMax = addSliderInput("Maximo de Inimigos por Spawner", 1, 200, 20);
         this.spawnerCooldown = addSliderInput("Tempo de Recarga do Spawner", 1, 20, 20);

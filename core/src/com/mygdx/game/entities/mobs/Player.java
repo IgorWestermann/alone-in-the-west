@@ -178,7 +178,7 @@ public class Player extends Mob {
         animations.setDirectionDictionary(directionDictionary);
     }
 
-    public void changeProjectileSpeed(float f){
-        this.attackType.setAttackModifier(f);
-    }
+//    public void changeProjectileSpeed(float f){
+//        this.attackType.setAttackModifier(f);
+//    }
 }

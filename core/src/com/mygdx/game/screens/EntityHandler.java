@@ -4,9 +4,10 @@
  */
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entities.mobs.Cactus;
+import com.mygdx.game.entities.mobs.Coffin;
 import com.mygdx.game.entities.mobs.Player;
 import com.mygdx.game.controllers.Entity;
 
@@ -49,7 +50,6 @@ public class EntityHandler {
         } else if (e instanceof Coffin) {
             coffinListArray.add((Coffin) e);
         }
-
         entities.add(e);
     }
     private void remove() {
@@ -69,7 +69,6 @@ public class EntityHandler {
         toBeRemoved.clear();
 
     }
-
     public void addToBeRemoved(Entity e) {
         toBeRemoved.add(e);
     }
@@ -81,7 +80,6 @@ public class EntityHandler {
            }
        }
     }
-
     public boolean vefityMobsEnded(){
         return this.cactusListArray.size == 0 && this.coffinListArray.size == 0;
     }
@@ -93,16 +91,12 @@ public class EntityHandler {
 
         for (Entity e : entities) {
             e.update(dt);
-
         }
-
     }
 
     public void draw(SpriteBatch batch) {
-
         for (Entity e : entities) {
             e.draw(batch);
         }
-
     }
 }
