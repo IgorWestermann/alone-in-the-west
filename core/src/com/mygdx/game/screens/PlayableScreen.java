@@ -246,7 +246,6 @@ public class PlayableScreen implements Screen {
         hud.update();
 
         if (isPause) {
-
             stage.draw();
         }
     }
@@ -301,10 +300,7 @@ public class PlayableScreen implements Screen {
         Player p = entityHandler.getPlayer();
 
         if(p.isDead()){
-
             game.setScreen(new GameOver(game , entityHandler.getTotalEnemiesDead()));
-            //this.dispose();
-
         }
     }
 

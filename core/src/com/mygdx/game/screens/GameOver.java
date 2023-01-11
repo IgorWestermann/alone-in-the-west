@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -16,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -81,7 +76,6 @@ public class GameOver implements Screen {
         mainTable.align(1);
         mainTable.setBackground(new TextureRegionDrawable(new Texture("UI/background.png")));
 
-        //mainTable.padLeft(Gdx.graphics.getWidth() / 3);
         this.textButtonStyle = new TextButton.TextButtonStyle();
         this.textButtonStyle.up = UIAtlas.getDrawable("placa_3");
         this.textButtonStyle.font = light;
