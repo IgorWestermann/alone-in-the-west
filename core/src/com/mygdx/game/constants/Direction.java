@@ -9,5 +9,5 @@ package com.mygdx.game.constants;
  * @author Hugo
  */
 public enum Direction {
-    N, NE, E, SE, S, SW, W, NW
+    N, NE, E, SE, S, SW, W, NW , ALL
 }

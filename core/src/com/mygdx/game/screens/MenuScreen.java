@@ -46,8 +46,6 @@ public class MenuScreen implements Screen {
     private Table mainTable;
     private TextButton title;
 
-    private final int menuWidth = 800;
-    private final int menuHeight = 560;
     private TextButtonStyle textButtonStyle;
 
     public MenuScreen(MyGdxGame game) {
@@ -119,7 +117,7 @@ public class MenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 
                 dispose();
-                game.setScreen(new HiddenScreen((MyGdxGame) game));
+                game.setScreen(new HiddenScreen((MyGdxGame) game ));
             }
         });
         mainTable.row();
@@ -155,7 +153,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float f) {
 
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 

@@ -200,6 +200,7 @@ public class PlayableScreen implements Screen {
     public void update(float dt) {
 
         vefifyEnd();
+        checkPlayerDeath();
 
         if (!isPause && Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             pause();
@@ -296,6 +297,17 @@ public class PlayableScreen implements Screen {
         //variavel de entidades
         atlas.dispose();
 
+    }
+    
+    private void checkPlayerDeath(){
+        Player p = entityHandler.getPlayer();
+        
+        if(p.isDead()){ 
+            
+            game.setScreen(new GameOver(game , entityHandler.getTotalEnemiesDead()));
+            //this.dispose();
+           
+        }
     }
 
     private void nextRound() {

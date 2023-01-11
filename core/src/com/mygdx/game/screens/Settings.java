@@ -143,7 +143,7 @@ public class Settings implements Screen {
                 game.setScreen(new MenuScreen((MyGdxGame) game));
             }
         });
-        
+
         mainTable.row();
 
     }
@@ -173,6 +173,7 @@ public class Settings implements Screen {
     }
 
     private Actor addLabel(String name, int pad) {
+
         LabelStyle ls = new Label.LabelStyle(dark, Color.BLACK);
         Label label = new Label(name, ls);
 
@@ -243,34 +244,6 @@ public class Settings implements Screen {
 
     }
 
-    private void getValues() {
-
-        int ph = (int) playerHealth.first.getValue();
-        int ch = (int) cactusHealth.first.getValue();
-        int coh = (int) coffinHealth.first.getValue();
-        int pd = (int) playerDamage.first.getValue();
-        int cd = (int) cactusDamage.first.getValue();
-        int cod = (int) coffinDamage.first.getValue();
-        int ps = (int) playerSpeed.first.getValue();
-        int cs = (int) cactusSpeed.first.getValue();
-        int cos = (int) coffinSpeed.first.getValue();
-        int sm = (int) spawnerMax.first.getValue();
-        int sc = (int) spawnerCooldown.first.getValue();
-
-        System.out.println("ph " + ph);
-        System.out.println("ch " + ch);
-        System.out.println("coh " + coh);
-        System.out.println("pd " + pd);
-        System.out.println("cd " + cd);
-        System.out.println("cod " + cod);
-        System.out.println("ps " + ps);
-        System.out.println("cs " + cs);
-        System.out.println("cos " + cos);
-        System.out.println("sm " + sm);
-        System.out.println("sc " + sc);
-
-    }
-
     private void saveValues() {
 
         GlobalConfig.PlayerHealth = (int) playerHealth.first.getValue();
@@ -288,14 +261,16 @@ public class Settings implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        mainTable.setClip(true);
+        mainTable.setFillParent(true);
+        mainTable.setTransform(true);
+        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 
         updateValue();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            getValues();
-        }
 
         stage.act(delta);
         stage.draw();
@@ -303,7 +278,7 @@ public class Settings implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(1280, 720);
     }
 
     @Override

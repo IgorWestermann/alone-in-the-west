@@ -9,15 +9,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -29,6 +30,9 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.constants.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +41,7 @@ import java.util.logging.Logger;
  *
  * @author Hugo
  */
-public class ScoreScreen implements Screen {
+public class GameOver implements Screen {
 
     private BitmapFont dark;
     private BitmapFont light;
@@ -52,15 +56,17 @@ public class ScoreScreen implements Screen {
     private TextField.TextFieldStyle tfs;
     private ScrollPane scroll;
     private Table outerContainer;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private final int score;
+    private TextField textInput;
 
-    public ScoreScreen(MyGdxGame game) {
-
+    public GameOver(MyGdxGame game, int score) {
         this.game = game;
+        this.score = score;
     }
 
     @Override
     public void show() {
-
         this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
@@ -68,48 +74,82 @@ public class ScoreScreen implements Screen {
         stage = new Stage(viewport);
 
         Gdx.input.setInputProcessor(stage);
+
         atlas = new TextureAtlas("UI/AtlasUI.pack");
         UIAtlas = new Skin(atlas);
-        this.ls = new Label.LabelStyle(light, Color.WHITE);
 
         TextureRegionDrawable back = (TextureRegionDrawable) UIAtlas.getDrawable("placa_2");
         TextureRegionDrawable cursor = (TextureRegionDrawable) UIAtlas.getDrawable("skull_knob");
 
         tfs = new TextField.TextFieldStyle(dark, Color.BLACK, cursor, cursor, back);
+        ls = new Label.LabelStyle(dark, Color.BLACK);
 
         mainTable = new Table();
-        scroll = new ScrollPane(mainTable);
+        stage.addActor(mainTable);
 
+        mainTable.setClip(true);
         mainTable.setFillParent(true);
-        mainTable.pad(20);
-        mainTable.padBottom(400);
-        //mainTable.debug();
-        //mainTable.center();
+        mainTable.debug();
+        mainTable.center();
+        mainTable.align(1);
+        mainTable.setBackground(new TextureRegionDrawable(new Texture("UI/background.png")));
 
-        outerContainer = new Table();
-        stage.addActor(outerContainer);
-        outerContainer.setClip(true);
-        outerContainer.setFillParent(true);
+        //mainTable.padLeft(Gdx.graphics.getWidth() / 3);
+        this.textButtonStyle = new TextButton.TextButtonStyle();
+        this.textButtonStyle.up = UIAtlas.getDrawable("placa_3");
+        this.textButtonStyle.font = light;
+        this.textButtonStyle.fontColor = Color.WHITE;
 
-        outerContainer.background(UIAtlas.getDrawable("placa_4"));
-        outerContainer.add(scroll);
-        outerContainer.align(1).center();
+        addLabel("Game Over", 20).setScale(3);
+        addLabel("Sua pontuação final foi de: ", 10);
+        addLabel(String.valueOf(score), 10);
 
-        Array<Pair<String, Integer>> array = readCSVData();
+        addLabel("Salve seu nome no registro de pontuacoes ", 20);
 
-        for (Pair p : array) {
-            addEntry(p);
-        }
+        textInput = addTextFieldInput("Seu nome...", 20);
 
-        array.clear();
-        
-        addTextButton("Voltar ao menu").addListener(new ClickListener() {
+        addTextButton("Continuar").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                saveToCSVFile();
                 dispose();
                 game.setScreen(new MenuScreen((MyGdxGame) game));
             }
-        });
+        });;
+
+    }
+
+    private Label addLabel(String name, int pad) {
+
+        Label label = new Label(name, ls);
+
+        Container labelContainer = new Container(label);
+        mainTable.add(labelContainer);
+
+        labelContainer.pad(pad);
+
+        mainTable.row();
+
+        return label;
+    }
+
+    private TextField addTextFieldInput(String name, int padding) {
+
+        Label inputLabel = new Label(name, ls);
+        Container inputLabelContainer = new Container(inputLabel);
+        inputLabelContainer.pad(padding);
+
+        TextField tf = new TextField("", tfs);
+
+        Container textFieldContainer = new Container(tf);
+        textFieldContainer.pad(20);
+
+        mainTable.add(inputLabelContainer).spaceBottom(2);
+        mainTable.row();
+        mainTable.add(textFieldContainer).spaceBottom(2);
+        mainTable.row();
+
+        return tf;
     }
 
     private TextButton addTextButton(String name) {
@@ -124,75 +164,50 @@ public class ScoreScreen implements Screen {
         style.font = dark;
 
         TextButton button = new TextButton(name, style);
-        Container container = new Container(button);
-        mainTable.add(container);
 
         button.pad(20);
         //button.padBottom(5);
+
+        Container container = new Container(button);
         container.pad(5);
+
+        mainTable.add(container);
 
         return button;
     }
 
-    private void addEntry(Pair<String, Integer> pair) {
-
-        Label.LabelStyle ls = new Label.LabelStyle(light, Color.WHITE);
-        Label label = new Label(pair.first, ls);
-
-        Container labelContainer = new Container(label);
-        mainTable.add(labelContainer);
-
-        labelContainer.pad(20);
-
-        Label value = new Label(String.valueOf(pair.second), ls);
-
-        Container valueContainer = new Container(value);
-        mainTable.add(valueContainer);
-
-        valueContainer.pad(20);
-
-        mainTable.row().spaceBottom(2);
-
-    }
-
-    public Array<Pair<String, Integer>> readCSVData() {
-
+    private void saveToCSVFile() {
         FileHandle handle;
         File source;
-        Scanner scanner = null;
+        PrintWriter printWriter = null;
+        FileWriter fr = null;
 
-        Array<Pair<String, Integer>> array = new Array<>();
-
+        handle = Gdx.files.internal("score_register.csv");
+        source = handle.file();
         try {
-            handle = Gdx.files.internal("score_register.csv");
-            source = handle.file();
-            scanner = new Scanner(source);
+            fr = new FileWriter(source, true);
+            printWriter = new PrintWriter(fr);
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                line = line.replace(" ", "");
-                String[] dados = line.split(",");
-
-                try {
-                    String name = dados[0];
-                    int score = Integer.parseInt(dados[1]);
-
-                    array.add(new Pair<>(name, score));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-            }
+            printWriter.println(textInput.getText() + " , " + score);
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ScoreScreen.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Arquivo não encontrado, registro n sera salvo");
+        } catch (IOException ex) {
+            System.out.println("Arquivo não encontrado, registro n sera salvo");
         } finally {
-            if (scanner != null) {
-                scanner.close();
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException ex) {
+                    System.out.println("Namoral , quem lança esses exception é chatão");
+                }
             }
+            if (printWriter != null) {
+                printWriter.close();
+            }
+
         }
 
-        return array;
     }
 
     @Override
@@ -201,13 +216,17 @@ public class ScoreScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        mainTable.setClip(true);
+        mainTable.setFillParent(true);
+        mainTable.setTransform(true);
+        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
         stage.act(delta);
-
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(1280, 720);
     }
 
     @Override
@@ -224,6 +243,11 @@ public class ScoreScreen implements Screen {
 
     @Override
     public void dispose() {
+        dark.dispose();
+        light.dispose();
+        stage.dispose();
+        atlas.dispose();
+        UIAtlas.dispose();
     }
 
 }

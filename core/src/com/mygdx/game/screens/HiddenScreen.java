@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.constants.GlobalConfig;
+
 /**
  *
  * @author Hugo
@@ -60,13 +61,12 @@ public class HiddenScreen implements Screen {
         tfs.font = dark;
         tfs.fontColor = Color.BLACK;
         tfs.background = UIAtlas.getDrawable("placa_4");
-        
+
         mainTable = new Table();
         stage.addActor(mainTable);
         mainTable.setFillParent(true);
         mainTable.center();
-        
-        
+
         inputText = new TextField("", tfs);
         mainTable.add(inputText);
     }
@@ -74,35 +74,35 @@ public class HiddenScreen implements Screen {
     @Override
     public void render(float delta) {
         stage.act();
-        
-        System.out.println(inputText.getText());
-        
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+
+        //System.out.println(inputText.getText());
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             dispose();
-            
-            if(inputText.getText().equals(GlobalConfig.password)){
+
+            if (inputText.getText().equals(GlobalConfig.password)) {
                 game.setScreen(new Settings(game));
-            }else{
+            } else {
                 game.setScreen(new MenuScreen(game));
             }
         };
-        
+
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        
+
     }
 
     @Override
     public void pause() {
-       
+
     }
 
     @Override
     public void resume() {
-       
+
     }
 
     @Override
@@ -111,7 +111,11 @@ public class HiddenScreen implements Screen {
 
     @Override
     public void dispose() {
-        
+        dark.dispose();
+        light.dispose();
+        stage.dispose();
+        atlas.dispose();
+        UIAtlas.dispose();
     }
 
 }

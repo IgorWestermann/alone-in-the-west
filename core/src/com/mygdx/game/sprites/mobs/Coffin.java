@@ -96,6 +96,7 @@ public class Coffin extends Mob {
         stateDictionaty.put(State.RUNNING, 1);
         stateDictionaty.put(State.SHOTING, 2);
         stateDictionaty.put(State.HIT, 3);
+        stateDictionaty.put(State.DYING, 0);
 
         Map<Direction, Pair<String, Boolean>> directionDictionary = new HashMap<>();
 
@@ -103,9 +104,11 @@ public class Coffin extends Mob {
         directionDictionary.put(Direction.S, new Pair<>("Coffin Front Sheet", false));
         directionDictionary.put(Direction.E, new Pair<>("Coffin Side Sheet", false));
         directionDictionary.put(Direction.W, new Pair<>("Coffin Side Sheet", true));
+         directionDictionary.put(Direction.ALL, new Pair<>("Death Explosion", true));
 
         animations = new AnimationHandler();
         animations.buildAnimationsBySpriteList("Mobs/Coffin/", sprites, 74, 70, framesPerAction, modes);
+        animations.buildAnimationsBySheet("Mobs/Coffin/Death Explosion.png", "Death Explosion", 50, 55, new int []{8}, new Animation.PlayMode[]{Animation.PlayMode.NORMAL});
         animations.setDirectionDictionary(directionDictionary);
         animations.setStateDictionary(stateDictionaty);
     }

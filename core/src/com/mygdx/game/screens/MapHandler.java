@@ -84,13 +84,13 @@ public class MapHandler {
     public boolean verifySpawnersEnded() {
 
         for (Spawner spawner : spawenersSet) {
-            System.out.println(spawner + " " + spawner.isFinished());
+            //System.out.println(spawner + " " + spawner.isFinished());
             if (!spawner.isFinished()) {
                 return false;
             };
         }
 
-        System.out.println("fim");
+        //System.out.println("fim");
         return true;
 
     }
@@ -109,6 +109,7 @@ public class MapHandler {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            System.out.println("Resetando spawners para configuração padrão");
         }
     }
 

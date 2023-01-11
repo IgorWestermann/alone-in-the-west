@@ -28,6 +28,7 @@ import java.util.Map;
  * @author Hugo
  */
 public class Player extends Mob {
+    
 
     public Player(MapHandler mapHandler, EntityHandler entityHandler) {
         super(mapHandler, entityHandler, CollisionCategories.PLAYER_BODY,
@@ -44,7 +45,6 @@ public class Player extends Mob {
         this.mController = new PlayerMoviment();
         this.attackType = new SingleShot(this);
 
-        this.animations.changeAnimationSpeed(currentState, 10);
     }
 
     public Player(MapHandler mapHandler, EntityHandler entityHandler, float startX, float startY) {
@@ -168,6 +168,7 @@ public class Player extends Mob {
         directionDictionary.put(Direction.NE, new Pair<>("Player Angle 2 Sheet", false));
         directionDictionary.put(Direction.E, new Pair<>("Player Side Sheet", false));
         directionDictionary.put(Direction.SE, new Pair<>("Player Angle 1 Sheet", false));
+        directionDictionary.put(Direction.ALL, new Pair<>("Player Front Sheet", false));
 
         animations = new AnimationHandler();
         animations.buildAnimationsBySpriteList("Player/", sprites, 48, 44, framesPerRegions, modes);

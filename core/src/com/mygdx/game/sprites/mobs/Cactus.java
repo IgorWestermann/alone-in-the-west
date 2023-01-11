@@ -107,6 +107,8 @@ public class Cactus extends Mob {
         stateDictionaty.put(State.RUNNING, 1);
         stateDictionaty.put(State.SHOTING, 2);
         stateDictionaty.put(State.HIT, 3);
+        
+        stateDictionaty.put(State.DYING, 0);
 
         Map<Direction, Pair<String, Boolean>> directionDictionary = new HashMap<>();
 
@@ -114,6 +116,7 @@ public class Cactus extends Mob {
         directionDictionary.put(Direction.S, new Pair<>("Cactus Front Sheet", false));
         directionDictionary.put(Direction.E, new Pair<>("Cactus Side Sheet", false));
         directionDictionary.put(Direction.W, new Pair<>("Cactus Side Sheet", true));
+        directionDictionary.put(Direction.ALL, new Pair<>("Death Explosion", true));
 
         animations = new AnimationHandler();
         animations.setDirectionDictionary(directionDictionary);
@@ -122,6 +125,8 @@ public class Cactus extends Mob {
         animations.buildAnimationsBySheet("Mobs/Cactus/Cactus Back Sheet.png", "Cactus Back Sheet", 40, 40, framesPerAction, modes);
         animations.buildAnimationsBySheet("Mobs/Cactus/Cactus Front Sheet.png", "Cactus Front Sheet", 40, 40, framesPerAction, modes);
         animations.buildAnimationsBySheet("Mobs/Cactus/Cactus Side Sheet.png", "Cactus Side Sheet", 40, 40, framesPerAction, modes);
+        
+        animations.buildAnimationsBySheet("Mobs/Cactus/Death Explosion.png", "Death Explosion", 50, 55, new int []{8}, new Animation.PlayMode[]{Animation.PlayMode.NORMAL});
     }
 
     @Override

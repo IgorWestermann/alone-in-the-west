@@ -33,14 +33,15 @@ public abstract class Mob extends Entity {
     private Direction lockedDirecion = null;
 
     protected boolean triggerDeath = false;
+    protected boolean dead = false;
 
     private int attackDamage = 0;
-    private int speedModifier = 0 ;
-    private int attackSpeed = 1 ;
-    
-    private float getAttackDuration(){
-        
-        return 1/attackSpeed; 
+    private int speedModifier = 0;
+    private int attackSpeed = 1;
+
+    private float getAttackDuration() {
+
+        return 1 / attackSpeed;
     }
 
     public int getAttackDamage() {
@@ -85,8 +86,7 @@ public abstract class Mob extends Entity {
 
         defineThisBody(startX, startY);
         entityHandler.watchEntity(this);
-        
-        
+
     }
 
     //nessa funcao a gente define cada caracteristica fisica do corpo
@@ -182,26 +182,31 @@ public abstract class Mob extends Entity {
     }
 
     public void hitted(int value) {
-        
+
         setActionLock(State.HIT, this.getDirection());
         this.animations.overrideAnimation(State.HIT, this.getDirection());
 
-        this.health-=value;
+        this.health -= value;
 
-        System.out.println(this + " " + this.health);
+        //System.out.println(this + " " + this.health);
 
         if (this.health <= 0) {
             System.out.println(this + " to die");
             setActionLock(State.IDLE, Direction.S);
-            this.animations.overrideAnimation(State.IDLE, Direction.S);
+            this.animations.overrideAnimation(State.DYING, Direction.ALL);
             triggerDeath = true;
         }
     }
 
     private void verifyDeath(float dt) {
         if (triggerDeath && this.animations.isCurrentAnimationFinished()) {
+            dead = true;
             super.setSelfDestruct();
         }
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 
 }
