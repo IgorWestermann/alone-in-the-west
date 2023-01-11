@@ -99,12 +99,6 @@ public abstract class Entity extends Sprite {
 
     protected void createBoxCollisionBody(float boxW, float boxH, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
 
-        //System.out.println("Creating" + this.toString());
-        //System.out.println("Width" + boxW);
-        //System.out.println("Heigh" + boxH);
-        //System.out.println("Inicial X " + inicialX);
-        //System.out.println("Inicial Y " + inicialY);
-
         BodyDef bdef = new BodyDef();
         //cria a definicao do corpo fisico
 
@@ -133,12 +127,6 @@ public abstract class Entity extends Sprite {
     }
     
     protected void createBoxSensorBody(float boxW, float boxH, BodyDef.BodyType type, float inicialX, float inicialY, float dumping) {
-
-        //System.out.println("Creating" + this.toString());
-        //System.out.println("Width" + boxW);
-        //System.out.println("Heigh" + boxH);
-        //System.out.println("Inicial X " + inicialX);
-        //System.out.println("Inicial Y " + inicialY);
 
         BodyDef bdef = new BodyDef();
         //cria a definicao do corpo fisico
