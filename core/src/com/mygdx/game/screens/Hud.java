@@ -24,12 +24,11 @@ public class Hud {
 
     public Hud(Player player, SpriteBatch sb) {
         viewport = new FillViewport(400, 200, new OrthographicCamera());
-        stage =  new Stage(viewport, sb);
+        stage = new Stage(viewport, sb);
         life = new Texture(Gdx.files.internal("FX/heart.png"));
         this.player = player;
-        player.getHealth();
         playerHealth = new ArrayList<>();
-        for(int i = 0; i < player.getHealth(); i++) {
+        for (int i = 0; i < player.getHealth(); i++) {
             playerHealth.add(new Image(life));
         }
         table.top();
@@ -42,8 +41,14 @@ public class Hud {
     }
 
     public void update() {
+
         if (this.player.isHit() && this.playerHealth.size() > 0) {
-            table.removeActor(this.playerHealth.get(player.getHealth()));
+            try{
+                table.removeActor(this.playerHealth.get(player.getHealth()));
+            } catch (Exception e) {
+                playerHealth.add(new Image(life));
+            }
+
         }
         stage.draw();
     }
