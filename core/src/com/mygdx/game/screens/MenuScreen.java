@@ -126,7 +126,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
-                game.setScreen(new PlayableScreen((MyGdxGame) game, "Maps/mapa1.tmx"));
+                game.setScreen(new PlayableScreen((MyGdxGame) game, "Maps/mapa2.tmx"));
             }
         });
         mainTable.row();

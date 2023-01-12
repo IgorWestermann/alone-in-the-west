@@ -61,8 +61,8 @@ public class Spawner extends Entity {
         this.closed = new TextureRegion(new Texture("Buildings/closed_door.png"));
         
 
-        createBoxSensorBody(boxW, boxH, BodyDef.BodyType.StaticBody, x, y, timer);
-        super.setBounds(x, y, boxW, boxH);
+        createBoxSensorBody(boxW/2, boxH/2, BodyDef.BodyType.StaticBody, x, y, timer);
+        super.setBounds(x - boxW/2, y - boxH/2, boxW, boxH);
 
         eh.watchEntity(this);
 

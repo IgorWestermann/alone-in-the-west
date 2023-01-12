@@ -77,7 +77,7 @@ public class PlayableScreen implements Screen {
         isPause = false;
         isroundEnded = false;
 
-        MapHandler map1 = new MapHandler(port, cam, "Maps/mapa1.tmx");
+        MapHandler map1 = new MapHandler(port, cam, mapName);
 
         currentMap = map1;
 
