@@ -136,7 +136,6 @@ public abstract class Mob extends Entity {
 
     public void waitActionUnlock(float dt) {
         if (this.actionLock && this.animations.isCurrentAnimationFinished()) {
-            // System.out.println("Action Unlocked");
             this.lockedState = null;
             this.lockedDirecion = null;
             this.actionLock = false;
@@ -205,9 +204,8 @@ public abstract class Mob extends Entity {
         this.health -= value;
         this.isHit = true;
 
-        if (this.health <= 0) {
-            System.out.println(this + " to die");
-            setActionLock(State.IDLE, Direction.S);
+        if (this.health <= 0 && !triggerDeath) {
+            setActionLock(State.DYING, Direction.ALL);
             this.animations.overrideAnimation(State.DYING, Direction.ALL);
             triggerDeath = true;
         }
