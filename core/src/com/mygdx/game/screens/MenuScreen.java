@@ -59,15 +59,13 @@ public class MenuScreen implements Screen {
         button.pad(20);
         container.pad(5);
 
-
-
         return button;
     }
 
     @Override
     public void show() {
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
         viewport = new FitViewport(1280, 720);
@@ -102,7 +100,7 @@ public class MenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 dispose();
-                game.setScreen(new HiddenScreen((MyGdxGame) game ));
+                game.setScreen(new HiddenScreen((MyGdxGame) game));
             }
         });
         mainTable.row();
@@ -130,7 +128,8 @@ public class MenuScreen implements Screen {
                 dispose();
                 Gdx.app.exit();
             }
-        });;
+        });
+        ;
         mainTable.row();
 
     }
@@ -141,11 +140,11 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         mainTable.setClip(true);
         mainTable.setFillParent(true);
         mainTable.setTransform(true);
-        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(),
+                viewport.getScreenHeight());
 
         stage.act(f);
         stage.draw();

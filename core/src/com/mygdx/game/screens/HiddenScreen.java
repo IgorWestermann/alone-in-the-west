@@ -34,7 +34,7 @@ public class HiddenScreen implements Screen {
     public HiddenScreen(MyGdxGame game) {
         this.game = game;
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
         viewport = new FitViewport(800, 560);
@@ -76,7 +76,8 @@ public class HiddenScreen implements Screen {
             } else {
                 game.setScreen(new MenuScreen(game));
             }
-        };
+        }
+        ;
 
         stage.draw();
     }

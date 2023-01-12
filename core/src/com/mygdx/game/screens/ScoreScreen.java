@@ -32,7 +32,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class ScoreScreen implements Screen {
 
     private BitmapFont dark;
@@ -57,7 +56,7 @@ public class ScoreScreen implements Screen {
     @Override
     public void show() {
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
         viewport = new FitViewport(1280, 720);
@@ -95,7 +94,7 @@ public class ScoreScreen implements Screen {
         }
 
         array.clear();
-        
+
         addTextButton("Voltar ao menu").addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

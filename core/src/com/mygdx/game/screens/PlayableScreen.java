@@ -25,7 +25,6 @@ import com.mygdx.game.entities.mobs.*;
 import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.constants.State;
 
-
 public class PlayableScreen implements Screen {
 
     private final int W_WIDTH = 400;
@@ -41,14 +40,14 @@ public class PlayableScreen implements Screen {
 
     private final MyGdxGame game;
 
-    //variaveis de camera
+    // variaveis de camera
     private final OrthographicCamera cam;
     private final FitViewport port;
 
-    //variavel de mapas
+    // variavel de mapas
     private MapHandler currentMap;
 
-    //variavel de entidades
+    // variavel de entidades
     private EntityHandler entityHandler;
 
     private boolean isPause;
@@ -60,7 +59,7 @@ public class PlayableScreen implements Screen {
     public PlayableScreen(MyGdxGame game, String mapName) {
         this.game = game;
         cam = new OrthographicCamera();
-        //viewport e usado pra manter a proporcao da tela
+        // viewport e usado pra manter a proporcao da tela
         port = new FitViewport(W_WIDTH, W_HEIGHT, cam);
         isPause = false;
         isroundEnded = false;
@@ -78,7 +77,7 @@ public class PlayableScreen implements Screen {
         currentMap.loadCollisionBoxes(entityHandler);
         currentMap.loadSpawners(entityHandler);
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
         this.stage = new Stage(port, game.batch);
@@ -88,17 +87,16 @@ public class PlayableScreen implements Screen {
         UIAtlas = new Skin(atlas);
     }
 
-
-    //lembrar de criar ou utilizar uma classe propria pra lidar com os inputs
-    //esta esta sendo utilizada para testes
-    //esse metodo reune atualizacao de objetos
-    //porem o ideal e ser quebrado em categorias menores relativas
+    // lembrar de criar ou utilizar uma classe propria pra lidar com os inputs
+    // esta esta sendo utilizada para testes
+    // esse metodo reune atualizacao de objetos
+    // porem o ideal e ser quebrado em categorias menores relativas
 
     private void vefifyEnd() throws Exception {
         if (this.entityHandler.vefityMobsEnded() && this.currentMap.verifySpawnersEnded()) {
             this.isroundEnded = true;
             System.out.println("Next Round");
-            //pause();
+            // pause();
             nextRound();
         }
     }
@@ -214,7 +212,7 @@ public class PlayableScreen implements Screen {
             cam.update();
             currentMap.update(dt);
             entityHandler.update(dt);
-            //camera segue o personagem
+            // camera segue o personagem
             cam.position.x = entityHandler.getPlayer().getBody().getPosition().x;
             cam.position.y = entityHandler.getPlayer().getBody().getPosition().y;
         }
@@ -222,12 +220,14 @@ public class PlayableScreen implements Screen {
 
     @Override
     public void show() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change
+        // body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void render(float f) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change
+        // body of generated methods, choose Tools | Templates.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -239,7 +239,7 @@ public class PlayableScreen implements Screen {
 
         currentMap.render(f);
         game.batch.setProjectionMatrix(cam.combined);
-        //tudo que for ser desenhado precisa estar entre batch.begin() e batch.end()
+        // tudo que for ser desenhado precisa estar entre batch.begin() e batch.end()
         game.batch.begin();
         entityHandler.draw(game.batch);
         game.batch.end();
@@ -252,7 +252,8 @@ public class PlayableScreen implements Screen {
 
     @Override
     public void resize(int w, int h) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change
+        // body of generated methods, choose Tools | Templates.
         port.update(1280, 720);
     }
 
@@ -260,7 +261,8 @@ public class PlayableScreen implements Screen {
     public void pause() {
 
         createPausePopUp();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change
+        // body of generated methods, choose Tools | Templates.
 
         System.out.println("Pause");
         this.isPause = true;
@@ -268,13 +270,15 @@ public class PlayableScreen implements Screen {
 
     @Override
     public void resume() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change
+        // body of generated methods, choose Tools | Templates.
 
     }
 
     @Override
     public void hide() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change
+        // body of generated methods, choose Tools | Templates.
         pause();
     }
 
@@ -288,19 +292,19 @@ public class PlayableScreen implements Screen {
 
         UIAtlas.dispose();
 
-        //variaveis de camera
-        //variavel de mapas
+        // variaveis de camera
+        // variavel de mapas
         currentMap.dispose();
-        //variavel de entidades
+        // variavel de entidades
         atlas.dispose();
 
     }
 
-    private void checkPlayerDeath(){
+    private void checkPlayerDeath() {
         Player p = entityHandler.getPlayer();
 
-        if(p.isDead()){
-            game.setScreen(new GameOver(game , entityHandler.getTotalEnemiesDead()));
+        if (p.isDead()) {
+            game.setScreen(new GameOver(game, entityHandler.getTotalEnemiesDead()));
         }
     }
 

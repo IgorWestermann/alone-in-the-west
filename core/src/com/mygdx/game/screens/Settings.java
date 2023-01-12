@@ -26,7 +26,6 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.constants.GlobalConfig;
 import com.mygdx.game.constants.Pair;
 
-
 public class Settings implements Screen {
 
     private BitmapFont dark;
@@ -62,7 +61,7 @@ public class Settings implements Screen {
     @Override
     public void show() {
 
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
         viewport = new FitViewport(1280, 720);
@@ -153,7 +152,7 @@ public class Settings implements Screen {
         TextButton button = new TextButton(name, style);
 
         button.pad(20);
-        //button.padBottom(5);
+        // button.padBottom(5);
 
         Container container = new Container(button);
         container.pad(5);
@@ -258,10 +257,10 @@ public class Settings implements Screen {
         mainTable.setClip(true);
         mainTable.setFillParent(true);
         mainTable.setTransform(true);
-        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(),
+                viewport.getScreenHeight());
 
         updateValue();
-
 
         stage.act(delta);
         stage.draw();

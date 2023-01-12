@@ -49,7 +49,7 @@ public class GameOver implements Screen {
 
     @Override
     public void show() {
-        this.dark = new BitmapFont(Gdx.files.internal("Font/black_font.fnt"), false);
+        this.dark = new BitmapFont(Gdx.files.internal("Font/dark.fnt"), false);
         this.light = new BitmapFont(Gdx.files.internal("Font/white_font.fnt"), false);
 
         viewport = new FitViewport(1280, 720);
@@ -71,7 +71,6 @@ public class GameOver implements Screen {
 
         mainTable.setClip(true);
         mainTable.setFillParent(true);
-        mainTable.debug();
         mainTable.center();
         mainTable.align(1);
         mainTable.setBackground(new TextureRegionDrawable(new Texture("UI/background.png")));
@@ -96,7 +95,8 @@ public class GameOver implements Screen {
                 dispose();
                 game.setScreen(new MenuScreen((MyGdxGame) game));
             }
-        });;
+        });
+        ;
 
     }
 
@@ -199,7 +199,8 @@ public class GameOver implements Screen {
         mainTable.setClip(true);
         mainTable.setFillParent(true);
         mainTable.setTransform(true);
-        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+        mainTable.setBounds(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(),
+                viewport.getScreenHeight());
         stage.act(delta);
         stage.draw();
     }
