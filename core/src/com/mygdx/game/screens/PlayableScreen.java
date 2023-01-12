@@ -69,7 +69,7 @@ public class PlayableScreen implements Screen {
         currentMap = map1;
 
         entityHandler = new EntityHandler(currentMap);
-        entityHandler.setPlayer(new Player(this.currentMap, this.entityHandler, 80, 80));
+        entityHandler.setPlayer(new Player(this.currentMap, this.entityHandler, 300, 100));
 
         currentMap.getWorld().setContactListener(new CollisionListener(map1, entityHandler));
 
@@ -96,7 +96,6 @@ public class PlayableScreen implements Screen {
         if (this.entityHandler.vefityMobsEnded() && this.currentMap.verifySpawnersEnded()) {
             this.isroundEnded = true;
             System.out.println("Next Round");
-            // pause();
             nextRound();
         }
     }
@@ -110,7 +109,7 @@ public class PlayableScreen implements Screen {
         pause = new Window("Pause", ws);
         this.stage.addActor(pause);
 
-        pause.setSize(20, 20);
+        pause.setSize(1, 1);
         pause.center();
 
         TextButton resume = addTextButton("Voltar ao jogo", pause);
@@ -158,7 +157,7 @@ public class PlayableScreen implements Screen {
         table.row();
         table.add(exit).spaceBottom(1).maxHeight(20);
         table.row();
-        table.pad(10);
+        table.pad(0);
 
         table.pack();
 
